@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 组织或公司的标识，一般用反向域名 -->
+    <groupId>com.example</groupId>
+    <!-- 项目的唯一标识符 -->
+    <artifactId>FirstDemo</artifactId>
+    <!-- 项目版本 -->
+    <version>1.0</version>
+    <!-- 项目打包类型，如 jar、war 等 -->
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <!-- 可按需添加依赖 -->
+        <!-- Eclipse Equinox OSGi 核心依赖 -->
+        <dependency>
+            <groupId>org.eclipse.platform</groupId>
+            <artifactId>org.eclipse.osgi</artifactId>
+            <version>3.18.0</version> <!-- 使用最新版本 -->
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
