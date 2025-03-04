@@ -1,6 +1,8 @@
 package com.algorithm;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * 集合类的算法类
@@ -9,46 +11,96 @@ public class AlgorithmAboutList {
 
     public static void main(String[] args) {
 
+        // 力扣算法 4：两个正序数组的合并数组的中位数
+        int[] numArr1 = {1,4};
+        int[] numArr2 = {2,3,6};
+        System.out.println(getMidNumFromTwoArray(numArr1,numArr2));
+
         // 力扣算法 2.0：两个倒序整数链表求和
         // 创建第一个链表表示数字 342
-//        LinkedList<Integer> l1 = new LinkedList<>();
-//        l1.add(2);
-//        l1.add(4);
-//        l1.add(3);
-//        // 创建第二个链表表示数字 4465
-//        LinkedList<Integer> l2 = new LinkedList<>();
-//        l2.add(5);
-//        l2.add(6);
-//        l2.add(4);
-//        l2.add(4);
-//        LinkedList<Integer> result = addTwoNumbers(l1, l2);
-//        // 打印结果链表
-//        for (int num : result) {
-//            System.out.print(num + " ");
-//        }
+        // LinkedList<Integer> l1 = new LinkedList<>();
+        // l1.add(2);
+        // l1.add(4);
+        // l1.add(3);
+        // // 创建第二个链表表示数字 4465
+        // LinkedList<Integer> l2 = new LinkedList<>();
+        // l2.add(5);
+        // l2.add(6);
+        // l2.add(4);
+        // l2.add(4);
+        // LinkedList<Integer> result = addTwoNumbers(l1, l2);
+        // // 打印结果链表
+        // for (int num : result) {
+        //     System.out.print(num + " ");
+        // }
         // 力扣算法 2.1：两个倒序整数自定义链表求和
         // 自定义链表1
-        ListNode ln1 = new ListNode(3);
-        ListNode curr = ln1;
-        curr.next = new ListNode(2);
-        // 移动指针，在链表最后添加元素
-        curr = curr.next;
-        curr.next = new ListNode(2);
-        // 自定义链表2
-        ListNode ln2 = new ListNode(4);
-        curr = ln2;
-        curr.next = new ListNode(8);
-        // 移动指针，在链表最后添加元素
-        curr = curr.next;
-        curr.next = new ListNode(1);
-        // 求两个倒序自定义链表之和
-        ListNode resultNode = addTwoNumbers(ln1,ln2);
-        // 打印结果链表内容
-        while(resultNode!=null){
-            System.out.print(resultNode.val + " ");
-            resultNode = resultNode.next;
+        // ListNode ln1 = new ListNode(3);
+        // ListNode curr = ln1;
+        // curr.next = new ListNode(2);
+        // // 移动指针，在链表最后添加元素
+        // curr = curr.next;
+        // curr.next = new ListNode(2);
+        // // 自定义链表2
+        // ListNode ln2 = new ListNode(4);
+        // curr = ln2;
+        // curr.next = new ListNode(8);
+        // // 移动指针，在链表最后添加元素
+        // curr = curr.next;
+        // curr.next = new ListNode(1);
+        // // 求两个倒序自定义链表之和
+        // ListNode resultNode = addTwoNumbers(ln1,ln2);
+        // // 打印结果链表内容
+        // while(resultNode!=null){
+        //     System.out.print(resultNode.val + " ");
+        //     resultNode = resultNode.next;
+        // }
+
+    }
+
+    /**
+     * 两个正序数组的合并数组的中位数，算法时间复杂度为O（m+n）
+     * @param numArr1 正序数组1 1 4
+     * @param numArr2 正序数组2 2 3
+     * @return 合并数组的中位数
+     */
+    private static float getMidNumFromTwoArray(int[] numArr1, int[] numArr2) {
+        float midNum = 0 ;
+        Map<Integer,Integer> numMap = new HashMap<>();
+
+        int index =0;int cur1 = 0; int cur2=0;
+        while(cur1<numArr1.length || cur2<numArr2.length){
+
+            if(cur1 == numArr1.length){
+                numMap.put(index,numArr2[cur2]);
+                cur2++;
+                continue;
+            }
+
+            if(cur2 == numArr2.length || numArr1[cur1] < numArr2[cur2]){
+                numMap.put(index,numArr1[cur1]);
+                cur1++;
+            }else{
+                numMap.put(index,numArr2[cur2]);
+                cur2++;
+            }
+            index++;
+        }
+        // 打印合并的数组map
+        for(int i=0; i< numMap.size(); i++){
+            System.out.println(i+"value:"+numMap.get(i));
+        }
+        // 如果为偶数
+        if(numMap.size()%2 ==0){
+            midNum = (float) (numMap.get(numMap.size() / 2 - 1) + numMap.get(numMap.size() / 2)) /2;
+        }else{
+            // 如果为奇数，直接取中位数
+            midNum = numMap.get(numMap.size()/2);
         }
 
+        // 找到中位数：数组中间的位置
+
+        return midNum;
     }
 
     /**
