@@ -13,10 +13,104 @@ public class AlgorithmAboutStr {
 
         // 力扣算法5.找到字符串中最长的 回文 子串。（回文：正序逆序都一样）
         // String str = "cbabad";
-        String str = "civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth";
-        String reStr = getManacher(str);
-        System.out.println(reStr);
+        // String str = "civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth";
+        // String reStr = getManacher(str);
+        // System.out.println(reStr);
 
+        // 力扣算法8.字符串转换为整数
+        String str = " -42";
+        System.out.println(myAtoiByDs("42"));          // 输出: 42
+        System.out.println(myAtoiByDs("   -42"));      // 输出: -42
+        System.out.println(myAtoiByDs("4193 with words")); // 输出: 4193
+        System.out.println(myAtoiByDs("+-12"));   // 仅识别第一个有效符号 输出: 0
+        System.out.println(myAtoiByDs("-91283472332"));    // 输出: -2147483648（溢出）
+
+    }
+
+    /**
+     * 字符串转换为整数
+     * @param s 传入字符串
+     * @return 返回整数
+     */
+    public static int myAtoiByDs(String s) {
+        if (s == null || s.isEmpty()) return 0;
+        int index = 0, sign = 1, result = 0;
+
+        // 1. 跳过前导空格
+        while (index < s.length() && s.charAt(index) == ' ') index++;
+        if (index >= s.length()) return 0; // 全空格则直接返回0[1,4](@ref)
+
+        // 2. 处理符号位
+        if (s.charAt(index) == '+' || s.charAt(index) == '-') {
+            sign = (s.charAt(index) == '-') ? -1 : 1;
+            index++;
+        }
+
+        // 3. 转换数字并处理溢出
+        while (index < s.length() && Character.isDigit(s.charAt(index))) {
+            int digit = s.charAt(index) - '0';
+
+            // 溢出检查：当前结果是否超过Integer的边界
+            if (result > Integer.MAX_VALUE / 10 ||
+                    (result == Integer.MAX_VALUE / 10 && digit > Integer.MAX_VALUE % 10)) {
+                return (sign == 1) ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+            }
+
+            result = result * 10 + digit;
+            index++;
+        }
+
+        return result * sign;
+    }
+
+    /**
+     * 字符串转换为整数：
+     * 空格：读入字符串并丢弃无用的前导空格（" "）
+     * 符号：检查下一个字符（假设还未到字符末尾）为 '-' 还是 '+'。如果两者都不存在，则假定结果为正。
+     * 转换：通过跳过前置零来读取该整数，直到遇到非数字字符或到达字符串的结尾。如果没有读取数字，则结果为0。
+     * 舍入：如果整数数超过 32 位有符号整数范围 [−2的31次方,  2的31次方 − 1] ，需要截断这个整数，使其保持在这个范围内。具体来说，小于 −2的31次方 的整数应该被舍入为 −2的31次方 ，大于 2的31次方 − 1 的整数应该被舍入为 2的31次方 − 1 。
+     * @param s 传入字符串
+     * @return 返回整数
+     */
+    public static int myAtoi(String s) {
+        int reInt =0;
+        long reLong =0;
+        String reStr ="";
+        s= s.trim();
+        boolean isZero =false;
+        for(int i=0;i<s.length();i++){
+            char chr = s.charAt(i);
+            if((chr=='+' ||chr=='-')){
+                if(isZero){
+                    break;
+                }
+                continue;
+            }
+            if(chr=='0' && reStr.isEmpty()){
+                isZero = true;
+            }else if(chr >= '0' && chr <= '9'){
+                isZero =false; reStr += chr;
+            } else{
+                break;
+            }
+        }
+        if(reStr.isEmpty()){
+            return reInt;
+        }
+        boolean isZ= !s.contains("-");
+        if(isZ){
+            reLong =Long.parseLong(reStr);
+        }else{
+            reLong = Long.parseLong(reStr)*-1;
+        }
+        if(reLong> Integer.MAX_VALUE){
+            reInt = Integer.MAX_VALUE;
+        }else if (reLong <Integer.MIN_VALUE){
+            reInt = Integer.MIN_VALUE;
+        }else{
+            reInt = (int) reLong;
+        }
+        return reInt;
     }
 
     private static String getManacher(String s ){
