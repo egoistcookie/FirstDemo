@@ -58,23 +58,47 @@ public class AlgorithmAboutList {
 
         // 力扣算法.11 盛最多水的容器
         int[] height = {1,5,6,7,5,4,3};
-        int area = calcAreaByHeighArr(height);
+        int area = calcAreaByHeighArrByDs(height);
         System.out.println(area);
 
     }
 
+
     /**
-     * 根据传入的垂线高度数组，得出两条垂线与x轴组成的最大长方形的面积
+     * 根据传入的垂线高度数组，得出两条垂线与x轴组成的最大长方形的面积，双指针解法，复杂度n
+     * @param height
+     * @return
+     */
+    private static int calcAreaByHeighArrByDs(int[] height) {
+        int left=0,right=height.length-1;
+        int areaMax = 0;
+
+        while(left < right){
+
+            int heightAct = Math.min(height[left],height[right]);
+            areaMax = Math.max(areaMax,heightAct*(right-left));
+            // 移动短板
+            if(height[left] > height[right]){
+                right --;
+            }else{
+                left ++;
+            }
+
+        }
+
+        return areaMax;
+    }
+
+    /**
+     * 根据传入的垂线高度数组，得出两条垂线与x轴组成的最大长方形的面积，暴力解法
      * @param height
      * @return
      */
     private static int calcAreaByHeighArr(int[] height) {
         int area = 0;
-        int dist = 0;//两条垂线之间的x轴距离
 
         // 遍历高度数组，获取所有垂线之间的面积，n2
         for(int i =0; i < height.length;i++){
-
             for(int j =i ; j< height.length;j++){
                 int heightI = height[i];
                 int heightJ = height[j];
@@ -85,7 +109,6 @@ public class AlgorithmAboutList {
                     area = areaIJ;
                 }
             }
-
         }
 
         return area;
