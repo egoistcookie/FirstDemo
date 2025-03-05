@@ -12,9 +12,9 @@ public class AlgorithmAboutList {
     public static void main(String[] args) {
 
         // 力扣算法 4：两个正序数组的合并数组的中位数
-        int[] numArr1 = {1,4};
-        int[] numArr2 = {2,3,6};
-        System.out.println(getMidNumFromTwoArray(numArr1,numArr2));
+        // int[] numArr1 = {1,4};
+        // int[] numArr2 = {2,3,6};
+        // System.out.println(getMidNumFromTwoArray(numArr1,numArr2));
 
         // 力扣算法 2.0：两个倒序整数链表求和
         // 创建第一个链表表示数字 342
@@ -56,6 +56,39 @@ public class AlgorithmAboutList {
         //     resultNode = resultNode.next;
         // }
 
+        // 力扣算法.11 盛最多水的容器
+        int[] height = {1,5,6,7,5,4,3};
+        int area = calcAreaByHeighArr(height);
+        System.out.println(area);
+
+    }
+
+    /**
+     * 根据传入的垂线高度数组，得出两条垂线与x轴组成的最大长方形的面积
+     * @param height
+     * @return
+     */
+    private static int calcAreaByHeighArr(int[] height) {
+        int area = 0;
+        int dist = 0;//两条垂线之间的x轴距离
+
+        // 遍历高度数组，获取所有垂线之间的面积，n2
+        for(int i =0; i < height.length;i++){
+
+            for(int j =i ; j< height.length;j++){
+                int heightI = height[i];
+                int heightJ = height[j];
+                // 实际高度取短板
+                int heightAct = Math.min(heightI, heightJ);
+                int areaIJ = heightAct*(j-i);
+                if(areaIJ>area){
+                    area = areaIJ;
+                }
+            }
+
+        }
+
+        return area;
     }
 
     /**
