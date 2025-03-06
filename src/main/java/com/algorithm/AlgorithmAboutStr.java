@@ -1,5 +1,7 @@
 package com.algorithm;
 
+import java.util.Stack;
+
 /**
  * 字符类的算法类
  */
@@ -18,13 +20,49 @@ public class AlgorithmAboutStr {
         // System.out.println(reStr);
 
         // 力扣算法8.字符串转换为整数
-        String str = " -42";
-        System.out.println(myAtoiByDs("42"));          // 输出: 42
-        System.out.println(myAtoiByDs("   -42"));      // 输出: -42
-        System.out.println(myAtoiByDs("4193 with words")); // 输出: 4193
-        System.out.println(myAtoiByDs("+-12"));   // 仅识别第一个有效符号 输出: 0
-        System.out.println(myAtoiByDs("-91283472332"));    // 输出: -2147483648（溢出）
+        // String str = " -42";
+        // System.out.println(myAtoiByDs("42"));          // 输出: 42
+        // System.out.println(myAtoiByDs("   -42"));      // 输出: -42
+        // System.out.println(myAtoiByDs("4193 with words")); // 输出: 4193
+        // System.out.println(myAtoiByDs("+-12"));   // 仅识别第一个有效符号 输出: 0
+        // System.out.println(myAtoiByDs("-91283472332"));    // 输出: -2147483648（溢出）
 
+        // 力扣算法20.有效括号 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。
+        // stack初接触，原来jdk1.0就有了这种数据结构，先入后出结构，push为压入，pop为取出
+        System.out.println(judgeIsRightStr("()"));
+        System.out.println(judgeIsRightStr("()[]{}"));
+        System.out.println(judgeIsRightStr("(]"));
+        System.out.println(judgeIsRightStr("([])"));
+        System.out.println(judgeIsRightStr("([)]"));
+
+
+
+
+    }
+
+    /**
+     * 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。
+     * @param s 字符串 s
+     * @return 判断字符串是否有效
+     */
+    private static boolean judgeIsRightStr(String s) {
+        Stack<Character> stack = new Stack<>();
+        for (char c : s.toCharArray()) {
+            if (c == '(' || c == '{' || c == '[') {
+                stack.push(c);
+            } else {
+                if (stack.isEmpty()) {
+                    return false;
+                }
+                char top = stack.pop();
+                if ((c == ')' && top != '(') ||
+                        (c == '}' && top != '{') ||
+                        (c == ']' && top != '[')) {
+                    return false;
+                }
+            }
+        }
+        return stack.isEmpty();
     }
 
     /**
