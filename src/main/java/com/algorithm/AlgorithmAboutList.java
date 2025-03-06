@@ -1,8 +1,6 @@
 package com.algorithm;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 集合类的算法类
@@ -57,10 +55,100 @@ public class AlgorithmAboutList {
         // }
 
         // 力扣算法.11 盛最多水的容器
-        int[] height = {1,5,6,7,5,4,3};
-        int area = calcAreaByHeighArrByDs(height);
-        System.out.println(area);
+        // int[] height = {1,5,6,7,5,4,3};
+        // int area = calcAreaByHeighArrByDs(height);
+        // System.out.println(area);
 
+        // 力扣算法.15 三数之和
+        int[] intArr = {-1,0,1,2,-1,-4};
+        List<List<Integer>> resArr = getZeroArrByArrByDs(intArr);
+
+
+    }
+    /**
+     * 传入任意数组，返回所有和为零的三元数组
+     * @param nums 整数数组
+     * @return 所有三元数组
+     */
+    private static List<List<Integer>> getZeroArrByArrByDs(int[] nums) {
+        Arrays.sort(nums); // 先对数组进行排序
+        List<List<Integer>> res = new ArrayList<>();
+
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue; // 跳过重复的元素
+            }
+
+            int l = i + 1, r = nums.length - 1;
+            while (l < r) {
+                int sum = nums[i] + nums[l] + nums[r];
+                if (sum == 0) {
+                    res.add(Arrays.asList(nums[i], nums[l], nums[r]));
+                    while (l < r && nums[l] == nums[l + 1]) l++; // 跳过重复的元素
+                    while (l < r && nums[r] == nums[r - 1]) r--; // 跳过重复的元素
+                    l++;
+                    r--;
+                } else if (sum < 0) {
+                    l++;
+                } else {
+                    r--;
+                }
+            }
+        }
+        return res;
+    }
+
+    /**
+     * 传入任意数组，返回所有和为零的三元数组
+     * @param intArr 整数数组
+     * @return 所有三元数组
+     */
+    private static int[][] getZeroArrByArr(int[] intArr) {
+
+        List<int[]> resList = new ArrayList<>();
+        int resCount =0;
+        List<Integer> zList = new ArrayList<>();
+        List<Integer> fList = new ArrayList<>();
+        int curZ=0,curF=0;
+
+        Map<Integer,Integer> intMapZ = new HashMap<>();
+        Map<Integer,Integer> countMap = new HashMap<>();
+        for(int i=0;i<intArr.length;i++){
+            if(countMap.get(intArr[i])!=null){
+                int count = countMap.get(intArr[i]);
+                countMap.put(intArr[i],++count);
+            }
+            // key为值，value为数组下标
+            intMapZ.put(intArr[i],i);
+            if(intArr[i] >0){
+                zList.add(intArr[i]);
+                curZ ++;
+            }else{
+                fList.add(intArr[i]);
+                curF ++;
+            }
+        }
+
+        for(int j =0;j<curF;j++){
+            int fNum = fList.get(j);
+            for(int k=0;k<curZ;k++){
+                int subNum = Math.abs(fNum) - zList.get(k);
+                if(intMapZ.containsKey(subNum) && (subNum!=zList.get(k)
+                        || (subNum==zList.get(k) && countMap.get(subNum)!=null && countMap.get(subNum)>1))
+                    && !resList.contains(new int[]{fNum, zList.get(k), subNum})){
+                    resList.add(new int[]{fNum, zList.get(k), subNum});
+                    resCount++;
+                }
+            }
+        }
+
+        int[][] resArr = new int[resList.size()][3];
+        for(int i=0;i<resList.size();i++){
+            resArr[i] = resList.get(i);
+        }
+
+
+        return resArr;
     }
 
 
