@@ -65,9 +65,53 @@ public class AlgorithmAboutList {
 
         // 力扣算法.53 最大子数组和
         // 给你一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
-        System.out.println(getMaxTotalFromIntArr(new int[]{-2,1,-3,4,-1,2,1,-5,4}));
+        // System.out.println(getMaxTotalFromIntArr(new int[]{-2,1,-3,4,-1,2,1,-5,4}));
 
+        // 力扣算法.56 合并区间
+        // 传入一个二维数组，内层数组都是两个整数元素，且内层数组的第一个整数元素都比第二个元素大，此为区间数组
+        // 返回一个二维数组，为内层数组覆盖部分合并起来
+        // int[][] reArr = mergeIntervalArr(new int[][]{{1,3},{2,6},{8,10}});
+        int[][] reArr = mergeIntervalArr(new int[][]{{1,10},{2,3},{4,5}});
+        for(int[] a:reArr){
+            for(int b :a){
+                System.out.print(b+" ");
+            }
+            System.out.println();
+        }
 
+    }
+
+    /**
+     * 合并二维数组中的区间内层数组
+     * @param intervals 二维数组，内层数组都是两个整数元素，且内层数组的第一个整数元素都比第二个元素大，此为区间数组
+     * @return 二维数组，将入参的内层数组覆盖部分合并起来
+     */
+    private static int[][] mergeIntervalArr(int[][] intervals) {
+        if (intervals == null || intervals.length == 0) {
+            return new int[0][0];
+        }
+        // 按照区间的左端点进行排序
+        Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
+        int lInt = intervals[0][0];
+        int rInt = intervals[0][1];
+        List<int[]> resList = new ArrayList<>();
+        for(int i=0;i <intervals.length; i++){
+            if(i+1 == intervals.length){
+                resList.add(new int[]{lInt,rInt});
+                break;
+            }
+            if(rInt < intervals[i+1][0]){
+                resList.add(new int[]{lInt,rInt});
+                // 从下一个区间数组开始继续等待闭合
+                lInt = intervals[i+1][0];
+            }
+            rInt = Math.max(rInt,intervals[i+1][1]);
+        }
+        int[][]  reArr = new int[resList.size()][2];
+        for(int j=0;j<resList.size();j++){
+            reArr[j] = resList.get(j);
+        }
+        return reArr;
     }
 
     /**
