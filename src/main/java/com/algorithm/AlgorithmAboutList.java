@@ -60,11 +60,41 @@ public class AlgorithmAboutList {
         // System.out.println(area);
 
         // 力扣算法.15 三数之和
-        int[] intArr = {-1,0,1,2,-1,-4};
-        List<List<Integer>> resArr = getZeroArrByArrByDs(intArr);
+        // int[] intArr = {-1,0,1,2,-1,-4};
+        // List<List<Integer>> resArr = getZeroArrByArrByDs(intArr);
+
+        // 力扣算法.53 最大子数组和
+        // 给你一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+        System.out.println(getMaxTotalFromIntArr(new int[]{-2,1,-3,4,-1,2,1,-5,4}));
 
 
     }
+
+    /**
+     * 找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+     * @param nums 数组
+     * @return 最大和
+     */
+    private static int getMaxTotalFromIntArr(int[] nums) {
+
+        if (nums.length == 0) {
+            return 0;
+        }
+
+        int currentMax = nums[0]; // 当前子数组的最大和
+        int globalMax = nums[0];  // 全局最大子数组和
+
+        for (int i = 1; i < nums.length; i++) {
+            // 更新当前子数组的最大和
+            currentMax = Math.max(nums[i], currentMax + nums[i]);
+            // 更新全局最大子数组和
+            globalMax = Math.max(globalMax, currentMax);
+        }
+
+        return globalMax;
+
+    }
+
     /**
      * 传入任意数组，返回所有和为零的三元数组
      * @param nums 整数数组
