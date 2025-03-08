@@ -71,13 +71,105 @@ public class AlgorithmAboutList {
         // 传入一个二维数组，内层数组都是两个整数元素，且内层数组的第一个整数元素都比第二个元素大，此为区间数组
         // 返回一个二维数组，为内层数组覆盖部分合并起来
         // int[][] reArr = mergeIntervalArr(new int[][]{{1,3},{2,6},{8,10}});
-        int[][] reArr = mergeIntervalArr(new int[][]{{1,10},{2,3},{4,5}});
-        for(int[] a:reArr){
-            for(int b :a){
-                System.out.print(b+" ");
-            }
-            System.out.println();
+        // int[][] reArr = mergeIntervalArr(new int[][]{{1,10},{2,3},{4,5}});
+        // for(int[] a:reArr){
+        //     for(int b :a){
+        //         System.out.print(b+" ");
+        //     }
+        //     System.out.println();
+        // }
+
+        // 力扣算法.83-1 给定一个已排序的链表的头 head ， 删除所有重复的元素，使每个元素只出现一次 。返回 已排序的链表 。
+        // LinkedList<Integer> l1 = new LinkedList<>();
+        // l1.add(1);
+        // l1.add(1);
+        // l1.add(2);
+        // l1.add(3);
+        // l1.add(3);
+        // LinkedList<Integer> reLi = deleteDuplicateItemFromList(l1);
+        // for(int i:reLi){
+        //     System.out.print(i+" ");
+        // }
+        // 力扣算法.83-2 改为自定义链表1
+        ListNode ln1 = new ListNode(1);
+        ListNode ln2 = new ListNode();
+        ListNode curr = ln1;
+        curr.next = new ListNode(1);
+        curr = curr.next;
+        curr.next = new ListNode(2);
+        curr = curr.next;
+        curr.next = new ListNode(3);
+        curr = curr.next;
+        curr.next = new ListNode(3);
+        curr = deleteDuplicateItemFromListNode(ln2);
+        System.out.println(curr.val);
+        while(curr.next != null){
+            System.out.print(curr.next.val+" ");
+            curr = curr.next;
         }
+
+    }
+
+    /**
+     * 给定一个已排序的链表的头 head ， 删除所有重复的元素，使每个元素只出现一次 。返回 已排序的链表 。
+     * @param head 已排序的自定义链表的头 head [1,1,2,3,3]
+     * @return 已排序的不重复链表 [1,2,3]
+     */
+    private static ListNode deleteDuplicateItemFromListNode(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode rl = new ListNode(head.val);
+        ListNode cur = rl;
+        int lastInt = head.val;
+        while(head.next != null){
+            if(head.next.val != lastInt){
+                cur.next = new ListNode(head.next.val);
+                cur = cur.next;
+                lastInt = head.next.val;
+            }
+            head = head.next;
+        }
+        return rl;
+    }
+    /**
+     * 给定一个已排序的链表的头 head ， 删除所有重复的元素，使每个元素只出现一次 。返回 已排序的链表 。
+     * @param head 已排序的自定义链表的头 head [1,1,2,3,3]
+     * @return 已排序的不重复链表 [1,2,3]
+     */
+    private static ListNode deleteDuplicateItemFromListNodeByDs(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode curNode = head;
+        while (curNode.next != null) {
+            if (curNode.val == curNode.next.val) {
+                curNode.next = curNode.next.next;
+            } else {
+                curNode = curNode.next;
+            }
+        }
+        return head;
+    }
+
+    /**
+     * 给定一个已排序的链表的头 head ， 删除所有重复的元素，使每个元素只出现一次 。返回 已排序的链表 。
+     * @param l1 已排序的链表的头 head [1,1,2,3,3]
+     * @return 已排序的不重复链表 [1,2,3]
+     */
+    private static LinkedList<Integer> deleteDuplicateItemFromList(LinkedList<Integer> l1) {
+
+        LinkedList<Integer> reLi = new LinkedList<>();
+        int lastInt = l1.get(0);
+        reLi.add(lastInt);
+        for(int i=1;i<l1.size();i++){
+            if(l1.get(i) != lastInt){
+                lastInt = l1.get(i);
+                reLi.add(l1.get(i));
+            }
+        }
+
+        return reLi;
 
     }
 
