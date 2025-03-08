@@ -91,8 +91,25 @@ public class AlgorithmAboutList {
         //     System.out.print(i+" ");
         // }
         // 力扣算法.83-2 改为自定义链表1
-        ListNode ln1 = new ListNode(1);
-        ListNode ln2 = new ListNode();
+        // ListNode ln1 = new ListNode(1);
+        // ListNode ln2 = new ListNode();
+        // ListNode curr = ln1;
+        // curr.next = new ListNode(1);
+        // curr = curr.next;
+        // curr.next = new ListNode(2);
+        // curr = curr.next;
+        // curr.next = new ListNode(3);
+        // curr = curr.next;
+        // curr.next = new ListNode(3);
+        // curr = deleteDuplicateItemFromListNode(ln2);
+        // System.out.println(curr.val);
+        // while(curr.next != null){
+        //     System.out.print(curr.next.val+" ");
+        //     curr = curr.next;
+        // }
+
+        // 力扣算法206. 反转链表：自定义链表，通过构造方法迭代，或者通过递归
+        ListNode ln1 = new ListNode(2);
         ListNode curr = ln1;
         curr.next = new ListNode(1);
         curr = curr.next;
@@ -101,13 +118,48 @@ public class AlgorithmAboutList {
         curr.next = new ListNode(3);
         curr = curr.next;
         curr.next = new ListNode(3);
-        curr = deleteDuplicateItemFromListNode(ln2);
-        System.out.println(curr.val);
-        while(curr.next != null){
-            System.out.print(curr.next.val+" ");
+        curr = reverseList(ln1);
+        while(curr!=null){
+            System.out.print(curr.val+" ");
             curr = curr.next;
         }
 
+
+    }
+
+    /**
+     * 反转链表：自定义链表-官方解题法-递归
+     * @param head 待处理链表
+     * @return 反转后的链表
+     */
+    public static ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        // 递归算法，需要思考1次和2次的运行情况-脑内模拟
+        ListNode newHead = reverseList(head.next);
+        // 这里的head.next却是和newHead指向同一个对象，等于是为newHead添加了next
+        head.next.next = head;
+        // 引用赋空，不伤及newHead，相当于挪移大法
+        head.next = null;
+        return newHead;
+    }
+
+    /**
+     * 反转链表：自定义链表
+     * @param head 待处理链表
+     * @return 反转后的链表
+     */
+    private static ListNode reverseListDode(ListNode head) {
+        if(head==null || head.next==null){
+            return head;
+        }
+        ListNode resNode = new ListNode(head.val);
+        while(head.next !=null){
+            resNode = new ListNode(head.next.val,resNode);
+            head = head.next;
+        }
+        return resNode;
     }
 
     /**
