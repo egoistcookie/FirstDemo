@@ -33,15 +33,103 @@ public class AlgorithmAboutCustomStruct {
 
         // 力扣算法208.Trie（发音类似 "try"）或者说 前缀树 是一种树形数据结构，用于高效地存储和检索字符串数据集中的键。
         //  这一数据结构有相当多的应用情景，例如自动补全和拼写检查。
-        Trie trie = new Trie();
-        // trie.insert("apple");
-        System.out.println(trie.search("apple"));   // 返回 True
-        System.out.println(trie.search("app"));     // 返回 False
-        System.out.println(trie.startsWith("app")); // 返回 True
-        trie.insert("app");
-        System.out.println(trie.search("app"));     // 返回 True
+        // Trie trie = new Trie();
+        // // trie.insert("apple");
+        // System.out.println(trie.search("apple"));   // 返回 True
+        // System.out.println(trie.search("app"));     // 返回 False
+        // System.out.println(trie.startsWith("app")); // 返回 True
+        // trie.insert("app");
+        // System.out.println(trie.search("app"));     // 返回 True
 
+        // 力扣算法705.不使用任何内建的哈希表库设计一个哈希集合（HashSet）。
+        // 实现 MyHashSet 类：
+        // void add(key) 向哈希集合中插入值 key 。
+        // bool contains(key) 返回哈希集合中是否存在这个值 key 。
+        // void remove(key) 将给定值 key 从哈希集合中删除。如果哈希集合中没有这个值，什么也不做。
+        MyHashSet myHashSet = new MyHashSet();
+        myHashSet.add(1);      // set = [1]
+        myHashSet.add(2);      // set = [1, 2]
+        // myHashSet.printString();
+        System.out.println(myHashSet.contains(1));; // 返回 True
+        System.out.println(myHashSet.contains(3));; // 返回 False ，（未找到）
+        myHashSet.add(2);      // set = [1, 2]
+        // myHashSet.printString();
+        System.out.println(myHashSet.contains(2));; // 返回 True
+        myHashSet.remove(2);   // set = [1]
+        myHashSet.add(66);
+        myHashSet.remove(6);
+        // myHashSet.printString();
+        System.out.println(myHashSet.contains(66));
+        System.out.println(myHashSet.contains(2));; // 返回 False ，（已移除）
 
+    }
+
+    static class MyHashSet {
+        private static final int BASE = 769; // 哈希表大小，选择一个质数
+        private LinkedList<Integer>[] set;   // 使用链表数组存储元素
+
+        public MyHashSet() {
+            set = new LinkedList[BASE];
+            for (int i = 0; i < BASE; i++) {
+                set[i] = new LinkedList<>();
+            }
+        }
+
+        public void add(int key) {
+            int index = key % BASE;
+            if (!set[index].contains(key)) {
+                set[index].add(key); // 如果不存在则添加
+            }
+        }
+
+        public void remove(int key) {
+            int index = key % BASE;
+            set[index].remove((Integer) key); // 删除指定元素
+        }
+
+        public boolean contains(int key) {
+            int index = key % BASE;
+            return set[index].contains(key); // 检查是否存在
+        }
+    }
+
+    // 不使用任何内建的哈希表库设计一个哈希集合（HashSet）。
+    static class MyHashSetByList {
+
+        private List<Integer> intList ;
+
+        public MyHashSetByList() {
+            intList = new ArrayList<>();
+        }
+
+        // 向哈希集合中插入值 key 。
+        public void add(int key) {
+            if(!intList.contains(key)){
+                intList.add(key);
+            }
+        }
+
+        // 将给定值 key 从哈希集合中删除。如果哈希集合中没有这个值，什么也不做。
+        public void remove(int key) {
+            for(int i=0;i<intList.size();i++){
+                if(intList.get(i) == key){
+                    intList.remove(i);
+                }
+            }
+        }
+
+        // 返回哈希集合中是否存在这个值 key 。
+        public boolean contains(int key) {
+            return intList.contains(key);
+        }
+
+        public void printString(){
+
+            for(int i=0;i<intList.size();i++){
+                System.out.print(intList.get(i)+" ");
+            }
+            System.out.println();
+        }
     }
 
     /**
