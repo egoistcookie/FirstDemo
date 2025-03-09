@@ -46,29 +46,136 @@ public class AlgorithmAboutCustomStruct {
         // void add(key) 向哈希集合中插入值 key 。
         // bool contains(key) 返回哈希集合中是否存在这个值 key 。
         // void remove(key) 将给定值 key 从哈希集合中删除。如果哈希集合中没有这个值，什么也不做。
-        MyHashSet myHashSet = new MyHashSet();
-        myHashSet.add(1);      // set = [1]
-        myHashSet.add(2);      // set = [1, 2]
-        // myHashSet.printString();
-        System.out.println(myHashSet.contains(1));; // 返回 True
-        System.out.println(myHashSet.contains(3));; // 返回 False ，（未找到）
-        myHashSet.add(2);      // set = [1, 2]
-        // myHashSet.printString();
-        System.out.println(myHashSet.contains(2));; // 返回 True
-        myHashSet.remove(2);   // set = [1]
-        myHashSet.add(66);
-        myHashSet.remove(6);
-        // myHashSet.printString();
-        System.out.println(myHashSet.contains(66));
-        System.out.println(myHashSet.contains(2));; // 返回 False ，（已移除）
+        // MyHashSetARC myHashSet = new MyHashSetARC();
+        // myHashSet.add(1);      // set = [1]
+        // myHashSet.add(2);      // set = [1, 2]
+        // // myHashSet.printString();
+        // System.out.println(myHashSet.contains(1));; // 返回 True
+        // System.out.println(myHashSet.contains(3));; // 返回 False ，（未找到）
+        // myHashSet.add(2);      // set = [1, 2]
+        // // myHashSet.printString();
+        // System.out.println(myHashSet.contains(2));; // 返回 True
+        // myHashSet.remove(2);   // set = [1]
+        // myHashSet.add(66);
+        // myHashSet.remove(6);
+        // // myHashSet.printString();
+        // System.out.println(myHashSet.contains(66));
+        // System.out.println(myHashSet.contains(2));; // 返回 False ，（已移除）
+
+        // 力扣算法706.不使用任何内建的哈希表库设计一个哈希映射（HashMap）。
+        // 实际也是链表数组，但不是简单的int链表，而改成自定义Entry链表，Entry有key有value，还有next
+        MyHashMap myHashMap = new MyHashMap();
+        myHashMap.put(10, 1); // myHashMap 现在为 [[1,1]]
+        myHashMap.put(20, 2); // myHashMap 现在为 [[1,1], [2,2]]
+        System.out.println(myHashMap.get(1));    // 返回 1 ，myHashMap 现在为 [[1,1], [2,2]]
+        System.out.println(myHashMap.get(3));   // 返回 -1（未找到），myHashMap 现在为 [[1,1], [2,2]]
+        myHashMap.put(2220, 11122); // myHashMap 现在为 [[1,1], [2,1]]（更新已有的值）
+        myHashMap.put(1220, 11122);
+        System.out.println(myHashMap.get(2220));   // 返回 1 ，myHashMap 现在为 [[1,1], [2,1]]
+        myHashMap.remove(2220); // 删除键为 2 的数据，myHashMap 现在为 [[1,1]]
+        System.out.println(myHashMap.get(2220));    // 返回 -1（未找到），myHashMap 现在为 [[1,1]]
+
 
     }
 
-    static class MyHashSet {
+    static class MyHashMap {
+        // 定义内部类 Entry 用于存储键值对
+        class Entry {
+            int key;
+            int value;
+            Entry next;
+
+            Entry(int key, int value) {
+                this.key = key;
+                this.value = value;
+            }
+        }
+
+        // 定义哈希表的大小
+        private static final int CAPACITY = 1000;
+        private Entry[] table;
+
+        // 构造函数初始化哈希表
+        public MyHashMap() {
+            table = new Entry[CAPACITY];
+        }
+
+        // 哈希函数，计算键的哈希值
+        private int hash(int key) {
+            return key % CAPACITY;
+        }
+
+        // 插入键值对
+        public void put(int key, int value) {
+            int index = hash(key);
+            Entry entry = table[index];
+            Entry prev = null;
+
+            // 如果该位置已经有元素，遍历链表
+            while (entry != null) {
+                if (entry.key == key) {
+                    // 如果键已存在，更新值
+                    entry.value = value;
+                    return;
+                }
+                prev = entry;
+                entry = entry.next;
+            }
+
+            // 如果键不存在，创建新节点并插入
+            Entry newEntry = new Entry(key, value);
+            if (prev == null) {
+                table[index] = newEntry;
+            } else {
+                prev.next = newEntry;
+            }
+        }
+
+        // 获取键对应的值
+        public int get(int key) {
+            int index = hash(key);
+            Entry entry = table[index];
+
+            // 遍历链表查找键
+            while (entry != null) {
+                if (entry.key == key) {
+                    return entry.value;
+                }
+                entry = entry.next;
+            }
+
+            // 如果键不存在，返回 -1
+            return -1;
+        }
+
+        // 删除键值对
+        public void remove(int key) {
+            int index = hash(key);
+            Entry entry = table[index];
+            Entry prev = null;
+
+            // 遍历链表查找键
+            while (entry != null) {
+                if (entry.key == key) {
+                    // 如果找到键，删除节点
+                    if (prev == null) {
+                        table[index] = entry.next;
+                    } else {
+                        prev.next = entry.next;
+                    }
+                    return;
+                }
+                prev = entry;
+                entry = entry.next;
+            }
+        }
+    }
+
+    static class MyHashSetARC {
         private static final int BASE = 769; // 哈希表大小，选择一个质数
         private LinkedList<Integer>[] set;   // 使用链表数组存储元素
 
-        public MyHashSet() {
+        public MyHashSetARC() {
             set = new LinkedList[BASE];
             for (int i = 0; i < BASE; i++) {
                 set[i] = new LinkedList<>();
