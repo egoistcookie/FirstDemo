@@ -37,7 +37,7 @@ public class AlgorithmAboutTree {
         rootTree1.right.right = new TreeNode(8);
         rootTree1.left.right.left = new TreeNode(7);
         rootTree1.left.right.right = new TreeNode(4);
-        rootTree1 = lowestCommonAncestor(rootTree1,new TreeNode(5),new TreeNode(1));
+        rootTree1 = lowestCommonAncestor(rootTree1,new TreeNode(6),new TreeNode(5));
         System.out.println(rootTree1.val);
 
 
@@ -51,24 +51,38 @@ public class AlgorithmAboutTree {
      * @return 3
      */
     static public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-
         TreeNode resNode = new TreeNode();
-
         // 先找到p的所有祖先
-        List<TreeNode> tl =  equalsNode(root,p);
-        // 通过p的所有祖先，去找哪一个的子代里有q
-
+        List<TreeNode> tl = new ArrayList<>();
+        hasChildNode(tl,root,p);
+        for(TreeNode t : tl){
+            List<TreeNode> tl2 = new ArrayList<>();
+            // 最先加入tl的就是距离p最近的
+            if(hasChildNode(tl2,t,q)){
+                resNode = t;
+                break;
+            }
+        }
         return resNode;
-
     }
 
-    private static List<TreeNode> equalsNode(TreeNode root, TreeNode p) {
-        List<TreeNode> tList = new ArrayList<>();
-        TreeNode curN = root;
-        while(curN.left.val != p.val){
-            curN = curN.left;
+    public static boolean hasChildNode(List<TreeNode> tl, TreeNode root, TreeNode p) {
+        boolean hasThisChild = false;
+        if(root==null){
+            return false;
         }
-        return tList;
+        if(root.val == p.val){
+            tl.add(root);
+            return true;
+        }
+        hasThisChild = hasChildNode(tl,root.left,p);
+        if(!hasThisChild){
+            hasThisChild = hasChildNode(tl,root.right,p);
+        }
+        if(hasThisChild){
+            tl.add(root);
+        }
+        return hasThisChild;
     }
 
     /**
