@@ -2,6 +2,9 @@ package com.algorithm;
 
 import java.util.*;
 
+/**
+ * 自定义数据结构的算法类
+ */
 public class AlgorithmAboutCustomStruct {
 
 
