@@ -109,21 +109,55 @@ public class AlgorithmAboutList {
         // }
 
         // 力扣算法206. 反转链表：自定义链表，通过构造方法迭代，或者通过递归
-        ListNode ln1 = new ListNode(2);
-        ListNode curr = ln1;
-        curr.next = new ListNode(1);
-        curr = curr.next;
-        curr.next = new ListNode(2);
-        curr = curr.next;
-        curr.next = new ListNode(3);
-        curr = curr.next;
-        curr.next = new ListNode(3);
-        curr = reverseList(ln1);
-        while(curr!=null){
-            System.out.print(curr.val+" ");
-            curr = curr.next;
-        }
+        // ListNode ln1 = new ListNode(2);
+        // ListNode curr = ln1;
+        // curr.next = new ListNode(1);
+        // curr = curr.next;
+        // curr.next = new ListNode(2);
+        // curr = curr.next;
+        // curr.next = new ListNode(3);
+        // curr = curr.next;
+        // curr.next = new ListNode(3);
+        // curr = reverseList(ln1);
+        // while(curr!=null){
+        //     System.out.print(curr.val+" ");
+        //     curr = curr.next;
+        // }
 
+        // 力扣算法283.给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+        // 请注意 ，必须在不复制数组的情况下原地对数组进行操作。
+        moveZeroes(new int[]{1,3,2,0,0,14,0,3});
+
+
+
+    }
+
+    public static void moveZeroes(int[] nums) {
+        List<Integer> li = new ArrayList<>();
+        int zeroNum=0;
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]==0){
+                zeroNum++;
+            }else{
+                li.add(nums[i]);
+            }
+        }
+        for(int i=0;i<zeroNum;i++){
+            li.add(0);
+        }
+        // 将List<Integer>转换为Integer[]
+        Integer[] integerArray = li.toArray(new Integer[0]);
+
+        // 将Integer[]转换为int[]
+        int[] result = new int[integerArray.length];
+        for (int i = 0; i < integerArray.length; i++) {
+            result[i] = integerArray[i];
+        }
+        nums =result;
+
+        for(int i = 0; i < nums.length; i++ ){
+            System.out.println(nums[i]);
+        }
 
     }
 
