@@ -129,12 +129,67 @@ public class AlgorithmAboutList {
         // 解法：不复制数组，限制不能用list存储非零元素，但是可以用双指针，一个遍历数组，一个记录非零元素下标，只需要把非零元素前移，后面全部零即可
         // moveZeroes(new int[]{1,3,2,0,0,14,0,3});
         // moveZeroes(new int[]{0,1,0,3,12});
-        moveZeroes(new int[]{0,0,0,1});
+        // moveZeroes(new int[]{0,0,0,1});
 
+        // 力扣算法238.除自身以外数组的乘积
+        // 给你一个整数数组 nums，返回 数组 answer ，其中 answer[i] 等于 nums 中除 nums[i] 之外其余各元素的乘积 。
+        // 题目数据 保证 数组 nums之中任意元素的全部前缀元素和后缀的乘积都在  32 位 整数范围内。
+        // 请 不要使用除法，且在 O(n) 时间复杂度内完成此题。
+        // 解法：使用 前缀积 和 后缀积 的方法，遍历两次n，时间复杂度为O(2N)，忽略常数2，仍然是O(N)复杂度！
+        int[] answer = productExceptSelf(new int[] {1,3,4,5});
 
+        for (int j : answer) {
+            System.out.print(j + " ");
+        }
 
     }
 
+    /**
+     * 力扣算法238.除自身以外数组的乘积 使用 前缀积 和 后缀积 的方法，遍历两次n，时间复杂度为O(2N)，忽略常数2，仍然是O(N)复杂度！
+     * @param nums 整数数组
+     * @return 各元素的乘积
+     */
+    public static int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+        int[] answer = new int[n];
+        // 计算前缀积
+        answer[0] = 1; // 第一个元素没有前缀，所以前缀积为 1
+        for (int i = 1; i < n; i++) {
+            answer[i] = answer[i - 1] * nums[i - 1];
+        }
+        // 计算后缀积并直接与前缀积相乘
+        int suffix = 1; // 最后一个元素没有后缀，所以后缀积初始为 1
+        for (int i = n - 1; i >= 0; i--) {
+            answer[i] *= suffix; // 将前缀积与后缀积相乘
+            suffix *= nums[i]; // 更新后缀积
+        }
+        return answer;
+    }
+    public static int[] productExceptSelfByMyself(int[] nums) {
+        int[] answer = new int[nums.length];
+
+        for(int i=0;i<nums.length;i++){
+            answer[i]= selfMul(nums,i);
+        }
+
+        return answer;
+    }
+
+    private static int selfMul(int[] nums, int i) {
+        int mulNum = 1;
+        for(int j=0;j<nums.length;j++){
+            if(j!=i){
+                mulNum= mulNum*nums[j];
+            }
+        }
+        return mulNum;
+
+    }
+
+    /**
+     * 力扣算法283.给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+     * @param nums 整数数组
+     */
     public static void moveZeroes(int[] nums) {
 
         for(int i = 0; i < nums.length; i++ ){
