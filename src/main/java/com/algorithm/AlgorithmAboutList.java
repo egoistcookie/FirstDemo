@@ -126,37 +126,53 @@ public class AlgorithmAboutList {
 
         // 力扣算法283.给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
         // 请注意 ，必须在不复制数组的情况下原地对数组进行操作。
-        moveZeroes(new int[]{1,3,2,0,0,14,0,3});
+        // 解法：不复制数组，限制不能用list存储非零元素，但是可以用双指针，一个遍历数组，一个记录非零元素下标，只需要把非零元素前移，后面全部零即可
+        // moveZeroes(new int[]{1,3,2,0,0,14,0,3});
+        // moveZeroes(new int[]{0,1,0,3,12});
+        moveZeroes(new int[]{0,0,0,1});
 
 
 
     }
 
     public static void moveZeroes(int[] nums) {
-        List<Integer> li = new ArrayList<>();
-        int zeroNum=0;
-        for(int i=0;i<nums.length;i++){
-            if(nums[i]==0){
-                zeroNum++;
-            }else{
-                li.add(nums[i]);
-            }
-        }
-        for(int i=0;i<zeroNum;i++){
-            li.add(0);
-        }
-        // 将List<Integer>转换为Integer[]
-        Integer[] integerArray = li.toArray(new Integer[0]);
-
-        // 将Integer[]转换为int[]
-        int[] result = new int[integerArray.length];
-        for (int i = 0; i < integerArray.length; i++) {
-            result[i] = integerArray[i];
-        }
-        nums =result;
 
         for(int i = 0; i < nums.length; i++ ){
-            System.out.println(nums[i]);
+            System.out.print(nums[i]+" ");
+        }
+        System.out.println();
+
+        if (nums == null || nums.length == 0) {
+            return;
+        }
+
+        int j = 0; // j 指向下一个非零元素应该放置的位置
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != 0) {
+                nums[j] = nums[i];
+                j++;
+            }
+        }
+
+        // 将 j 之后的所有元素置为 0
+        for (; j < nums.length; j++) {
+            nums[j] = 0;
+        }
+
+        for(int i = 0; i < nums.length; i++ ){
+            System.out.print(nums[i]+" ");
+        }
+
+    }
+
+    private static void moveZero(int[] nums, int i) {
+
+        for (int j =i;j< nums.length-1;j++){
+
+            int cur = nums[j];
+            nums[j]=nums[j+1];
+            nums[j+1]=cur;
+
         }
 
     }
