@@ -147,11 +147,79 @@ public class AlgorithmAboutList {
         // 在选修某些课程之前需要一些先修课程。 先修课程按数组 prerequisites 给出，其中 prerequisites[i] = [ai, bi] ，表示如果要学习课程 ai 则 必须 先学习课程  bi 。
         // 例如，先修课程对 [0, 1] 表示：想要学习课程 0 ，你需要先完成课程 1 。
         // 请你判断是否可能完成所有课程的学习？如果可以，返回 true ；否则，返回 false 。
+        // 解法：广度优先搜索，通过维护节点的入度表，逐步移除入度为0的节点（即无前置依赖的课程），若最终所有节点均被移除，则无环；否则存在环
         // boolean canF = canFinish(2,new int[][]{{1,2},{2,3},{3,4}});
         // boolean canF = canFinish(2,new int[][]{{1,0}});
-        boolean canF = canFinishByBFS(7,new int[][]{{1,0},{0,3},{0,2},{3,2},{2,5},{4,5},{5,6},{2,4}});
-        System.out.println(canF);
+        // boolean canF = canFinishByBFS(7,new int[][]{{1,0},{0,3},{0,2},{3,2},{2,5},{4,5},{5,6},{2,4}});
+        // System.out.println(canF);
 
+        // 力扣算法200.岛屿数量
+        // 给你一个由 '1'（陆地）和 '0'（水）组成的的二维网格，请你计算网格中岛屿的数量。
+        // 岛屿总是被水包围，并且每座岛屿只能由水平方向和/或竖直方向上相邻的陆地连接形成。
+        // 此外，你可以假设该网格的四条边均被水包围。
+        // 使用深度优先搜索：遍历网格中的每个单元格，递归访问上下左右四个方向的单元格，若单元格是陆地，则改为水，避免重复访问！
+        // 广度优先搜索：依然是使用queue+while循环，访问所有相连陆地的方式不同，但是同样要把访问过的单元格改为水；
+        char [][] grid1 = {
+            {'1','1','1','1','0'},
+            {'1','1','0','1','0'},
+            {'1','1','0','0','0'},
+            {'0','0','0','0','0'}
+        };
+        char [][] grid2 = {
+                {'1','1','1','1','0'},
+                {'1','1','0','1','0'},
+                {'0','0','1','0','0'},
+                {'0','0','0','1','1'}
+        };
+        int nums = numIslands(grid2);
+        System.out.println(nums);
+
+    }
+
+    /**
+     * 计算岛屿数量
+     * @param grid 给你一个由 '1'（陆地）和 '0'（水）组成的的二维网格
+     * @return 网格中岛屿的数量（岛屿总是被水包围）（网格的四条边均被水包围）
+     */
+    static public int numIslands(char[][] grid) {
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
+        int numIslands = 0;
+        int rows = grid.length;
+        int cols = grid[0].length;
+
+        // 遍历网格中的每个单元格
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                // 如果当前单元格是陆地（'1'），则启动DFS
+                if (grid[i][j] == '1') {
+                    numIslands++;
+                    dfs(grid, i, j); // 标记整个岛屿
+                }
+            }
+        }
+        return numIslands;
+    }
+
+    // 深度优先搜索函数
+    static private void dfs(char[][] grid, int row, int col) {
+        int rows = grid.length;
+        int cols = grid[0].length;
+
+        // 检查边界条件：如果超出网格范围或当前单元格是水（'0'），则返回
+        if (row < 0 || col < 0 || row >= rows || col >= cols || grid[row][col] == '0') {
+            return;
+        }
+
+        // 将当前单元格标记为水（'0'），避免重复访问，good！
+        grid[row][col] = '0';
+
+        // 递归访问上下左右四个方向的单元格
+        dfs(grid, row - 1, col); // 上
+        dfs(grid, row + 1, col); // 下
+        dfs(grid, row, col - 1); // 左
+        dfs(grid, row, col + 1); // 右
     }
 
     // 广度优先搜索（BFS）——拓扑排序
