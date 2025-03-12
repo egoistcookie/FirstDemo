@@ -136,11 +136,143 @@ public class AlgorithmAboutList {
         // 题目数据 保证 数组 nums之中任意元素的全部前缀元素和后缀的乘积都在  32 位 整数范围内。
         // 请 不要使用除法，且在 O(n) 时间复杂度内完成此题。
         // 解法：使用 前缀积 和 后缀积 的方法，遍历两次n，时间复杂度为O(2N)，忽略常数2，仍然是O(N)复杂度！
-        int[] answer = productExceptSelf(new int[] {1,3,4,5});
+        // int[] answer = productExceptSelf(new int[] {1,3,4,5});
+        //
+        // for (int j : answer) {
+        //     System.out.print(j + " ");
+        // }
 
-        for (int j : answer) {
-            System.out.print(j + " ");
+        // 力扣算法207.课程表
+        // 你这个学期必须选修 numCourses 门课程，记为 0 到 numCourses - 1 。
+        // 在选修某些课程之前需要一些先修课程。 先修课程按数组 prerequisites 给出，其中 prerequisites[i] = [ai, bi] ，表示如果要学习课程 ai 则 必须 先学习课程  bi 。
+        // 例如，先修课程对 [0, 1] 表示：想要学习课程 0 ，你需要先完成课程 1 。
+        // 请你判断是否可能完成所有课程的学习？如果可以，返回 true ；否则，返回 false 。
+        // boolean canF = canFinish(2,new int[][]{{1,2},{2,3},{3,4}});
+        // boolean canF = canFinish(2,new int[][]{{1,0}});
+        boolean canF = canFinishByBFS(7,new int[][]{{1,0},{0,3},{0,2},{3,2},{2,5},{4,5},{5,6},{2,4}});
+        System.out.println(canF);
+
+    }
+
+    // 广度优先搜索（BFS）——拓扑排序
+    // 通过维护节点的入度表，逐步移除入度为0的节点（即无前置依赖的课程），若最终所有节点均被移除，则无环；否则存在环
+    static public boolean canFinishByBFS(int numCourses, int[][] prerequisites) {
+        // 邻接表：记录每个课程的后续课程
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < numCourses; i++) {
+            adj.add(new ArrayList<>());
         }
+        // 入度数组：记录每个课程的依赖数量
+        int[] inDegree = new int[numCourses];
+
+        // 构建邻接表和入度数组
+        for (int[] pre : prerequisites) {
+            int ai = pre[0], bi = pre[1];
+            adj.get(bi).add(ai);
+            inDegree[ai]++;
+        }
+
+        // 初始化队列：入度为0的课程入队
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < numCourses; i++) {
+            if (inDegree[i] == 0) {
+                queue.offer(i);
+            }
+        }
+
+        int count = 0; // 已完成的课程数
+        while (!queue.isEmpty()) {
+            int course = queue.poll();
+            count++;
+            for (int next : adj.get(course)) {
+                inDegree[next]--;
+                if (inDegree[next] == 0) {
+                    queue.offer(next);
+                }
+            }
+        }
+        return count == numCourses;
+    }
+
+    // 深度优先搜索（DFS）——环检测
+    // 通过递归遍历图中的节点，若在递归路径中遇到正在访问的节点，则存在环
+    static List<List<Integer>> adj;
+    static int[] visited; // 0:未访问, 1:访问中, 2:已访问
+    static boolean hasCycle = false;
+    static public boolean canFinishByDFS(int numCourses, int[][] prerequisites) {
+        adj = new ArrayList<>();
+        for (int i = 0; i < numCourses; i++) {
+            adj.add(new ArrayList<>());
+        }
+        for (int[] pre : prerequisites) {
+            int ai = pre[0], bi = pre[1];
+            adj.get(bi).add(ai);
+        }
+
+        visited = new int[numCourses];
+        for (int i = 0; i < numCourses; i++) {
+            if (visited[i] == 0) {
+                dfs(i);
+                if (hasCycle) return false;
+            }
+        }
+        return true;
+    }
+    static private void dfs(int course) {
+        visited[course] = 1; // 标记为正在访问
+        for (int next : adj.get(course)) {
+            if (visited[next] == 0) {
+                dfs(next);
+            } else if (visited[next] == 1) {
+                hasCycle = true; // 发现环
+                return;
+            }
+        }
+        visited[course] = 2; // 标记为已访问
+    }
+
+    /**
+     * 请你判断是否可能完成所有课程的学习
+     * @param numCourses 课程数量
+     * @param prerequisites 课程修习条件数组
+     * @return 能够完成所有课程学习
+     */
+    static public boolean canFinishBySelf(int numCourses, int[][] prerequisites) {
+        if(prerequisites==null || prerequisites.length==0){
+            return true;
+        }
+        boolean canFinish = true;
+
+        for(int i=0;i<prerequisites.length;i++){
+            // 条件链
+            List<Integer> reLi = new ArrayList<>();
+            reLi.add(prerequisites[i][0]);
+            boolean hasTop = hasTop(reLi,prerequisites[i][1],prerequisites);
+            if(!hasTop){
+                canFinish = false;
+                break;
+            }
+        }
+
+        return canFinish;
+    }
+
+    private static boolean hasTop(List<Integer> reLi, int prerequisite, int[][] prerequisites) {
+        reLi.add(prerequisite);
+
+        for(int[] i : prerequisites){
+            if(i[0] == prerequisite){
+                int requClass =  i[1];
+                // 条件链中如果出现重复，则不可能完成所有课程学习
+                if(reLi.contains(requClass)){
+                    return false;
+                }
+                if(!hasTop(reLi,requClass,prerequisites)){
+                    return false;
+                }
+            }
+        }
+        return true;
 
     }
 
