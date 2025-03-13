@@ -180,20 +180,67 @@ public class AlgorithmAboutList {
         // 每分钟，腐烂的橘子 周围 4 个方向上相邻 的新鲜橘子都会腐烂。
         // 返回 直到单元格中没有新鲜橘子为止所必须经过的最小分钟数。如果不可能，返回 -1 。
         // 解法：广度优先搜索，以腐烂橘子入队，每遍历一次所有腐烂橘子，时间就+1
-        int result1 = orangesRotting(new int[][]{
+        // 注意：for (int j = 0; j < size; j++) { //size不能直接改写成 queue.size()，如果for循环里有用offer，那这个size就一直会增加。。。
+        int result1 = orangesRottingByMyself(new int[][]{
             {2,1,1},
-            {1,1,0},
-            {1,0,1}
+            {1,1,1},
+            {0,1,2}
         });
         int result2 = orangesRotting(new int[][]{
             {2,1,1},
             {1,1,0},
             {1,0,0}
         });
-        System.out.println(result2);
+        System.out.println(result1);
 
     }
 
+    // 解法：广度优先搜索，以腐烂橘子入队，每遍历一次所有腐烂橘子，时间就+1
+    // 注意：for (int j = 0; j < size; j++) { //size不能直接改写成 queue.size()，如果for循环里有用offer，那这个size就一直会增加。。。
+    static public int orangesRottingByMyself(int[][] grid){
+        Queue<int[]> badOrange = new LinkedList<>();
+        int minus =0;
+        int[][] direction = {{-1,0},{1,0},{0,-1},{0,1}};
+        int freshOrangeCount =0;
+        for(int i=0;i<grid.length;i++){
+            for(int j=0;j<grid[0].length;j++){
+                if(grid[i][j]==2){
+                    badOrange.offer(new int[]{i,j});
+                }else if (grid[i][j]==1){
+                    freshOrangeCount ++;
+                }
+            }
+        }
+        // 特判：没有新鲜橘子直接返回0
+        if (freshOrangeCount == 0) return 0;
+
+        while (!badOrange.isEmpty() && freshOrangeCount > 0) {
+            int size = badOrange.size();
+            // 分层处理当前所有腐烂橘子
+            for (int j = 0; j < size; j++) {
+
+                int[] index = badOrange.poll();
+                for(int[] i : direction){
+                    int targetX = index[0] + i[0];
+                    int targetY = index[1] + i[1];
+                    if(targetX==grid.length || targetX<0 || targetY==grid[0].length || targetY<0
+                            || grid[targetX][targetY]==0 || grid[targetX][targetY]==2){
+                        continue;
+                    }else{
+                        grid[targetX][targetY] = 2;
+                        badOrange.offer(new int[]{targetX,targetY});
+                        freshOrangeCount --;
+                    }
+                }
+            }
+            minus ++;
+
+
+        }
+        return freshOrangeCount == 0 ? minus : -1;
+    }
+
+    //解法：广度优先搜索，以腐烂橘子入队，每遍历一次所有腐烂橘子，时间就+1
     static public int orangesRotting(int[][] grid) {
         int rows = grid.length, cols = grid[0].length;
         Queue<int[]> queue = new LinkedList<>();
