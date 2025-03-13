@@ -159,20 +159,125 @@ public class AlgorithmAboutList {
         // 此外，你可以假设该网格的四条边均被水包围。
         // 使用深度优先搜索：遍历网格中的每个单元格，递归访问上下左右四个方向的单元格，若单元格是陆地，则改为水，避免重复访问！
         // 广度优先搜索：依然是使用queue+while循环，访问所有相连陆地的方式不同，但是同样要把访问过的单元格改为水；
-        char [][] grid1 = {
-            {'1','1','1','1','0'},
-            {'1','1','0','1','0'},
-            {'1','1','0','0','0'},
-            {'0','0','0','0','0'}
-        };
-        char [][] grid2 = {
-                {'1','1','1','1','0'},
-                {'1','1','0','1','0'},
-                {'0','0','1','0','0'},
-                {'0','0','0','1','1'}
-        };
-        int nums = numIslands(grid2);
-        System.out.println(nums);
+        // char [][] grid1 = {
+        //     {'1','1','1','1','0'},
+        //     {'1','1','0','1','0'},
+        //     {'1','1','0','0','0'},
+        //     {'0','0','0','0','0'}
+        // };
+        // char [][] grid2 = {
+        //         {'1','1','1','1','0'},
+        //         {'1','1','0','1','0'},
+        //         {'0','0','1','0','0'},
+        //         {'0','0','0','1','1'}
+        // };
+        // int nums = numIslands(grid2);
+        // System.out.println(nums);
+
+        // 算法994.腐烂的橘子
+        // 在给定的 m x n 网格 grid 中，每个单元格可以有以下三个值之一：
+        // 值 0 代表空单元格；   1 代表新鲜橘子； 值 2 代表腐烂的橘子。
+        // 每分钟，腐烂的橘子 周围 4 个方向上相邻 的新鲜橘子都会腐烂。
+        // 返回 直到单元格中没有新鲜橘子为止所必须经过的最小分钟数。如果不可能，返回 -1 。
+        // 解法：广度优先搜索，以腐烂橘子入队，每遍历一次所有腐烂橘子，时间就+1
+        int result1 = orangesRotting(new int[][]{
+            {2,1,1},
+            {1,1,0},
+            {1,0,1}
+        });
+        int result2 = orangesRotting(new int[][]{
+            {2,1,1},
+            {1,1,0},
+            {1,0,0}
+        });
+        System.out.println(result2);
+
+    }
+
+    static public int orangesRotting(int[][] grid) {
+        int rows = grid.length, cols = grid[0].length;
+        Queue<int[]> queue = new LinkedList<>();
+        int[][] DIRECTIONS = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        int fresh = 0;
+
+        // 初始化：统计新鲜橘子，腐烂橘子入队
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == 1) fresh++;
+                else if (grid[i][j] == 2) queue.offer(new int[]{i, j});
+            }
+        }
+
+        // 特判：没有新鲜橘子直接返回0
+        if (fresh == 0) return 0;
+
+        int minutes = 0;
+        while (!queue.isEmpty() && fresh > 0) {
+            int size = queue.size();
+            // 分层处理当前所有腐烂橘子
+            for (int i = 0; i < size; i++) {
+                int[] pos = queue.poll();
+                // 向四个方向扩散
+                for (int[] dir : DIRECTIONS) {
+                    int x = pos[0] + dir[0];
+                    int y = pos[1] + dir[1];
+                    // 检查边界条件及是否为新鲜橘子
+                    if (x >= 0 && x < rows && y >= 0 && y < cols && grid[x][y] == 1) {
+                        grid[x][y] = 2; // 标记为腐烂
+                        queue.offer(new int[]{x, y});
+                        fresh--; // 减少新鲜橘子计数
+                    }
+                }
+            }
+            minutes++; // 每处理完一层，时间+1
+        }
+
+        // 最终判断是否仍有剩余新鲜橘子
+        return fresh == 0 ? minutes : -1;
+    }
+
+    /**
+     * 腐烂扩散
+     * @param grid 整个网格
+     * @param i x坐标
+     * @param j y坐标
+     * @param minus 分钟数
+     */
+    private static void expandBad(int[][] grid, int i, int j, int minus) {
+        // // 到达边界，停止扩散
+        // if(i>grid.length || i<0 || j>grid[0].length || j<0 || grid[i][j] == 0){
+        //     return;
+        // }
+        // 状态由新鲜改为腐烂
+        // if(grid[i][j] == 1){
+        //     grid[i][j] = 2;
+        // }
+        Queue<int[]> qu = new LinkedList<>();
+        qu.offer(new int[]{i,j});
+        while(!qu.isEmpty()){
+            int[] fromIteam = qu.poll();
+            int[][] direactionArr = {{fromIteam[0]+1,j},{fromIteam[0]-1,j},{i,fromIteam[1]+1},{i,fromIteam[j]-1}};
+            for(int[] arr : direactionArr){
+                // 到达边界，停止扩散
+                if(arr[0]>grid.length-1 || arr[0]<0 || arr[1]>grid[0].length-1 || arr[1]<0
+                        || grid[arr[0]][arr[1]] == 0){
+                    continue;
+                }else{
+                    // 状态由新鲜改为腐烂
+                    if(grid[arr[0]][arr[1]] == 1){
+                        grid[i][j] = 2;
+                    }
+                }
+                qu.offer(arr);
+            }
+            minus ++;
+
+        }
+        // 朝四个方向扩散
+        // expandBad(grid,i+1,j,minus);
+        // expandBad(grid,i-1,j,minus);
+        // expandBad(grid,i,j+1,minus);
+        // expandBad(grid,i,j-1,minus);
 
     }
 
