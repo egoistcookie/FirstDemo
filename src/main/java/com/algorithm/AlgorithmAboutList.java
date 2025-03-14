@@ -195,17 +195,61 @@ public class AlgorithmAboutList {
 
         // 算法46.全排列
         // 给定一个不含重复数字的数组 nums ，返回其 所有可能的全排列 。你可以 按任意顺序 返回答案。
-        // 解法：递归+回溯
-        List<List<Integer>> list = permute(new int[]{1,3,5});
-        for (List<Integer> li : list){
-            for(Integer i : li){
-                System.out.print(i+"");
+        // 解法：递归+回溯 回溯：每次到尽头就remove最后一位
+        // List<List<Integer>> list = permute(new int[]{1,3,5});
+        // for (List<Integer> li : list){
+        //     for(Integer i : li){
+        //         System.out.print(i+"");
+        //     }
+        //     System.out.println();
+        // }
+
+        // 算法78.子集
+        // 给你一个整数数组 nums ，数组中的元素 互不相同 。返回该数组所有可能的子集（幂集）。
+        // 解集 不能 包含重复的子集。你可以按 任意顺序 返回解集。
+        // 解法：递归+回溯，与全排列解法不同之处在于：子集的长度不定，且都是有序数组
+        List<List<Integer>> result2 = subsets(new int[]{1,2,3});
+        for(List<Integer> li : result2){
+            for(int i : li){
+                System.out.print(i+" ");
             }
             System.out.println();
         }
 
+
     }
 
+    /**
+     * 返回该数组所有可能的子集
+     * @param nums [1,2,3]
+     * @return [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+     */
+    static public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> reList = new ArrayList<>();
+        // 先加一个空数组
+        List<Integer> firstList = new ArrayList<>();
+        reList.add(firstList);
+        for (int i= nums.length;i>0;i--){
+            addNumsToList(reList,new ArrayList<>(),nums,i);
+        }
+        return  reList;
+    }
+    private static void addNumsToList(List<List<Integer>> reList, List<Integer> li, int[] nums, int i) {
+        if(li.size()==i){
+            reList.add(new ArrayList<>(li));
+        }else{
+            for (int num : nums) {
+                // 与求全排列不同的地方在于，此为有序数组，不能后面元素大于前面元素
+                if (li.contains(num) || (!li.isEmpty() && li.get(li.size()-1)>num)) {
+                    continue;
+                }
+                li.add(num);
+                addNumsToList(reList, li, nums, i);
+                // 回溯
+                li.remove(li.size()-1);
+            }
+        }
+    }
 
     /**
      * 给定一个不含重复数字的数组 nums ，返回其 所有可能的全排列
