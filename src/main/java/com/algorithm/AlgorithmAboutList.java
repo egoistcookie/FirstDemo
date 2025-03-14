@@ -181,17 +181,104 @@ public class AlgorithmAboutList {
         // 返回 直到单元格中没有新鲜橘子为止所必须经过的最小分钟数。如果不可能，返回 -1 。
         // 解法：广度优先搜索，以腐烂橘子入队，每遍历一次所有腐烂橘子，时间就+1
         // 注意：for (int j = 0; j < size; j++) { //size不能直接改写成 queue.size()，如果for循环里有用offer，那这个size就一直会增加。。。
-        int result1 = orangesRottingByMyself(new int[][]{
-            {2,1,1},
-            {1,1,1},
-            {0,1,2}
-        });
-        int result2 = orangesRotting(new int[][]{
-            {2,1,1},
-            {1,1,0},
-            {1,0,0}
-        });
-        System.out.println(result1);
+        // int result1 = orangesRottingByMyself(new int[][]{
+        //     {2,1,1},
+        //     {1,1,1},
+        //     {0,1,2}
+        // });
+        // int result2 = orangesRotting(new int[][]{
+        //     {2,1,1},
+        //     {1,1,0},
+        //     {1,0,0}
+        // });
+        // System.out.println(result1);
+
+        // 算法46.全排列
+        // 给定一个不含重复数字的数组 nums ，返回其 所有可能的全排列 。你可以 按任意顺序 返回答案。
+        // 解法：递归+回溯
+        List<List<Integer>> list = permute(new int[]{1,3,5});
+        for (List<Integer> li : list){
+            for(Integer i : li){
+                System.out.print(i+"");
+            }
+            System.out.println();
+        }
+
+    }
+
+
+    /**
+     * 给定一个不含重复数字的数组 nums ，返回其 所有可能的全排列
+     * @param nums 不含重复数字的数组 {1,3,5}
+     * @return 所有可能的全排列 {1,3,5}/{1,5,3}/{3,5,1}/{3,1,5}/{5,3,1}/{5,1,3}
+     */
+    static public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        backtrack(result, new ArrayList<>(), nums);
+        return result;
+    }
+    // 递归+回溯算法
+    static private void backtrack(List<List<Integer>> result, List<Integer> tempList, int[] nums) {
+        // 如果当前排列的长度等于数组的长度，说明已经找到一个完整的排列
+        if (tempList.size() == nums.length) {
+            result.add(new ArrayList<>(tempList));
+        } else {
+            for (int i = 0; i < nums.length; i++) {
+                // 跳过已经存在于当前排列中的元素
+                if (tempList.contains(nums[i])) {
+                    continue;
+                }
+                // 将当前元素添加到排列中
+                tempList.add(nums[i]);
+                // 继续递归生成下一个元素的排列
+                backtrack(result, tempList, nums);
+                // 回溯，移除最后一个元素，尝试其他可能性
+                tempList.remove(tempList.size() - 1);
+            }
+        }
+    }
+
+    /**
+     * 给定一个不含重复数字的数组 nums ，返回其 所有可能的全排列
+     * @param nums 不含重复数字的数组 {1,3,5}
+     * @return 所有可能的全排列 {1,3,5}/{1,5,3}/{3,5,1}/{3,1,5}/{5,3,1}/{5,1,3}
+     */
+    static public List<List<Integer>> permuteBySelf(int[] nums) {
+        List<List<Integer>> list = new ArrayList<>();
+        List<Integer> li = new ArrayList<>();
+
+        List<Integer> fromL = new ArrayList<>();
+        for (int i=0;i<nums.length;i++){
+            fromL.add(nums[i]);
+        }
+
+        if(nums.length == 0){
+            return list;
+        }else if (nums.length == 1){
+            li.add(nums[0]);
+            list.add(li);
+            return list;
+        }
+
+        addNumToList(fromL,list);
+
+        list.add(li);
+
+
+        return list;
+    }
+
+    private static void addNumToList( List<Integer> fromL, List<List<Integer>> list) {
+
+        List<Integer> li = new ArrayList<>();
+        for(int i=0;i<fromL.size();i++){
+            li.add(fromL.get(i));
+        }
+        list.add(li);
+        if(!fromL.isEmpty()){
+            fromL.remove(0);
+            addNumToList(fromL,list);
+        }
 
     }
 
