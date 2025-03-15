@@ -208,15 +208,48 @@ public class AlgorithmAboutList {
         // 给你一个整数数组 nums ，数组中的元素 互不相同 。返回该数组所有可能的子集（幂集）。
         // 解集 不能 包含重复的子集。你可以按 任意顺序 返回解集。
         // 解法：递归+回溯，与全排列解法不同之处在于：子集的长度不定，且都是有序数组
-        List<List<Integer>> result2 = subsets(new int[]{1,2,3});
-        for(List<Integer> li : result2){
-            for(int i : li){
-                System.out.print(i+" ");
-            }
-            System.out.println();
+        // List<List<Integer>> result2 = subsets(new int[]{1,2,3});
+        // for(List<Integer> li : result2){
+        //     for(int i : li){
+        //         System.out.print(i+" ");
+        //     }
+        //     System.out.println();
+        // }
+
+        // 力扣算法169.多数元素
+        // 给定一个大小为 n 的数组 nums ，返回其中的多数元素。多数元素是指在数组中出现次数 大于 ⌊ n/2 ⌋ 的元素。
+        // int re = majorityElement(new int[]{2,2,1,1,1,2,2});
+        int re = majorityElement(new int[]{1});
+        System.out.println(re);
+
+
+    }
+
+    /**
+     * 给定一个大小为 n 的数组 nums ，返回其中的多数元素。
+     * @param nums {2,2,1,1,1,2,2}
+     * @return 2
+     */
+    static public int majorityElement(int[] nums) {
+        if(nums.length==1){
+            return nums[0];
         }
-
-
+        int re =0;
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        for(int i=0;i<nums.length;i++){
+            if(hm.get(nums[i])!=null){
+                int count =hm.get(nums[i]);
+                count++;
+                hm.put(nums[i],count);
+                if(count > nums.length/2){
+                    re = nums[i];
+                    break;
+                }
+            }else{
+                hm.put(nums[i],1);
+            }
+        }
+        return re;
     }
 
     /**
