@@ -219,10 +219,55 @@ public class AlgorithmAboutList {
         // 力扣算法169.多数元素
         // 给定一个大小为 n 的数组 nums ，返回其中的多数元素。多数元素是指在数组中出现次数 大于 ⌊ n/2 ⌋ 的元素。
         // int re = majorityElement(new int[]{2,2,1,1,1,2,2});
-        int re = majorityElement(new int[]{1});
-        System.out.println(re);
+        // 解法：一个计数hashmap搞定，arrylist的排序加取中间数更简单。
+        // int re = majorityElement(new int[]{1});
+        // System.out.println(re);
 
+        // 算法48.旋转图像
+        // 给定一个 n × n 的二维矩阵 matrix 表示一个图像。请你将图像顺时针旋转 90 度。
+        // 解法：不依赖辅助数组的情况下，需要一次水平翻转和一次对角线翻转解决。
+        rotate(new int[][]{{1,2,3},{4,5,6},{7,8,9}});
 
+    }
+
+    /**
+     * 两次翻转，先水平翻转，再对角线翻转，即可旋转90度
+     * @param matrix n × n 的二维矩阵
+     */
+    static public void rotate(int[][] matrix) {
+        int n = matrix.length;
+        // 水平翻转
+        for (int i = 0; i < n / 2; i++) {
+            for (int j = 0; j < n; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[n - 1 - i][j];
+                matrix[n - 1 - i][j] = temp;
+            }
+        }
+        // 主对角线翻转（转置）
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = temp;
+            }
+        }
+    }
+
+    /**
+     *  辅助数组来旋转
+     * @param matrix n x n 二维矩阵
+     */
+    static public void rotateByMySelf(int[][] matrix) {
+        int l = matrix.length;
+        int[][] res = new int[l][l];
+        for(int i=0;i<matrix.length;i++) {
+            for (int j = 0; j < l; j++) {
+                int temp = matrix[i][j];
+                // res[i][j] = matrix[j][l-i-1];
+                res[j][l-i-1] = temp;
+            }
+        }
     }
 
     /**
