@@ -231,17 +231,79 @@ public class AlgorithmAboutList {
         // 算法240.搜索二维矩阵
         // 编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target 。
         // 解法：Z字形查找，以右上角为初始比对基准，每次迭代，要么减少列数，要么增加行数，最多进行 m + n 次迭代。
-        boolean result1 = searchMatrix(new int[][]{
-            {1,4,7,11,15},
-            {2,5,8,12,19},
-            {3,6,9,16,22},
-            {10,13,14,17,24},
-            {18,21,23,26,30}
-        },23);
-        System.out.println(result1);
+        // boolean result1 = searchMatrix(new int[][]{
+        //     {1,4,7,11,15},
+        //     {2,5,8,12,19},
+        //     {3,6,9,16,22},
+        //     {10,13,14,17,24},
+        //     {18,21,23,26,30}
+        // },23);
+        // System.out.println(result1);
+
+        // 算法435.无重叠区间
+        // 给定一个区间的集合 intervals ，其中 intervals[i] = [starti, endi] 。返回 需要移除区间的最小数量，使剩余区间互不重叠 。
+        // 注意 只在一点上接触的区间是 不重叠的。例如 [1, 2] 和 [2, 3] 是不重叠的。
+        // 解法：贪心策略：优先选择结束时间最早的区间，这样可以为后续区间留出更多空间，从而减少重叠的可能性。数组按结束时间排序。
+        System.out.println(eraseOverlapIntervals(new int[][]{{1,2},{2,3},{3,4},{1,3}}));
+        System.out.println(eraseOverlapIntervals(new int[][]{{1,2},{1,2},{1,2}}));
+        System.out.println(eraseOverlapIntervals(new int[][]{{1,2},{2,3}}));
+        System.out.println(eraseOverlapIntervals(new int[][]{{1,100},{11,22},{1,11},{2,12}}));
 
 
+    }
 
+    /**
+     * 给定一个区间的集合 intervals ，其中 intervals[i] = [starti, endi] 。返回 需要移除区间的最小数量，使剩余区间互不重叠 。
+     * @param intervals {1,100},{11,22},{1,11},{2,12}
+     * @return 2
+     */
+    static public int eraseOverlapIntervals(int[][] intervals) {
+        if (intervals.length == 0) return 0;
+
+        // 按区间结束时间升序排序
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[1], b[1]));
+
+        int count = 1; // 至少保留一个区间
+        int prevEnd = intervals[0][1];
+
+        for (int i = 1; i < intervals.length; i++) {
+            int currentStart = intervals[i][0];
+            if (currentStart >= prevEnd) {
+                // 无重叠，保留当前区间
+                count++;
+                prevEnd = intervals[i][1];
+            }
+        }
+        // 总区间数 - 保留的区间数 = 需要移除的数量
+        return intervals.length - count;
+    }
+
+    /**
+     * 给定一个区间的集合 intervals ，其中 intervals[i] = [starti, endi] 。返回 需要移除区间的最小数量，使剩余区间互不重叠 。
+     * @param intervals [[1,2],[2,3],[3,4],[1,3]]
+     * @return 1
+     */
+    static public int eraseOverlapIntervalsByMySelf(int[][] intervals) {
+        int overCount = 0;
+        Map<Integer,Integer> statusMap = new HashMap<>();
+        for (int[] interval : intervals) {
+            // 覆盖元素次数，大于1就是有重合
+            int count = 0;
+            int start = interval[0];
+            int end = interval[1];
+            for (int j = start; j <= end; j++) {
+                if (statusMap.get(j) != null) {
+                    count++;
+                }
+                if (count > 1) {
+                    overCount++;
+                    count = 0;
+                    break;
+                }
+                statusMap.put(j, 1);
+            }
+        }
+        return overCount;
     }
 
     /**
