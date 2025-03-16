@@ -226,8 +226,54 @@ public class AlgorithmAboutList {
         // 算法48.旋转图像
         // 给定一个 n × n 的二维矩阵 matrix 表示一个图像。请你将图像顺时针旋转 90 度。
         // 解法：不依赖辅助数组的情况下，需要一次水平翻转和一次对角线翻转解决。
-        rotate(new int[][]{{1,2,3},{4,5,6},{7,8,9}});
+        // rotate(new int[][]{{1,2,3},{4,5,6},{7,8,9}});
 
+        // 算法240.搜索二维矩阵
+        // 编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target 。
+        // 解法：Z字形查找，以右上角为初始比对基准，每次迭代，要么减少列数，要么增加行数，最多进行 m + n 次迭代。
+        boolean result1 = searchMatrix(new int[][]{
+            {1,4,7,11,15},
+            {2,5,8,12,19},
+            {3,6,9,16,22},
+            {10,13,14,17,24},
+            {18,21,23,26,30}
+        },23);
+        System.out.println(result1);
+
+
+
+    }
+
+    /**
+     *  m x n 矩阵 matrix 中的一个目标值
+     *  解法：Z字形查找，以右上角为初始比对基准，每次迭代，要么减少列数，要么增加行数，最多进行 m + n 次迭代。
+     * @param matrix [1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]
+     * @param target 5
+     * @return 是否存在
+     */
+    static public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return false;
+        }
+
+        int m = matrix.length;    // 行数
+        int n = matrix[0].length; // 列数
+
+        // 从矩阵的右上角开始搜索
+        int row = 0;
+        int col = n - 1;
+
+        while (row < m && col >= 0) {
+            if (matrix[row][col] == target) {
+                return true; // 找到目标值
+            } else if (matrix[row][col] > target) {
+                col--; // 目标值可能在当前列的左边
+            } else {
+                row++; // 目标值可能在当前行的下边
+            }
+        }
+
+        return false; // 未找到目标值
     }
 
     /**
