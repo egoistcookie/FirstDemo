@@ -1,5 +1,7 @@
 package com.algorithm;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -29,15 +31,133 @@ public class AlgorithmAboutStr {
 
         // 力扣算法20.有效括号 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。
         // stack初接触，原来jdk1.0就有了这种数据结构，先入后出结构，push为压入，pop为取出
-        System.out.println(judgeIsRightStr("()"));
-        System.out.println(judgeIsRightStr("()[]{}"));
-        System.out.println(judgeIsRightStr("(]"));
-        System.out.println(judgeIsRightStr("([])"));
-        System.out.println(judgeIsRightStr("([)]"));
+        // System.out.println(judgeIsRightStr("()"));
+        // System.out.println(judgeIsRightStr("()[]{}"));
+        // System.out.println(judgeIsRightStr("(]"));
+        // System.out.println(judgeIsRightStr("([])"));
+        // System.out.println(judgeIsRightStr("([)]"));
+
+        // 力扣算法394.字符串解码
+        // 给定一个经过编码的字符串，返回它解码后的字符串。
+        // 编码规则为: k[encoded_string]，表示其中方括号内部的 encoded_string 正好重复 k 次。注意 k 保证为正整数。
+        // 解法：两个栈，一个装重复字符的数量，一个装重复字符的内容
+        System.out.println(decodeString("3[a]2[bc]"));
+        System.out.println(decodeString("3[a2[c]]"));
+        System.out.println(decodeString("2[abc]3[cd]ef"));
+        System.out.println(decodeString("abc3[cd]xyz"));
+        System.out.println(decodeString("100[leetcode]"));
 
 
+    }
 
+    /**
+     * 给定一个经过编码的字符串，返回它解码后的字符串。
+     * @param s
+     * @return
+     */
+    static public String decodeString(String s) {
+        Stack<Integer> numStack = new Stack<>(); // 存储数字
+        Stack<String> strStack = new Stack<>(); // 存储字符串
+        StringBuilder currentStr = new StringBuilder(); // 当前字符串
+        int currentNum = 0; // 当前数字
 
+        for (char ch : s.toCharArray()) {
+            if (Character.isDigit(ch)) {
+                // 处理多位数
+                currentNum = currentNum * 10 + (ch - '0');
+            } else if (ch == '[') {
+                // 遇到 '['，将当前数字和字符串压入栈
+                numStack.push(currentNum);
+                strStack.push(currentStr.toString());
+                currentNum = 0; // 重置数字
+                currentStr = new StringBuilder(); // 重置字符串
+            } else if (ch == ']') {
+                // 遇到 ']'，弹出栈顶数字和字符串，进行重复拼接
+                int repeatTimes = numStack.pop();
+                StringBuilder temp = new StringBuilder(strStack.pop());
+                for (int i = 0; i < repeatTimes; i++) {
+                    temp.append(currentStr);
+                }
+                currentStr = temp;
+            } else {
+                // 普通字符，直接加入当前字符串
+                currentStr.append(ch);
+            }
+        }
+
+        return currentStr.toString();
+    }
+
+    /**
+     * 给定一个经过编码的字符串，返回它解码后的字符串。
+     * @param s "3[a2[c]]"
+     * @return "accaccacc"
+     */
+    static public String decodeStringByMySelf(String s) {
+        String re = "";
+        boolean inArea = false;
+        Map<Integer,String> deepMap = new HashMap<>();
+        int deep = 0;
+
+        Stack<String> stack = new Stack<>();
+        for(int i=0;i<s.length();i++){
+            char index = s.charAt(i);
+            if(index>='1' && index<='9'){
+                deep ++ ;
+                inArea = true;
+                stack.push(index+"|"+i);
+            }else if (index==']'){
+                inArea = false;
+                String deepStr = "";
+                String a = stack.pop();
+                String[] aA = a.split("\\|");
+                int count = Integer.parseInt(aA[0]);
+                int startI = Integer.parseInt(aA[1]);
+                String mergeS = s.substring(startI+2,i);
+                if(deepMap.get(deep) != null){
+                    deepStr = deepMap.get(deep);
+                }else{
+                    deepStr = mergeS;
+                }
+                int startj = mergeS.lastIndexOf('[');
+                int endj = mergeS.lastIndexOf(']');
+                deepStr = mergeS.substring(0,startj==-1?0:startj-1) + deepStr + mergeS.substring(endj==-1?mergeS.length():endj+1);
+                String reStr ="";
+                for(int j = 0; j< count; j++){
+                    reStr += deepStr;
+                }
+                deep--;
+                deepMap.put(deep,reStr);
+                if(deep == 0){
+                    re += reStr;
+                }
+            }else if(index>='a' && index<='z' && !inArea){
+                re += index;
+            }
+        }
+
+        return re;
+    }
+
+    private static String getChar(String s) {
+
+        String re = "";
+        for(int i=0;i<s.length();i++){
+            char index = s.charAt(i);
+            if(index>='1' && index<='9'){
+                int startI = s.indexOf('[')+1;
+                int endI = s.lastIndexOf(']');
+                int length = endI - startI;
+                String a = getChar(s.substring(startI,endI));
+                for(int j = 0; j< Integer.parseInt(String.valueOf(index)); j++){
+                    re += a;
+                }
+                i += length+2;// 包含[和]两符号长度
+            }else if(index>='a' && index<='z'){
+                re += index;
+            }
+        }
+        return re;
     }
 
     /**
