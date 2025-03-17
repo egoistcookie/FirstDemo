@@ -1,8 +1,6 @@
 package com.algorithm;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * 字符类的算法类
@@ -41,13 +39,101 @@ public class AlgorithmAboutStr {
         // 给定一个经过编码的字符串，返回它解码后的字符串。
         // 编码规则为: k[encoded_string]，表示其中方括号内部的 encoded_string 正好重复 k 次。注意 k 保证为正整数。
         // 解法：两个栈，一个装重复字符的数量，一个装重复字符的内容，比较坑的地方在于其数量可能不止一位
-        System.out.println(decodeString("3[a]2[bc]"));
-        System.out.println(decodeString("3[a2[c]]"));
-        System.out.println(decodeString("2[abc]3[cd]ef"));
-        System.out.println(decodeString("abc3[cd]xyz"));
-        System.out.println(decodeString("100[leetcode]"));
+        // System.out.println(decodeString("3[a]2[bc]"));
+        // System.out.println(decodeString("3[a2[c]]"));
+        // System.out.println(decodeString("2[abc]3[cd]ef"));
+        // System.out.println(decodeString("abc3[cd]xyz"));
+        // System.out.println(decodeString("100[leetcode]"));
+
+        // 算法6.Z字型变幻
+        // 将一个给定字符串 s 根据给定的行数 numRows ，以从上往下、从左到右进行 Z 字形排列。
+        // 比如输入字符串为 "PAYPALISHIRING" 行数为 3 时，排列如下：
+        // P   A   H   N
+        // A P L S I I G
+        // Y   I   R
+        // 输出需要从左往右逐行读取，产生出一个新的字符串，比如："PAHNAPLSIIGYIR"。 PINALSIGYAHRPI
+        // 解法：逐个元素添加到对应行，有多少行数就建多少个StringBuffer，行数趋势初始为增大，遇到顶端就变为减小，遇到下一个顶端再变为增大，多次for循环也为On
+        System.out.println(convert("PAYPALISHIRING",3));
+        System.out.println(convert("PAYPALISHIRING",4));
+        System.out.println(convert("A",1));
+        System.out.println(convert("A",2));
+        System.out.println(convert("",0));
 
 
+
+    }
+
+    public static String convert(String s, int numRows) {
+        if (numRows == 1) {
+            return s; // 如果只有一行，直接返回原字符串
+        }
+
+        // 创建每一行的 StringBuilder
+        List<StringBuilder> rows = new ArrayList<>();
+        for (int i = 0; i < Math.min(numRows, s.length()); i++) {
+            rows.add(new StringBuilder());
+        }
+
+        int currentRow = 0; // 当前行
+        boolean goingDown = false; // 方向标志，初始为 false
+
+        // 遍历字符串，将字符添加到对应的行
+        for (char c : s.toCharArray()) {
+            rows.get(currentRow).append(c);
+            if (currentRow == 0 || currentRow == numRows - 1) {
+                goingDown = !goingDown; // 改变方向
+            }
+            currentRow += goingDown ? 1 : -1; // 根据方向更新行号
+        }
+
+        // 将每一行的字符拼接成最终结果
+        StringBuilder result = new StringBuilder();
+        for (StringBuilder row : rows) {
+            result.append(row);
+        }
+
+        return result.toString();
+    }
+
+    static public String convertByMySelf(String s, int numRows) {
+        if(numRows <= 1){
+            return s;
+        }
+        String re = "";
+        char[][] reA = new char[numRows][(s.length()*(numRows-1)/numRows)];
+
+        int y = 0;
+        boolean isSingle = false;
+        for(int i=0;i<s.length();i++){
+
+            int mut = 2*numRows -2;
+            int yu = i%mut;
+            // 上一个元素是否为单列单元素
+            if(isSingle){
+                y ++;
+                isSingle = false;
+            }
+            int x = 0;
+            if(yu < numRows){
+                x = yu;
+            }else if(yu >= numRows){
+                x = 2*numRows - yu -2;
+                y ++;
+                isSingle = true;
+            }
+
+            reA[x][y]=s.charAt(i);
+        }
+
+        for(char[] ints:reA){
+            for(char c : ints){
+                if(c != '\u0000'){
+                    re += c;
+                }
+            }
+        }
+
+        return re;
     }
 
     /**
