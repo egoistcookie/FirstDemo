@@ -53,14 +53,83 @@ public class AlgorithmAboutStr {
         // Y   I   R
         // 输出需要从左往右逐行读取，产生出一个新的字符串，比如："PAHNAPLSIIGYIR"。 PINALSIGYAHRPI
         // 解法：逐个元素添加到对应行，有多少行数就建多少个StringBuffer，行数趋势初始为增大，遇到顶端就变为减小，遇到下一个顶端再变为增大，多次for循环也为On
-        System.out.println(convert("PAYPALISHIRING",3));
-        System.out.println(convert("PAYPALISHIRING",4));
-        System.out.println(convert("A",1));
-        System.out.println(convert("A",2));
-        System.out.println(convert("",0));
+        // System.out.println(convert("PAYPALISHIRING",3));
+        // System.out.println(convert("PAYPALISHIRING",4));
+        // System.out.println(convert("A",1));
+        // System.out.println(convert("A",2));
+        // System.out.println(convert("",0));
+
+        // 10.正则表达式匹配
+        // 给你一个字符串 s 和一个字符规律 p，请你来实现一个支持 '.' 和 '*' 的正则表达式匹配。
+        // '.' 匹配任意单个字符
+        // '*' 匹配零个或多个前面的那一个元素
+        // 解法：动态规划或者递归回溯
+        System.out.println(isMatch("aaaa","a*"));
+        System.out.println(isMatch("aa","a"));
+        System.out.println(isMatch("aa",".*"));
 
 
 
+    }
+
+    /**
+     * 正则表达式匹配：动态规划
+     * @param s aa      aa      aa
+     * @param p a*      a       .*
+     * @return  true    false   true
+     */
+    static public boolean isMatch(String s, String p) {
+        int m = s.length(), n = p.length();
+        boolean[][] dp = new boolean[m + 1][n + 1];
+        dp[0][0] = true;
+
+        for (int j = 2; j <= n; j++) {
+            dp[0][j] = p.charAt(j - 1) == '*' && dp[0][j - 2];
+        }
+
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                char sc = s.charAt(i - 1);
+                char pc = p.charAt(j - 1);
+                if (pc == '.' || pc == sc) {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else if (pc == '*') {
+                    dp[i][j] = dp[i][j - 2] || ((p.charAt(j - 2) == '.' || p.charAt(j - 2) == sc) && dp[i - 1][j]);
+                }
+            }
+        }
+        return dp[m][n];
+    }
+
+    /**
+     * 正则表达式匹配
+     * @param s aa      aa      aa
+     * @param p a*      a       .*
+     * @return  true    false   true
+     */
+    static public boolean isMatchByMySelf(String s, String p) {
+        boolean isReg = false;
+        if(s.length() != p.length() && p.indexOf('*')==-1){
+            return isReg;
+        }
+        int curP =0;
+        for(int i=0;i<s.length();i++){
+            char fs = s.charAt(i);
+            char ts = p.charAt(curP);
+            if(fs != ts && ts != '.' && ts !='*'){
+                isReg = false;
+                break;
+            }else if(ts == '*' && fs != p.charAt(curP-1) && p.charAt(curP-1) != '.'){
+                isReg = false;
+                break;
+            }else if (ts == '*'){
+                isReg = true;
+            }else{
+                curP ++;
+                isReg = true;
+            }
+        }
+        return isReg;
     }
 
     public static String convert(String s, int numRows) {
