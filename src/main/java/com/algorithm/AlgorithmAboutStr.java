@@ -64,10 +64,61 @@ public class AlgorithmAboutStr {
         // '.' 匹配任意单个字符
         // '*' 匹配零个或多个前面的那一个元素
         // 解法：动态规划或者递归回溯
-        System.out.println(isMatch("aaaa","a*"));
-        System.out.println(isMatch("aa","a"));
-        System.out.println(isMatch("aa",".*"));
+        // System.out.println(isMatch("aaaa","a*"));
+        // System.out.println(isMatch("aa","a"));
+        // System.out.println(isMatch("aa",".*"));
 
+        // 17.电话号码的字母组合
+        // 给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回。
+        // 解法：递归+回溯
+        List<String> rel = letterCombinations("23");
+        for(String s : rel){
+            System.out.println(s +" ");
+        }
+
+    }
+
+    /**
+     *
+     * @param digits 23
+     * @return ["ad","ae","af","bd","be","bf","cd","ce","cf"]
+     */
+    static public List<String> letterCombinations(String digits) {
+        rel = new ArrayList<>();
+        String[] stra = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+
+        List<String> mid = new ArrayList<>();
+        for(int i=0;i<digits.length();i++){
+            char c = digits.charAt(i);
+            mid.add(stra[Integer.parseInt(c+"")]);
+        }
+
+        String str = "";
+        // for(String s : mid){
+
+            addItem(str,mid,0);
+
+        // }
+
+
+        return rel;
+    }
+
+    static private List<String> rel ;
+
+    private static void addItem(String str,List<String> mid,int i) {
+
+        if(str.length() == mid.size()){
+            rel.add(str);
+        }else{
+            String s =mid.get(i);
+            for(int j=0;j<s.length();j++){
+                str = str + s.charAt(j);
+                addItem(str,mid,++i);
+                str = str.substring(0,mid.size()-1);
+            }
+
+        }
 
 
     }
