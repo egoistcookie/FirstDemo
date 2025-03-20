@@ -244,12 +244,51 @@ public class AlgorithmAboutList {
         // 给定一个区间的集合 intervals ，其中 intervals[i] = [starti, endi] 。返回 需要移除区间的最小数量，使剩余区间互不重叠 。
         // 注意 只在一点上接触的区间是 不重叠的。例如 [1, 2] 和 [2, 3] 是不重叠的。
         // 解法：贪心策略：优先选择结束时间最早的区间，这样可以为后续区间留出更多空间，从而减少重叠的可能性。数组按结束时间排序。
-        System.out.println(eraseOverlapIntervals(new int[][]{{1,2},{2,3},{3,4},{1,3}}));
-        System.out.println(eraseOverlapIntervals(new int[][]{{1,2},{1,2},{1,2}}));
-        System.out.println(eraseOverlapIntervals(new int[][]{{1,2},{2,3}}));
-        System.out.println(eraseOverlapIntervals(new int[][]{{1,100},{11,22},{1,11},{2,12}}));
+        // System.out.println(eraseOverlapIntervals(new int[][]{{1,2},{2,3},{3,4},{1,3}}));
+        // System.out.println(eraseOverlapIntervals(new int[][]{{1,2},{1,2},{1,2}}));
+        // System.out.println(eraseOverlapIntervals(new int[][]{{1,2},{2,3}}));
+        // System.out.println(eraseOverlapIntervals(new int[][]{{1,100},{11,22},{1,11},{2,12}}));
+
+        // 算法49.字母异位词分组
+        // 给你一个字符串数组，请你将 字母异位词 组合在一起。可以按任意顺序返回结果列表。
+        // 字母异位词 是由重新排列源单词的所有字母得到的一个新单词。
+        // 解法：将数组中每一个元素都排序，然后用hashmap判断是否该元素已存在。。。
+        List<List<String>> relist = groupAnagrams(new String[]{"eat", "tea", "tan", "ate", "nat", "bat"});
+        for(List<String> list : relist){
+            for(String s : list){
+                System.out.print(s);
+            }
+            System.out.println();
+        }
 
 
+
+
+    }
+
+    /**
+     * 给你一个字符串数组，请你将 字母异位词 组合在一起。
+     * @param strs ["eat", "tea", "tan", "ate", "nat", "bat"]
+     * @return [["bat"],["nat","tan"],["ate","eat","tea"]]
+     */
+    static public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> map = new HashMap<>();
+
+        for (String s : strs) {
+            // 将字符串转换为字符数组并排序
+            char[] charArray = s.toCharArray();
+            Arrays.sort(charArray);
+            String sortedStr = new String(charArray);
+
+            // 将排序后的字符串作为键，原字符串作为值
+            if (!map.containsKey(sortedStr)) {
+                map.put(sortedStr, new ArrayList<>());
+            }
+            map.get(sortedStr).add(s);
+        }
+
+        // 返回所有字母异位词组的列表
+        return new ArrayList<>(map.values());
     }
 
     /**
