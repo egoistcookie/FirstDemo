@@ -71,13 +71,73 @@ public class AlgorithmAboutStr {
         // 17.电话号码的字母组合
         // 给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回。
         // 解法：递归+回溯
-        List<String> rel1 = letterCombinations("234");
-        List<String> rel = letterCombinations("");
-        for(String s : rel){
-            System.out.println(s);
+        // List<String> rel1 = letterCombinations("234");
+        // List<String> rel = letterCombinations("");
+        // for(String s : rel){
+        //     System.out.println(s);
+        // }
+
+        // 560.和为k的子数组
+        // 给你一个整数数组 nums 和一个整数 k ，请你统计并返回 该数组中和为 k 的子数组的个数 。
+        System.out.println(subarraySum(new int[]{1,1,1},2));
+        System.out.println(subarraySum(new int[]{1,2,3},3));
+
+
+    }
+
+    /**
+     * 给你一个整数数组 nums 和一个整数 k ，请你统计并返回 该数组中和为 k 的子数组的个数 。
+     * @param nums {1,2,3}
+     * @param k 3
+     * @return 2
+     */
+    static public int subarraySum(int[] nums, int k) {
+        if(nums==null || nums.length==0 ){
+            return 0;
+        }
+        Arrays.sort(nums);
+
+        subarraySumCount =0;
+        subarraySumMap = new HashMap<>();
+        int total =0;
+        int depth = 0;
+        String index = "";
+        calcSum(total,index,depth,nums,k);
+
+        return subarraySumCount;
+    }
+
+    private static void calcSum(int total,String index,int depth,int[] nums, int k) {
+
+        if(total == k){
+            // 防止重复添加
+            if(subarraySumMap.get(index)==null){
+                subarraySumMap.put(index,index);
+                subarraySumCount++;
+            }
+        }else{
+            for(int i=depth;i<nums.length;i++){
+                int add = nums[i];
+                if(add > k){
+                    continue;
+                }else{
+                    total += add ;
+                    depth++;
+                    index = index + "" + i;
+                    calcSum(total,index,depth,nums,k);
+                    // 回溯
+                    index = index.substring(0,index.length()-1);
+                    total = total - add ;
+                    depth--;
+                }
+            }
+
         }
 
     }
+
+    private static int subarraySumCount =0;
+    private static HashMap<String,String> subarraySumMap ;
 
     /**
      *
