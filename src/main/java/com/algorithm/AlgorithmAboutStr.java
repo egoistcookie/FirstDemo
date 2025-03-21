@@ -78,7 +78,9 @@ public class AlgorithmAboutStr {
         // }
 
         // 560.和为k的子数组
-        // 给你一个整数数组 nums 和一个整数 k ，请你统计并返回 该数组中和为 k 的子数组的个数 。
+        // 给你一个整数数组 nums 和一个整数 k ，请你统计并返回 该数组中和为 k 的子数组的个数 。子数组是数组中元素的连续非空序列。
+        // 解法：递归+回溯，比较低效，时间复杂度为n的阶乘
+        // 用前缀和+哈希表，复杂度仅为On，前缀和算法主要是针对连续序列
         System.out.println(subarraySum(new int[]{1,1,1},2));
         System.out.println(subarraySum(new int[]{1,2,3},3));
 
@@ -92,13 +94,42 @@ public class AlgorithmAboutStr {
      * @return 2
      */
     static public int subarraySum(int[] nums, int k) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+
+        // 使用哈希表记录前缀和出现的次数
+        Map<Integer, Integer> prefixSumCount = new HashMap<>();
+        prefixSumCount.put(0, 1); // 前缀和为0的情况出现一次
+
+        int count = 0;
+        int prefixSum = 0;
+
+        for (int num : nums) {
+            prefixSum += num;
+            // 如果 prefixSum - k 存在于哈希表中，说明存在一个子数组的和为 k
+            if (prefixSumCount.containsKey(prefixSum - k)) {
+                count += prefixSumCount.get(prefixSum - k);
+            }
+            // 更新当前前缀和的出现次数
+            prefixSumCount.put(prefixSum, prefixSumCount.getOrDefault(prefixSum, 0) + 1);
+        }
+
+        return count;
+    }
+
+    /**
+     * 给你一个整数数组 nums 和一个整数 k ，请你统计并返回 该数组中和为 k 的子数组的个数 。
+     * @param nums {1,2,3}
+     * @param k 3
+     * @return 2
+     */
+    static public int subarraySumByMySelf(int[] nums, int k) {
         if(nums==null || nums.length==0 ){
             return 0;
         }
-        Arrays.sort(nums);
-
+        // Arrays.sort(nums);
         subarraySumCount =0;
-        subarraySumMap = new HashMap<>();
         int total =0;
         int depth = 0;
         String index = "";
@@ -111,10 +142,7 @@ public class AlgorithmAboutStr {
 
         if(total == k){
             // 防止重复添加
-            if(subarraySumMap.get(index)==null){
-                subarraySumMap.put(index,index);
-                subarraySumCount++;
-            }
+            subarraySumCount++;
         }else{
             for(int i=depth;i<nums.length;i++){
                 int add = nums[i];
@@ -123,6 +151,14 @@ public class AlgorithmAboutStr {
                 }else{
                     total += add ;
                     depth++;
+                    if(!index.isEmpty()){
+                        int lastIndex = Integer.parseInt(index);
+                        // 不连续
+                        if(i > lastIndex+1 || i< lastIndex-1 || lastIndex>=i){
+                            total = total - add ;
+                            continue;
+                        }
+                    }
                     index = index + "" + i;
                     calcSum(total,index,depth,nums,k);
                     // 回溯
@@ -131,13 +167,10 @@ public class AlgorithmAboutStr {
                     depth--;
                 }
             }
-
         }
-
     }
 
     private static int subarraySumCount =0;
-    private static HashMap<String,String> subarraySumMap ;
 
     /**
      *
