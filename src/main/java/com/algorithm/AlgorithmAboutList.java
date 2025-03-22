@@ -253,16 +253,68 @@ public class AlgorithmAboutList {
         // 给你一个字符串数组，请你将 字母异位词 组合在一起。可以按任意顺序返回结果列表。
         // 字母异位词 是由重新排列源单词的所有字母得到的一个新单词。
         // 解法：将数组中每一个元素都排序，然后用hashmap判断是否该元素已存在。。。
-        List<List<String>> relist = groupAnagrams(new String[]{"eat", "tea", "tan", "ate", "nat", "bat"});
-        for(List<String> list : relist){
-            for(String s : list){
-                System.out.print(s);
-            }
-            System.out.println();
+        // List<List<String>> relist = groupAnagrams(new String[]{"eat", "tea", "tan", "ate", "nat", "bat"});
+        // for(List<String> list : relist){
+        //     for(String s : list){
+        //         System.out.print(s);
+        //     }
+        //     System.out.println();
+        // }
+
+        // 算法160.相交链表
+        // 给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点，返回 null 。
+        // 解法：hashmap能解，但空间复杂度为m（hashmap大小），双指针法更简单，没有新建数据结构，空间复杂度仅为1，核心要点在于拼接两个链表，
+        ListNode commNode = new ListNode(8);
+        commNode.next = new ListNode(4);
+        commNode.next.next = new ListNode(5);
+        ListNode lna = new ListNode(4);
+        lna.next = new ListNode(1);
+        lna.next.next = commNode;
+        ListNode lnb = new ListNode(5);
+        lnb.next = new ListNode(6);
+        lnb.next.next = new ListNode(1);
+        lnb.next.next.next = commNode;
+        ListNode firstCommNode = getIntersectionNode(lna,lnb);
+        System.out.println(firstCommNode.val);
+
+
+    }
+
+    /**
+     * 给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点，返回 null 。
+     * @param headA 4 1 8 4 5
+     * @param headB 5 6 1 8 4 5
+     * @return 8
+     */
+    static public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode pA = headA, pB = headB;
+        while (pA != pB) {
+            pA = (pA == null) ? headB : pA.next;
+            pB = (pB == null) ? headA : pB.next;
+        }
+        return pA;
+    }
+
+    static public ListNode getIntersectionNodeByMySelf(ListNode headA, ListNode headB) {
+
+        HashMap<ListNode,Integer> map = new HashMap<>();
+        ListNode curNode = headA;
+        int depth =0;
+        map.put(curNode,depth);
+        while(curNode.next!=null){
+            curNode = curNode.next;
+            depth++;
+            map.put(curNode,depth);
         }
 
-
-
+        curNode = headB;
+        while(curNode !=null){
+            if(map.containsKey(curNode)){
+                break;
+            }
+            curNode = curNode.next;
+        }
+        return curNode;
 
     }
 
