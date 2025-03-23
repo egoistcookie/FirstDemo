@@ -264,21 +264,104 @@ public class AlgorithmAboutList {
         // 算法160.相交链表
         // 给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点，返回 null 。
         // 解法：hashmap能解，但空间复杂度为m（hashmap大小），双指针法更简单，没有新建数据结构，空间复杂度仅为1，核心要点在于拼接两个链表，
-        ListNode commNode = new ListNode(8);
-        commNode.next = new ListNode(4);
-        commNode.next.next = new ListNode(5);
-        ListNode lna = new ListNode(4);
-        lna.next = new ListNode(1);
-        lna.next.next = commNode;
-        ListNode lnb = new ListNode(5);
-        lnb.next = new ListNode(6);
-        lnb.next.next = new ListNode(1);
-        lnb.next.next.next = commNode;
-        ListNode firstCommNode = getIntersectionNode(lna,lnb);
-        System.out.println(firstCommNode.val);
+        // ListNode commNode = new ListNode(8);
+        // commNode.next = new ListNode(4);
+        // commNode.next.next = new ListNode(5);
+        // ListNode lna = new ListNode(4);
+        // lna.next = new ListNode(1);
+        // lna.next.next = commNode;
+        // ListNode lnb = new ListNode(5);
+        // lnb.next = new ListNode(6);
+        // lnb.next.next = new ListNode(1);
+        // lnb.next.next.next = commNode;
+        // ListNode firstCommNode = getIntersectionNode(lna,lnb);
+        // System.out.println(firstCommNode.val);
+
+        // 70.爬楼梯
+        // 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
+        // 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
+        // 解法：递归+回溯可解，但时间复杂度为n的阶乘，动态规划最优解，到n阶的方法数为到n-1阶的方法数加上到n-2阶的方法数，此为核心
+        System.out.println(climbStairs(0));
+
 
 
     }
+
+    /**
+     * 动态规划法，解爬楼梯
+     * @param n 楼梯阶数
+     * @return 方法数
+     */
+    static public int climbStairs(int n) {
+        if(n == 0 || n == 1){
+            return 1;
+        }
+        // 如果只需n-1阶和n-2阶的方法数，数组都可以不要，只需要prev1和prev2就能解，空间复杂度降为o1
+        int[] methodC = new int[n+1];
+        // 到0阶的方法有一种，即不动
+        methodC[0] = 1;
+        // 到1阶的方法有一种
+        methodC[1] = 1;
+
+        for(int i=2;i<=n;i++){
+            // 因为可以选择迈1阶或迈2阶，因此，到n阶的方法数，为到n-1阶的方法数（再迈1阶） 加上 到n-2阶的方法数（再迈2阶）
+            methodC[i] = methodC[i-1] + methodC[i-2];
+        }
+
+        return methodC[n];
+    }
+
+    /**
+     * 需要 n 阶你才能到达楼顶。每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶
+     * @param n 3
+     * @return 3
+     */
+    static public int climbStairsByRecursion(int n) {
+        if(n == 0){
+            return  n;
+        }
+        mc = 0;
+        mMap = new HashMap<>();
+        String stepCount = "";
+        int[] a = {1,2};
+        int total = 0;
+        climb(total,n,a,stepCount);
+        return mc;
+    }
+
+    /**
+     * 递归+回溯
+     * @param total 当前总和
+     * @param n 目标数
+     * @param a 选择数组
+     * @param stepCount 当前操作索引
+     */
+    private static void climb(int total, int n, int[] a, String stepCount) {
+
+        if(total == n){
+            // 不能重复添加
+            if(mMap.containsKey(stepCount)){
+                return;
+            }
+            mc ++;
+            mMap.put(stepCount,total);
+        }else{
+            for(int i=0;i<a.length;i++){
+                total += a[i];
+                if(total > n){
+                    continue;
+                }
+                stepCount += a[i]+"";
+                climb(total,n,a,stepCount);
+                stepCount = stepCount.substring(0,stepCount.length()-1);
+                total = total - a[i];
+            }
+        }
+    }
+
+    static private int mc = 0;
+    static private HashMap<String,Integer> mMap = null;
+
 
     /**
      * 给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点，返回 null 。
