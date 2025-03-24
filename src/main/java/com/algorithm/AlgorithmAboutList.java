@@ -281,10 +281,40 @@ public class AlgorithmAboutList {
         // 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
         // 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
         // 解法：递归+回溯可解，但时间复杂度为n的阶乘，动态规划最优解，到n阶的方法数为到n-1阶的方法数加上到n-2阶的方法数，此为核心
-        System.out.println(climbStairs(0));
+        // System.out.println(climbStairs(0));
+
+        // 121.买卖股票的最佳时机
+        // 给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。
+        // 你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。
+        // 解法：贪心算法，局部求最优解，不回溯，不一定是全局最优，但此题中复杂度比动态规划更低
+        System.out.println(maxProfit(new int[]{7,1,5,3,6,4}));
+        System.out.println(maxProfit(new int[]{7,6,4,8,1}));
 
 
+    }
 
+    /**
+     * 给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。
+     * @param prices 股票第 i 天的价格 {7,1,5,3,6,4}
+     * @return 最大利润 6-1 = 5
+     */
+    static public int maxProfit(int[] prices) {
+        // 差值
+        int sub = 0;
+        if(prices.length ==0){
+            return sub;
+        }
+        // 当前最小数
+        int curMin = prices[0];
+        for(int i=1;i<prices.length;i++){
+            if(prices[i] < curMin){
+                curMin = prices[i];
+            }else{
+                sub = Math.max(prices[i] - curMin,sub) ;
+            }
+        }
+
+        return sub;
     }
 
     /**
