@@ -1,5 +1,6 @@
 package com.algorithm;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -287,9 +288,32 @@ public class AlgorithmAboutList {
         // 给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。
         // 你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。
         // 解法：贪心算法，局部求最优解，不回溯，不一定是全局最优，但此题中复杂度比动态规划更低
-        System.out.println(maxProfit(new int[]{7,1,5,3,6,4}));
-        System.out.println(maxProfit(new int[]{7,6,4,8,1}));
+        // System.out.println(maxProfit(new int[]{7,1,5,3,6,4}));
+        // System.out.println(maxProfit(new int[]{7,6,4,8,1}));
 
+        // 215.数组中的第k个最大元素
+        // 给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。
+        // 解法：数组排序时间复杂度 nlogn，堆处理为 n，offer为压入，poll为取出最小值，peek为只查不取出最小值
+        System.out.println(findKthLargest(new int[]{3,2,1,5,6,4},2));
+        System.out.println(findKthLargest(new int[]{3,2,3,1,2,4,5,5,6},4));
+
+
+
+    }
+
+    static public int findKthLargest(int[] nums, int k) {
+        // 数组排序，双向快排，时间复杂度：O(nlogn)
+        // Arrays.sort(nums);
+        // return nums[nums.length-k];
+
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        for(int n : nums){
+            minHeap.offer(n);
+            if(minHeap.size() > k){
+                minHeap.poll();
+            }
+        }
+        return minHeap.peek();
 
     }
 
