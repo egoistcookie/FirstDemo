@@ -1,12 +1,11 @@
 package com.algorithm;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
  * 集合类的算法类
  */
-public class AlgorithmAboutList {
+public class AlgorithmAboutCollection {
 
     public static void main(String[] args) {
 
@@ -294,10 +293,47 @@ public class AlgorithmAboutList {
         // 215.数组中的第k个最大元素
         // 给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。
         // 解法：数组排序时间复杂度 nlogn，堆处理为 n，offer为压入，poll为取出最小值，peek为只查不取出最小值
-        System.out.println(findKthLargest(new int[]{3,2,1,5,6,4},2));
-        System.out.println(findKthLargest(new int[]{3,2,3,1,2,4,5,5,6},4));
+        // System.out.println(findKthLargest(new int[]{3,2,1,5,6,4},2));
+        // System.out.println(findKthLargest(new int[]{3,2,3,1,2,4,5,5,6},4));
+
+        // 118.杨辉三角
+        // 给定一个非负整数 numRows，生成「杨辉三角」的前 numRows 行。
+        // 解法：递推，隐含动态规划，由底向上推
+        List<List<Integer>> re = generate(5);
+        for (List<Integer> reL : re){
+            for(Integer i : reL){
+                System.out.print(i+" ");
+            }
+            System.out.println();
+        }
 
 
+
+    }
+
+    /**
+     * 给定一个非负整数 numRows，生成「杨辉三角」的前 numRows 行。
+     * @param numRows 5
+     * @return [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+     */
+    static public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> re = new ArrayList<>(numRows);
+        if (numRows == 0) return re;
+
+        for(int i=0;i<numRows;i++){
+            List<Integer> ite = new ArrayList<>();
+            for(int j=0;j<=i;j++){
+                if(j == 0 || j == i){
+                    ite.add(1);
+                }else{
+                    List<Integer> last = re.get(i-1);
+                    // 递推，隐含动态规划，由底向上推
+                    ite.add(last.get(j-1)+last.get(j));
+                }
+            }
+            re.add(ite);
+        }
+        return re;
 
     }
 
