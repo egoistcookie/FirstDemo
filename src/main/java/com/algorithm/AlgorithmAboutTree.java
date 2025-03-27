@@ -48,14 +48,44 @@ public class AlgorithmAboutTree {
         // [[-10,9,20,null,null,15,7]],最优路径是 15 -> 20 -> 7 ，路径和为 15 + 20 + 7 = 42
         // 解法：递归计算左右子树的最大路径和，计算当前节点的路径和（左子树 + 右子树 + 当前节点）
         //  ,返回当前节点的最大路径和（只能选择左子树或右子树中的一条路径）
-        TreeNode rootTree1 = new TreeNode(-10);
+        // TreeNode rootTree1 = new TreeNode(-10);
+        // rootTree1.left = new TreeNode(9);
+        // rootTree1.right = new TreeNode(20);
+        // rootTree1.right.left = new TreeNode(15);
+        // rootTree1.right.right = new TreeNode(7);
+        // int max = maxPathSum(rootTree1);
+        // System.out.println(max);
+
+        // 104.二叉树的最大深度
+        // 给定一个二叉树 root ，返回其最大深度。
+        // 解法：递归遍历
+        TreeNode rootTree1 = new TreeNode(3);
         rootTree1.left = new TreeNode(9);
         rootTree1.right = new TreeNode(20);
         rootTree1.right.left = new TreeNode(15);
         rootTree1.right.right = new TreeNode(7);
-        int max = maxPathSum(rootTree1);
-        System.out.println(max);
+        System.out.println(maxDepth(rootTree1));
+        TreeNode rootTree2 = new TreeNode(1);
+        rootTree2.right = new TreeNode(2);
+        System.out.println(maxDepth(rootTree2));
+        TreeNode rootTree3 = new TreeNode(1);
+        System.out.println(maxDepth(rootTree3));
 
+
+    }
+
+    /**
+     * 给定一个二叉树 root ，返回其最大深度。
+     * @param root [3,9,20,null,null,15,7]
+     * @return 3
+     */
+    static public int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int leftDepth = maxDepth(root.left);
+        int rightDepth = maxDepth(root.right);
+        return Math.max(leftDepth, rightDepth) + 1;
     }
 
     /**
