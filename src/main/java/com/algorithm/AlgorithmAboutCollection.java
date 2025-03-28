@@ -299,15 +299,65 @@ public class AlgorithmAboutCollection {
         // 118.杨辉三角
         // 给定一个非负整数 numRows，生成「杨辉三角」的前 numRows 行。
         // 解法：递推，隐含动态规划，由底向上推
-        List<List<Integer>> re = generate(5);
-        for (List<Integer> reL : re){
-            for(Integer i : reL){
-                System.out.print(i+" ");
+        // List<List<Integer>> re = generate(5);
+        // for (List<Integer> reL : re){
+        //     for(Integer i : reL){
+        //         System.out.print(i+" ");
+        //     }
+        //     System.out.println();
+        // }
+
+        // 35.搜索插入位置
+        // 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
+        // 解法：二分解法：时间复杂度Ologn
+        System.out.println(searchInsert(new int[]{1,3,5,6},8));
+
+
+    }
+
+    /**
+     * 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
+     * @param nums {1,3,5,6}
+     * @param target 5
+     * @return 2
+     */
+    static public int searchInsert(int[] nums, int target) {
+
+        // 二分解法：时间复杂度Ologn
+        int left = 0;
+        int right = nums.length - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
             }
-            System.out.println();
         }
+        return left;
 
 
+        // 遍历解法：时间复杂度On
+        // int re = 0;
+        // if(target <= nums[0]){
+        //     re = 0;
+        // }else if(target == nums[nums.length-1]){
+        //     re = nums.length-1;
+        // }else if(target > nums[nums.length-1]){
+        //     re = nums.length;
+        // }else{
+        //     for(int i=0;i<nums.length;i++){
+        //         if(target == nums[i]){
+        //             re = i;
+        //         }else if(i>0 && target>nums[i-1] && target<nums[i]){
+        //             re = i;
+        //         }
+        //     }
+        // }
+        // return re;
 
     }
 
