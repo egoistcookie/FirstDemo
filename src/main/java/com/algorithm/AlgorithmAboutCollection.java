@@ -310,9 +310,38 @@ public class AlgorithmAboutCollection {
         // 35.搜索插入位置
         // 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
         // 解法：二分解法：时间复杂度Ologn
-        System.out.println(searchInsert(new int[]{1,3,5,6},8));
+        // System.out.println(searchInsert(new int[]{1,3,5,6},8));
 
+        // 198.打家劫舍
+        // 如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
+        // 解法：动态规划，局部最优解：每次偷窃实际只有两种选择，需比较此次对象与t-2和数之和，与t-1和数的大小，取其大者。
+        System.out.println(rob(new int[]{2,7,9,3,1}));
+        System.out.println(rob(new int[]{1,2,3,1}));
+        System.out.println(rob(new int[]{2,1,1,2}));
 
+    }
+
+    /**
+     * 如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
+     * @param nums [2,7,9,3,1] [2, 1, 1, 2]
+     * @return 2+9+1=12 2+2=4
+     */
+    static public int rob(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        int prev2 = nums[0];
+        int prev1 = Math.max(nums[0], nums[1]);
+        for (int i = 2; i < nums.length; i++) {
+            // 实际每次往后一位，都只有两种选择：要么选择上一个和数，要么选择上上个和数与当前数之和，取其大者。
+            int current = Math.max(prev1, prev2 + nums[i]);
+            prev2 = prev1;
+            prev1 = current;
+        }
+        return prev1;
     }
 
     /**
