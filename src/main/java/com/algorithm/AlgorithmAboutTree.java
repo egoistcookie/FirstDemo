@@ -1,7 +1,9 @@
 package com.algorithm;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * 树形结构的算法类
@@ -59,19 +61,105 @@ public class AlgorithmAboutTree {
         // 104.二叉树的最大深度
         // 给定一个二叉树 root ，返回其最大深度。
         // 解法：递归遍历
+        // TreeNode rootTree1 = new TreeNode(3);
+        // rootTree1.left = new TreeNode(9);
+        // rootTree1.right = new TreeNode(20);
+        // rootTree1.right.left = new TreeNode(15);
+        // rootTree1.right.right = new TreeNode(7);
+        // System.out.println(maxDepth(rootTree1));
+        // TreeNode rootTree2 = new TreeNode(1);
+        // rootTree2.right = new TreeNode(2);
+        // System.out.println(maxDepth(rootTree2));
+        // TreeNode rootTree3 = new TreeNode(1);
+        // System.out.println(maxDepth(rootTree3));
+
+        // 102.二叉树的层序遍历
+        // 给你二叉树的根节点 root ，返回其节点值的 层序遍历 。 （即逐层地，从左到右访问所有节点）。
+        // 解法：DFS或者BFS，DFS是用list的get方法获取每层的节点情况，BFS是逐层处理完将下一层所有节点压入队列中。
         TreeNode rootTree1 = new TreeNode(3);
         rootTree1.left = new TreeNode(9);
         rootTree1.right = new TreeNode(20);
+        rootTree1.left.left = new TreeNode(11);
+        rootTree1.left.right = new TreeNode(12);
         rootTree1.right.left = new TreeNode(15);
         rootTree1.right.right = new TreeNode(7);
-        System.out.println(maxDepth(rootTree1));
-        TreeNode rootTree2 = new TreeNode(1);
-        rootTree2.right = new TreeNode(2);
-        System.out.println(maxDepth(rootTree2));
         TreeNode rootTree3 = new TreeNode(1);
-        System.out.println(maxDepth(rootTree3));
+        List<List<Integer>> re = levelOrder(rootTree1);
+        List<List<Integer>> re3 = levelOrder(rootTree3);
+        for(List<Integer> rel : re){
+            for(int i : rel){
+                System.out.print(i+" ");
+            }
+            System.out.println();
+        }
 
 
+    }
+
+
+    /**
+     * 给你二叉树的根节点 root ，返回其节点值的 层序遍历 。 BFS解法
+     * @param root [3,9,20,null,null,15,7]
+     * @return [[3],[9,20],[15,7]]
+     */
+    public static List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            List<Integer> currentLevel = new ArrayList<>();
+
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode node = queue.poll();
+                currentLevel.add(node.val);
+
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+
+            result.add(currentLevel);
+        }
+
+        return result;
+    }
+
+    /**
+     * 给你二叉树的根节点 root ，返回其节点值的 层序遍历 。 DFS解法
+     * @param root [3,9,20,null,null,15,7]
+     * @return [[3],[9,20],[15,7]]
+     */
+    static public List<List<Integer>> levelOrderByDfS(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        dfs(root, 0, result);
+        return result;
+    }
+
+    static private void dfs(TreeNode node, int level, List<List<Integer>> result) {
+        if (node == null) {
+            return;
+        }
+
+        if (result.size() == level) {
+            result.add(new ArrayList<>());
+        }
+
+        result.get(level).add(node.val);
+
+        dfs(node.left, level + 1, result);
+        dfs(node.right, level + 1, result);
     }
 
     /**
