@@ -315,10 +315,40 @@ public class AlgorithmAboutCollection {
         // 198.打家劫舍
         // 如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
         // 解法：动态规划，局部最优解：每次偷窃实际只有两种选择，需比较此次对象与t-2和数之和，与t-1和数的大小，取其大者。
-        System.out.println(rob(new int[]{2,7,9,3,1}));
-        System.out.println(rob(new int[]{1,2,3,1}));
-        System.out.println(rob(new int[]{2,1,1,2}));
+        // System.out.println(rob(new int[]{2,7,9,3,1}));
+        // System.out.println(rob(new int[]{1,2,3,1}));
+        // System.out.println(rob(new int[]{2,1,1,2}));
 
+        // 141.环形链表
+        // 给你一个链表的头节点 head ，判断链表中是否有环。
+        // 解法：用Set结构比HashMap更适合，因为只需要判断key是否出现过，不需要存储key。快慢指针能降空间复杂度为1，但算法只能针对环形链表。
+        ListNode commNode = new ListNode(3);
+        commNode.next = new ListNode(2);
+        commNode.next.next = new ListNode(0);
+        commNode.next.next.next = new ListNode(-4);
+        commNode.next.next.next.next = commNode.next;
+        System.out.println(hasCycle(commNode));
+
+
+    }
+
+
+    /**
+     * 给你一个链表的头节点 head ，判断链表中是否有环。
+     * @param head [3,2,0,-4,2]
+     * @return true
+     */
+    static public boolean hasCycle(ListNode head) {
+        if (head == null) return false;  // 处理空链表
+        Set<ListNode> visited = new HashSet<>();
+        while (head != null) {
+            if (visited.contains(head)) {
+                return true;
+            }
+            visited.add(head);
+            head = head.next;
+        }
+        return false;
     }
 
     /**
