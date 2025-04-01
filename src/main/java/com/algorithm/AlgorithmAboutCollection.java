@@ -322,16 +322,54 @@ public class AlgorithmAboutCollection {
         // 141.环形链表
         // 给你一个链表的头节点 head ，判断链表中是否有环。
         // 解法：用Set结构比HashMap更适合，因为只需要判断key是否出现过，不需要存储key。快慢指针能降空间复杂度为1，但算法只能针对环形链表。
+        // ListNode commNode = new ListNode(3);
+        // commNode.next = new ListNode(2);
+        // commNode.next.next = new ListNode(0);
+        // commNode.next.next.next = new ListNode(-4);
+        // commNode.next.next.next.next = commNode.next;
+        // System.out.println(hasCycle(commNode));
+
+        // 142.环形链表2
+        // 给定一个链表的头节点  head ，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
+        // 解法：快慢指针+数组推导（让 slow 回到 head，fast 留在相遇点，同步走 a 步，必然在环入口相遇。）
         ListNode commNode = new ListNode(3);
         commNode.next = new ListNode(2);
         commNode.next.next = new ListNode(0);
         commNode.next.next.next = new ListNode(-4);
         commNode.next.next.next.next = commNode.next;
-        System.out.println(hasCycle(commNode));
+        System.out.println(detectCycle(commNode).val);
 
 
     }
 
+
+    /**
+     * 给你一个链表的头节点 head ，返回链表开始入环的第一个节点
+     * @param head [3,2,0,-4,2]
+     * @return [2]
+     */
+    static public ListNode detectCycle(ListNode head) {
+        if (head == null || head.next == null) {
+            return null;
+        }
+        ListNode slow = head;
+        ListNode fast = head;
+        // 快慢指针找相遇点
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {  // 相遇
+                // 数学推导：从头开始找环入口
+                slow = head;
+                while (slow != fast) {
+                    slow = slow.next;
+                    fast = fast.next;
+                }
+                return slow;  // 环的入口
+            }
+        }
+        return null;  // 无环
+    }
 
     /**
      * 给你一个链表的头节点 head ，判断链表中是否有环。
