@@ -76,24 +76,49 @@ public class AlgorithmAboutTree {
         // 102.二叉树的层序遍历
         // 给你二叉树的根节点 root ，返回其节点值的 层序遍历 。 （即逐层地，从左到右访问所有节点）。
         // 解法：DFS或者BFS，DFS是用list的get方法获取每层的节点情况，BFS是逐层处理完将下一层所有节点压入队列中。
-        TreeNode rootTree1 = new TreeNode(3);
-        rootTree1.left = new TreeNode(9);
-        rootTree1.right = new TreeNode(20);
-        rootTree1.left.left = new TreeNode(11);
-        rootTree1.left.right = new TreeNode(12);
-        rootTree1.right.left = new TreeNode(15);
-        rootTree1.right.right = new TreeNode(7);
-        TreeNode rootTree3 = new TreeNode(1);
-        List<List<Integer>> re = levelOrder(rootTree1);
-        List<List<Integer>> re3 = levelOrder(rootTree3);
-        for(List<Integer> rel : re){
-            for(int i : rel){
-                System.out.print(i+" ");
-            }
-            System.out.println();
-        }
+        // TreeNode rootTree1 = new TreeNode(3);
+        // rootTree1.left = new TreeNode(9);
+        // rootTree1.right = new TreeNode(20);
+        // rootTree1.left.left = new TreeNode(11);
+        // rootTree1.left.right = new TreeNode(12);
+        // rootTree1.right.left = new TreeNode(15);
+        // rootTree1.right.right = new TreeNode(7);
+        // TreeNode rootTree3 = new TreeNode(1);
+        // List<List<Integer>> re = levelOrder(rootTree1);
+        // List<List<Integer>> re3 = levelOrder(rootTree3);
+        // for(List<Integer> rel : re){
+        //     for(int i : rel){
+        //         System.out.print(i+" ");
+        //     }
+        //     System.out.println();
+        // }
+
+        // 108.将有序数组转换为二叉搜索树
+        // 给你一个整数数组 nums ，其中元素已经按 升序 排列，请你将其转换为一棵 平衡 二叉搜索树。
+        // 解法：递归，二分，计算中间数
+        TreeNode t = sortedArrayToBST(new int[]{-10,-3,0,5,9});
+        System.out.println(t.val);
 
 
+    }
+
+    /**
+     * 给你一个整数数组 nums ，其中元素已经按 升序 排列，请你将其转换为一棵 平衡 二叉搜索树。
+     * @param nums {-10,-3,0,5,9}
+     * @return [0,-3,9,-10,null,5]
+     */
+    static public TreeNode sortedArrayToBST(int[] nums) {
+        return buildBST(nums, 0, nums.length - 1);
+    }
+
+    static private TreeNode buildBST(int[] nums, int left, int right) {
+        if (left > right) return null;
+        // 计算中间索引（防止整数溢出）
+        int mid = left + (right - left) / 2;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = buildBST(nums, left, mid - 1);
+        root.right = buildBST(nums, mid + 1, right);
+        return root;
     }
 
 
