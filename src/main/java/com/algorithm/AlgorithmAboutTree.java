@@ -96,10 +96,37 @@ public class AlgorithmAboutTree {
         // 108.将有序数组转换为二叉搜索树
         // 给你一个整数数组 nums ，其中元素已经按 升序 排列，请你将其转换为一棵 平衡 二叉搜索树。
         // 解法：递归，二分，计算中间数
-        TreeNode t = sortedArrayToBST(new int[]{-10,-3,0,5,9});
-        System.out.println(t.val);
+        // TreeNode t = sortedArrayToBST(new int[]{-10,-3,0,5,9});
+        // System.out.println(t.val);
+
+        // 98.验证二叉搜索树
+        // 给你一个二叉树的根节点 root ，判断其是否是一个有效的二叉搜索树。（树左节点《树中节点《树右节点）
+        // 解法：递归，传递允许范围
+        TreeNode rootTree1 = new TreeNode(5);
+        rootTree1.left = new TreeNode(1);
+        rootTree1.right = new TreeNode(7);
+        rootTree1.right.left = new TreeNode(6);
+        rootTree1.right.right = new TreeNode(8);
+        System.out.println(isValidBST(rootTree1));
 
 
+
+    }
+
+    /**
+     *给你一个二叉树的根节点 root ，判断其是否是一个有效的二叉搜索树。
+     * @param root [5,1,4,null,null,3,6]
+     * @return false
+     */
+    static public boolean isValidBST(TreeNode root) {
+        return isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+
+    static private boolean isValidBST(TreeNode node, long lower, long upper) {
+        if (node == null) return true;
+        if (node.val <= lower || node.val >= upper) return false;
+        return isValidBST(node.left, lower, node.val)
+                && isValidBST(node.right, node.val, upper);
     }
 
     /**
