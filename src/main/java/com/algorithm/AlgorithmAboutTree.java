@@ -102,15 +102,41 @@ public class AlgorithmAboutTree {
         // 98.验证二叉搜索树
         // 给你一个二叉树的根节点 root ，判断其是否是一个有效的二叉搜索树。（树左节点《树中节点《树右节点）
         // 解法：递归，传递允许范围
-        TreeNode rootTree1 = new TreeNode(5);
-        rootTree1.left = new TreeNode(1);
+        // TreeNode rootTree1 = new TreeNode(5);
+        // rootTree1.left = new TreeNode(1);
+        // rootTree1.right = new TreeNode(7);
+        // rootTree1.right.left = new TreeNode(6);
+        // rootTree1.right.right = new TreeNode(8);
+        // System.out.println(isValidBST(rootTree1));
+
+        // 226.翻转二叉树
+        // 给你一棵二叉树的根节点 root ，翻转这棵二叉树，并返回其根节点。
+        // 解法：递归，交换左右子树
+        TreeNode rootTree1 = new TreeNode(4);
+        rootTree1.left = new TreeNode(2);
         rootTree1.right = new TreeNode(7);
-        rootTree1.right.left = new TreeNode(6);
-        rootTree1.right.right = new TreeNode(8);
-        System.out.println(isValidBST(rootTree1));
+        rootTree1.left.left = new TreeNode(1);
+        rootTree1.left.right = new TreeNode(3);
+        rootTree1.right.left = new TreeNode(9);
+        rootTree1.right.right = new TreeNode(9);
+        System.out.println(invertTree(rootTree1).left.val);
 
+    }
 
-
+    /**
+     * 给你一棵二叉树的根节点 root ，翻转这棵二叉树，并返回其根节点。
+     * @param root [4,2,7,1,3,6,9]
+     * @return [4,7,2,9,6,3,1]
+     */
+    static public TreeNode invertTree(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        // 交换左右子树
+        TreeNode temp = root.left;
+        root.left = invertTree(root.right);
+        root.right = invertTree(temp);
+        return root;
     }
 
     /**
