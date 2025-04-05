@@ -332,16 +332,44 @@ public class AlgorithmAboutCollection {
         // 142.环形链表2
         // 给定一个链表的头节点  head ，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
         // 解法：快慢指针+数组推导（让 slow 回到 head，fast 留在相遇点，同步走 a 步，必然在环入口相遇。）
-        ListNode commNode = new ListNode(3);
-        commNode.next = new ListNode(2);
-        commNode.next.next = new ListNode(0);
-        commNode.next.next.next = new ListNode(-4);
-        commNode.next.next.next.next = commNode.next;
-        System.out.println(detectCycle(commNode).val);
+        // ListNode commNode = new ListNode(3);
+        // commNode.next = new ListNode(2);
+        // commNode.next.next = new ListNode(0);
+        // commNode.next.next.next = new ListNode(-4);
+        // commNode.next.next.next.next = commNode.next;
+        // System.out.println(detectCycle(commNode).val);
+
+        // 297.完全平方数
+        // 给你一个整数 n ，返回 和为 n 的完全平方数的最少数量 。
+        // 完全平方数 是一个整数，其值等于另一个整数的平方；换句话说，其值等于一个整数自乘的积。例如，1、4、9 和 16 都是完全平方数，而 3 和 11 不是。
+        // 解法：动态规划，构建一个 表示和为i的完全平方数的最少数量 的 数组。
+        System.out.println(numSquares(12));
 
 
     }
 
+
+    /**
+     * 给你一个整数 n ，返回 和为 n 的完全平方数的最少数量 。
+     * @param n 12
+     * @return 3 （4 + 4 + 4）
+     */
+    static public int numSquares(int n) {
+        // 初始化dp数组，dp[i]表示和为i的完全平方数的最少数量
+        int[] dp = new int[n + 1];
+        Arrays.fill(dp, Integer.MAX_VALUE); // 初始化为最大值
+        dp[0] = 0; // 基础情况：和为0不需要任何完全平方数
+
+        // 遍历每个整数i，计算其最少平方数个数
+        for (int i = 1; i <= n; i++) {
+            // 遍历所有可能的平方数j*j（j*j <= i）
+            for (int j = 1; j * j <= i; j++) {
+                // 更新dp[i]为最小值
+                dp[i] = Math.min(dp[i], dp[i - j * j] + 1);
+            }
+        }
+        return dp[n];
+    }
 
     /**
      * 给你一个链表的头节点 head ，返回链表开始入环的第一个节点
