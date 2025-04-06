@@ -343,11 +343,47 @@ public class AlgorithmAboutCollection {
         // 给你一个整数 n ，返回 和为 n 的完全平方数的最少数量 。
         // 完全平方数 是一个整数，其值等于另一个整数的平方；换句话说，其值等于一个整数自乘的积。例如，1、4、9 和 16 都是完全平方数，而 3 和 11 不是。
         // 解法：动态规划，构建一个 表示和为i的完全平方数的最少数量 的 数组。
-        System.out.println(numSquares(12));
+        // System.out.println(numSquares(12));
+
+        // 322.零钱兑换
+        // 给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。
+        // 计算并返回可以凑成总金额所需的 最少的硬币个数 。如果没有任何一种硬币组合能组成总金额，返回 -1 。
+        // 解法：动态规划，构建表示凑成金额i所需的最少硬币数 的数组
+        System.out.println(coinChange(new int[]{1,2,5},11));
+
 
 
     }
 
+
+    /**
+     * 给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。
+     * @param coins [1, 2, 5]
+     * @param amount 11
+     * @return 3
+     */
+    static public int coinChange(int[] coins, int amount) {
+        // 创建dp数组，dp[i]表示凑成金额i所需的最少硬币数
+        int[] dp = new int[amount + 1];
+
+        // 初始化dp数组，除dp[0]外都设为amount+1（表示不可达）
+        Arrays.fill(dp, amount + 1);
+        dp[0] = 0; // 金额0需要0个硬币
+
+        // 遍历每个金额从1到amount
+        for (int i = 1; i <= amount; i++) {
+            // 遍历每个硬币面额
+            for (int coin : coins) {
+                if (coin <= i) { // 当前硬币可以使用
+                    dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+                }
+            }
+        }
+
+        // 检查是否能够凑成目标金额
+        return dp[amount] > amount ? -1 : dp[amount];
+
+    }
 
     /**
      * 给你一个整数 n ，返回 和为 n 的完全平方数的最少数量 。
