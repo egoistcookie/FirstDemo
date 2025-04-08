@@ -349,12 +349,40 @@ public class AlgorithmAboutCollection {
         // 给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。
         // 计算并返回可以凑成总金额所需的 最少的硬币个数 。如果没有任何一种硬币组合能组成总金额，返回 -1 。
         // 解法：动态规划，构建表示凑成金额i所需的最少硬币数 的数组
-        System.out.println(coinChange(new int[]{1,2,5},11));
+        // System.out.println(coinChange(new int[]{1,2,5},11));
 
+        // 62.不同路径
+        // 一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为 “Start” ）。
+        // 机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish” ）。
+        // 问总共有多少条不同的路径？
+        System.out.println(uniquePaths(3,7));
+        System.out.println(uniquePaths(3,2));
+        System.out.println(uniquePaths(3,3));
+        System.out.println(uniquePaths(7,3));
 
 
     }
 
+    /**
+     * 机器人从左上角到右下角，问总共有多少条不同的路径
+     * @param m 二维数组行 3
+     * @param n 二维数组列 7
+     * @return 路径数 28
+     */
+    static public int uniquePaths(int m, int n) {
+        if(m==1 ||n==1) return 1;
+        int[][] re = new int[m][n];
+        re[0][0] = 1;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(i==0 && j==0){
+                    continue;
+                }
+                re[i][j] = (j==0?0:re[i][j-1]) + (i==0?0:re[i-1][j]);
+            }
+        }
+        return re[m-1][n-1];
+    }
 
     /**
      * 给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。
