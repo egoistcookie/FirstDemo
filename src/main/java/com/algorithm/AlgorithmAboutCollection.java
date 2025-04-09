@@ -355,12 +355,57 @@ public class AlgorithmAboutCollection {
         // 一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为 “Start” ）。
         // 机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish” ）。
         // 问总共有多少条不同的路径？
-        System.out.println(uniquePaths(3,7));
-        System.out.println(uniquePaths(3,2));
-        System.out.println(uniquePaths(3,3));
-        System.out.println(uniquePaths(7,3));
+        // 解法：动态规划
+        // System.out.println(uniquePaths(3,7));
+        // System.out.println(uniquePaths(3,2));
+        // System.out.println(uniquePaths(3,3));
+        // System.out.println(uniquePaths(7,3));
+
+        // 39.组合总和
+        // 给你一个 无重复元素 的整数数组 candidates 和一个目标整数 target ，找出 candidates 中可以使数字和为目标数 target 的 所有 不同组合 ，并以列表形式返回。
+        // 解法：递归回溯+剪枝
+        List<List<Integer>> re = combinationSum(new int[]{2,3,6,7},7);
+        for(List<Integer> rel : re){
+            for(int i : rel){
+                System.out.print(i);
+            }
+            System.out.println();
+        }
+        // System.out.println(combinationSum(new int[]{2,3,6,7},7));
 
 
+
+    }
+
+    /**
+     * 找出 candidates 中可以使数字和为目标数 target 的 所有 不同组合
+     * @param candidates [2,3,6,7]
+     * @param target 7
+     * @return [[2,2,3],[7]]
+     */
+    static public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(candidates); // 排序便于剪枝
+        backtrack(candidates, target, 0, new ArrayList<>(), result);
+        return result;
+    }
+
+    static private void backtrack(int[] candidates, int target, int start, List<Integer> temp, List<List<Integer>> result) {
+        if (target < 0) {
+            return;
+        }
+        if (target == 0) {
+            result.add(new ArrayList<>(temp));
+            return;
+        }
+        for (int i = start; i < candidates.length; i++) {
+            if (candidates[i] > target) { // 剪枝
+                break;
+            }
+            temp.add(candidates[i]);
+            backtrack(candidates, target - candidates[i], i, temp, result); // 注意这里传入i而不是i+1，因为可以重复使用
+            temp.remove(temp.size() - 1); // 回溯
+        }
     }
 
     /**
