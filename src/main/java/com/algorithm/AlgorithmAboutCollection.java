@@ -376,10 +376,28 @@ public class AlgorithmAboutCollection {
         // 74.检查二维矩阵
         // 给你一个满足下述两条属性的 m x n 整数矩阵：给你一个整数 target ，如果 target 在矩阵中，返回 true ；否则，返回 false 。
         // 解法：Z字查找：从右上角开始，根据当前元素与 target 的大小关系向左或向下移动。时间复杂度：O(m+n)
-        System.out.println(searchMatrix(new int[][]{{1,3,5,7},{10,11,16,20},{23,30,34,60}},3));
+        // System.out.println(searchMatrix(new int[][]{{1,3,5,7},{10,11,16,20},{23,30,34,60}},3));
+
+        // 136.只出现一次的数字
+        // 给你一个 非空 整数数组 nums ，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。
+        // 解法：异或位运算（XOR），时间复杂度O1，且不使用额外空间，比 HashSet 更快
+        // 两个规律：任何数与自身异或结果为 0 ；任何数与 0 异或结果为自身
+        System.out.println(singleNumber(new int[]{2,2,1,1}));
 
 
+    }
 
+    /**
+     * 给你一个 非空 整数数组 nums ，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。
+     * @param nums {2,2,1}
+     * @return 1
+     */
+    static public int singleNumber(int[] nums) {
+        int result = 0;
+        for (int num : nums) {
+            result ^= num;
+        }
+        return result;
     }
 
     /**
