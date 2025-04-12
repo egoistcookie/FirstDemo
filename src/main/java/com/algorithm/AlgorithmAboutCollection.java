@@ -382,8 +382,156 @@ public class AlgorithmAboutCollection {
         // 给你一个 非空 整数数组 nums ，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。
         // 解法：异或位运算（XOR），时间复杂度O1，且不使用额外空间，比 HashSet 更快
         // 两个规律：任何数与自身异或结果为 0 ；任何数与 0 异或结果为自身
-        System.out.println(singleNumber(new int[]{2,2,1,1}));
+        // System.out.println(singleNumber(new int[]{2,2,1,1}));
 
+        // 51.N皇后
+        // n 皇后问题 研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
+        // 给你一个整数 n ，返回所有不同的 n 皇后问题 的解决方案。
+        // 解法：递归+回溯
+        System.out.println(solveNQueens(4));
+
+
+    }
+
+    static public List<List<String>> solveNQueens(int n) {
+        List<List<String>> solutions = new ArrayList<>();
+        int[] queens = new int[n]; // queens[i]表示第i行皇后所在的列
+        backtrack(solutions, queens, 0, n);
+        return solutions;
+    }
+
+    static private void backtrack(List<List<String>> solutions, int[] queens, int row, int n) {
+        if (row == n) {
+            solutions.add(generateBoard(queens, n));
+            return;
+        }
+
+        for (int col = 0; col < n; col++) {
+            if (isValid(queens, row, col)) {
+                queens[row] = col;
+                backtrack(solutions, queens, row + 1, n);
+            }
+        }
+    }
+
+    static private boolean isValid(int[] queens, int row, int col) {
+        for (int i = 0; i < row; i++) {
+            // 检查是否同列或同对角线
+            if (queens[i] == col || Math.abs(row - i) == Math.abs(col - queens[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    static private List<String> generateBoard(int[] queens, int n) {
+        List<String> board = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            char[] row = new char[n];
+            Arrays.fill(row, '.');
+            row[queens[i]] = 'Q';
+            board.add(new String(row));
+        }
+        return board;
+    }
+
+    /**
+     * 给你一个整数 n ，返回所有不同的 n 皇后问题 的解决方案。
+     * @param n 4
+     * @return [[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+     */
+    static public List<List<String>> solveNQueensMySelf(int n) {
+        List<List<String>> retList = new ArrayList<>();
+        List<List<Integer>> qLocal = new ArrayList<>();
+        int[][] retArr = new int[n][n];
+        // for(int i=0;i<n;i++){
+            setQueen(retArr,n,qLocal);
+        // }
+        for(int j=0;j<qLocal.size();j++){
+            System.out.println("qLocal"+ j +" X:"+qLocal.get(j).get(0) + " Y:" +qLocal.get(j).get(1));
+        }
+
+        return retList;
+    }
+
+    private static void setQueen(int[][] retArr, int i,List<List<Integer>> qLocal) {
+        if(i ==0){
+            return;
+        }
+        int setNum =0;
+        for(int j=0;j<retArr.length;j++){
+            for(int k=0;k<retArr[0].length;k++){
+                // 备份一下
+                int[][] tempLocal = new int[retArr.length][];
+                for (int a = 0; a < retArr.length; a++) {
+                    tempLocal[a] = retArr[a].clone();  // 或 Arrays.copyOf(original[i], original[i].length)
+                }
+                //未被触及的区域才能放置皇后
+                if(retArr[j][k] != 1){
+
+                    // retArr[j][k] =2;
+                    List<Integer> ql = new ArrayList<>();
+                    ql.add(j);ql.add(k);
+                    qLocal.add(ql);
+                    // 放置数+1
+                    setNum++;
+                    // 朝八个方向攻击
+                    for(int t=1;t<=8;t++){
+                        attatck(retArr,j,k,t,1);
+                    }
+                    i--;
+                    setQueen(retArr,i,qLocal);
+                }
+
+                // 达到最后一位仍未放置n个皇后，开始回溯
+                if(j==retArr.length-1 && k==retArr[0].length-1 && i>0){
+                    // 取最后一个皇后
+                    List<Integer> last = qLocal.get(qLocal.size()-1);
+
+                    retArr = tempLocal;
+                    // 释放八个方向的锁定
+                    // for(int t=1;t<=8;t++){
+                    //     attatck(retArr,last.get(0),last.get(1),t,0);
+                    // }
+                    // 删掉最后一位皇后
+                    qLocal.remove(qLocal.size()-1);
+                    // 如果达到行最后一列
+                    if(last.get(1)+1 == retArr[0].length){
+                        // 去到下一行开头
+                        j=last.get(0)+1;k=-1;
+                    }else{
+                        // 列+1
+                        j=last.get(0);k=last.get(1);
+                    }
+
+                }
+            }
+        }
+    }
+
+    private static void attatck(int[][] retArr, int j, int k, int target, int color) {
+
+        if(j<0 || k<0 || j>=retArr.length || k>=retArr[0].length){
+            return;
+        }
+        retArr[j][k]=color;
+        if(target==1){
+            attatck(retArr,j,k+1,1,color);
+        }else if(target==2){
+            attatck(retArr,j,k-1,2,color);
+        }else if(target==3){
+            attatck(retArr,j+1,k,3,color);
+        }else if(target==4){
+            attatck(retArr,j-1,k,4,color);
+        }else if(target==5){
+            attatck(retArr,j+1,k+1,5,color);
+        }else if(target==6){
+            attatck(retArr,j+1,k-1,6,color);
+        }else if(target==7){
+            attatck(retArr,j-1,k+1,7,color);
+        }else if(target==8) {
+            attatck(retArr, j - 1, k - 1, 8,color);
+        }
 
     }
 
