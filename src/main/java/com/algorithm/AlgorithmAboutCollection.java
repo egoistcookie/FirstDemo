@@ -388,9 +388,30 @@ public class AlgorithmAboutCollection {
         // n 皇后问题 研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
         // 给你一个整数 n ，返回所有不同的 n 皇后问题 的解决方案。
         // 解法：递归+回溯
-        System.out.println(solveNQueens(4));
+        // System.out.println(solveNQueens(4));
+
+        // 55.跳跃游戏
+        // 给你一个非负整数数组 nums ，你最初位于数组的 第一个下标 。数组中的每个元素代表你在该位置可以跳跃的最大长度。
+        // 解法：贪心算法获取最大达到位置
+        System.out.println(canJump(new int[]{2,3,1,1,4}));
+        System.out.println(canJump(new int[]{3,2,1,0,4}));
 
 
+    }
+
+    /**
+     * 给你一个非负整数数组 nums ，你最初位于数组的 第一个下标 。数组中的每个元素代表你在该位置可以跳跃的最大长度。
+     * @param nums
+     * @return
+     */
+    static public boolean canJump(int[] nums) {
+        int maxReach = 0;
+        for(int i=0;i<nums.length;i++){
+            if(maxReach<i) return false;
+            maxReach = Math.max(maxReach,i+nums[i]);
+            if(maxReach>=nums.length) return true;
+        }
+        return true;
     }
 
     static public List<List<String>> solveNQueens(int n) {
