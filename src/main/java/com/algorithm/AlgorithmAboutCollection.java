@@ -393,10 +393,42 @@ public class AlgorithmAboutCollection {
         // 55.跳跃游戏
         // 给你一个非负整数数组 nums ，你最初位于数组的 第一个下标 。数组中的每个元素代表你在该位置可以跳跃的最大长度。
         // 解法：贪心算法获取最大达到位置
-        System.out.println(canJump(new int[]{2,3,1,1,4}));
-        System.out.println(canJump(new int[]{3,2,1,0,4}));
+        // System.out.println(canJump(new int[]{2,3,1,1,4}));
+        // System.out.println(canJump(new int[]{3,2,1,0,4}));
 
+        // 75.颜色分类
+        // 给定一个包含红色、白色和蓝色、共 n 个元素的数组 nums ，原地 对它们进行排序，使得相同颜色的元素相邻，并按照红色、白色、蓝色顺序排列。
+        // 我们使用整数 0、 1 和 2 分别表示红色、白色和蓝色。
+        // 解法：两次遍历，双指针法可以一次遍历
+        sortColors(new int[]{2,0,2,1,1,0});
+        sortColors(new int[]{2,0,1});
 
+    }
+
+    /**
+     * 数组排序
+     * @param nums {2,0,2,1,1,0}
+     *             {0,0,1,1,2,2}
+     */
+    static public void sortColors(int[] nums) {
+
+        int num0 = 0,num1=0;
+        for(int i:nums){
+            if(i==0){
+                num0++;
+            }else if(i==1){
+                num1++;
+            }
+        }
+        for(int i=0;i<nums.length;i++){
+            if(i<num0){
+                nums[i]=0;
+            }else if(i<num0+num1){
+                nums[i]=1;
+            }else{
+                nums[i]=2;
+            }
+        }
     }
 
     /**
