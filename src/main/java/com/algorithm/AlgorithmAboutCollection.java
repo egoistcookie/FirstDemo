@@ -400,9 +400,61 @@ public class AlgorithmAboutCollection {
         // 给定一个包含红色、白色和蓝色、共 n 个元素的数组 nums ，原地 对它们进行排序，使得相同颜色的元素相邻，并按照红色、白色、蓝色顺序排列。
         // 我们使用整数 0、 1 和 2 分别表示红色、白色和蓝色。
         // 解法：两次遍历，双指针法可以一次遍历
-        sortColors(new int[]{2,0,2,1,1,0});
-        sortColors(new int[]{2,0,1});
+        // sortColors(new int[]{2,0,2,1,1,0});
+        // sortColors(new int[]{2,0,1});
 
+        // 239.滑动窗口最大值
+        // 给你一个整数数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。
+        int[] re = maxSlidingWindow(new int[]{1,3,-1,-3,5,3,6,7},3);
+        // 解法：暴力破解，或者双端队列法，时间复杂度 O(n)，通过维护一个单调递减队列，队首始终是当前窗口的最大值
+        // int[] re = maxSlidingWindow(new int[]{1},1);
+        for (int i : re){
+            System.out.print(i+" ");
+        }
+
+
+
+    }
+
+    /**
+     * 给你一个整数数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。
+     * @param nums {1,3,-1,-3,5,3,6,7}
+     * @param k 3
+     * @return {3,3,5,5,6,7}
+     */
+    static public int[] maxSlidingWindow(int[] nums, int k) {
+        // 双端队列法
+        if (nums.length == 0 || k == 0) return new int[0];
+        Deque<Integer> deque = new LinkedList<>();
+        int[] res = new int[nums.length - k + 1];
+        for (int i = 0; i < nums.length; i++) {
+            // 移除不在窗口内的元素
+            while (!deque.isEmpty() && deque.peekFirst() <= i - k) {
+                deque.pollFirst();
+            }
+            // 移除比当前元素小的元素
+            while (!deque.isEmpty() && nums[deque.peekLast()] < nums[i]) {
+                deque.pollLast();
+            }
+            deque.offerLast(i);
+            // 记录窗口最大值
+            if (i >= k - 1) {
+                res[i - k + 1] = nums[deque.peekFirst()];
+            }
+        }
+        return res;
+
+        // 暴力破解
+        // if (nums.length == 0 || k == 0) return new int[0];
+        // int[] re = new int[nums.length-k+1];
+        // for(int i=0;i<nums.length-k+1;i++){
+        //     int max=nums[i];
+        //     for(int j=i;j<i+k;j++){
+        //         max = Math.max(nums[j],max);
+        //     }
+        //     re[i]=max;
+        // }
+        // return re;
     }
 
     /**
