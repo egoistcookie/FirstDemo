@@ -67,18 +67,67 @@ public class AlgorithmAboutCustomStruct {
 
         // 力扣算法706.不使用任何内建的哈希表库设计一个哈希映射（HashMap）。
         // 实际也是链表数组，但不是简单的int链表，而改成自定义Entry链表，Entry有key有value，还有next
-        MyHashMap myHashMap = new MyHashMap();
-        myHashMap.put(10, 1); // myHashMap 现在为 [[1,1]]
-        myHashMap.put(20, 2); // myHashMap 现在为 [[1,1], [2,2]]
-        System.out.println(myHashMap.get(1));    // 返回 1 ，myHashMap 现在为 [[1,1], [2,2]]
-        System.out.println(myHashMap.get(3));   // 返回 -1（未找到），myHashMap 现在为 [[1,1], [2,2]]
-        myHashMap.put(2220, 11122); // myHashMap 现在为 [[1,1], [2,1]]（更新已有的值）
-        myHashMap.put(1220, 11122);
-        System.out.println(myHashMap.get(2220));   // 返回 1 ，myHashMap 现在为 [[1,1], [2,1]]
-        myHashMap.remove(2220); // 删除键为 2 的数据，myHashMap 现在为 [[1,1]]
-        System.out.println(myHashMap.get(2220));    // 返回 -1（未找到），myHashMap 现在为 [[1,1]]
+        // MyHashMap myHashMap = new MyHashMap();
+        // myHashMap.put(10, 1); // myHashMap 现在为 [[1,1]]
+        // myHashMap.put(20, 2); // myHashMap 现在为 [[1,1], [2,2]]
+        // System.out.println(myHashMap.get(1));    // 返回 1 ，myHashMap 现在为 [[1,1], [2,2]]
+        // System.out.println(myHashMap.get(3));   // 返回 -1（未找到），myHashMap 现在为 [[1,1], [2,2]]
+        // myHashMap.put(2220, 11122); // myHashMap 现在为 [[1,1], [2,1]]（更新已有的值）
+        // myHashMap.put(1220, 11122);
+        // System.out.println(myHashMap.get(2220));   // 返回 1 ，myHashMap 现在为 [[1,1], [2,1]]
+        // myHashMap.remove(2220); // 删除键为 2 的数据，myHashMap 现在为 [[1,1]]
+        // System.out.println(myHashMap.get(2220));    // 返回 -1（未找到），myHashMap 现在为 [[1,1]]
+
+        // 155.最小栈
+        // 设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。
+        // 解法：双栈法，辅助栈保存每次push的最小值。
+        MinStack minStack = new MinStack();
+        minStack.push(-2);
+        minStack.push(0);
+        minStack.push(-3);
+        System.out.println(minStack.getMin());  // --> 返回 -3.
+        minStack.pop();
+        System.out.println(minStack.top());      // --> 返回 0.
+        System.out.println(minStack.getMin());   // --> 返回 -2.
 
 
+
+    }
+
+
+    /**
+     * 设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。
+     */
+    static class MinStack {
+
+        private Deque<Integer> stack;
+        private Deque<Integer> minStack;
+
+        public MinStack() {
+            stack = new ArrayDeque<>();
+            minStack = new ArrayDeque<>();
+        }
+
+        public void push(int val) {
+            stack.push(val);
+            if (minStack.isEmpty() || val <= minStack.peek()) {
+                minStack.push(val);
+            }
+        }
+
+        public void pop() {
+            if (stack.pop().equals(minStack.peek())) {
+                minStack.pop();  // 若主栈弹出的是最小值，辅助栈同步弹出
+            }
+        }
+
+        public int top() {
+            return stack.peek();
+        }
+
+        public int getMin() {
+            return minStack.peek();  // 直接返回辅助栈顶，O(1)时间
+        }
     }
 
     static class MyHashMap {
