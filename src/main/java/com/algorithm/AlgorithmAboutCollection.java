@@ -405,15 +405,81 @@ public class AlgorithmAboutCollection {
 
         // 239.滑动窗口最大值
         // 给你一个整数数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。
-        int[] re = maxSlidingWindow(new int[]{1,3,-1,-3,5,3,6,7},3);
-        // 解法：暴力破解，或者双端队列法，时间复杂度 O(n)，通过维护一个单调递减队列，队首始终是当前窗口的最大值
-        // int[] re = maxSlidingWindow(new int[]{1},1);
-        for (int i : re){
+        // int[] re = maxSlidingWindow(new int[]{1,3,-1,-3,5,3,6,7},3);
+        // // 解法：暴力破解，或者双端队列法，时间复杂度 O(n)，通过维护一个单调递减队列，队首始终是当前窗口的最大值
+        // // int[] re = maxSlidingWindow(new int[]{1},1);
+        // for (int i : re){
+        //     System.out.print(i+" ");
+        // }
+
+        // 347.前k个高频元素
+        // 给你一个整数数组 nums 和一个整数 k ，请你返回其中出现频率前 k 高的元素。你可以按 任意顺序 返回答案。.
+        // 解法：最小堆（优先队列），hashMap转list排序也可以
+        int[] re = topKFrequent(new int[]{1,1,1,2,2,3},2);
+        for(int i : re ){
             System.out.print(i+" ");
         }
 
 
+    }
 
+
+    /**
+     * 给你一个整数数组 nums 和一个整数 k ，请你返回其中出现频率前 k 高的元素。
+     * @param nums {1,1,1,2,2,3}
+     * @param k 2
+     * @return {1,2}
+     */
+    static public int[] topKFrequent(int[] nums, int k) {
+        HashMap<Integer,Integer> countMap = new HashMap<>();
+        for(int i:nums){
+            if(countMap.containsKey(i)){
+                int count =countMap.get(i);
+                countMap.put(i,++count);
+            }else{
+                countMap.put(i,1);
+            }
+        }
+
+        // 转换为List并排序
+        List<Map.Entry<Integer, Integer>> list = new ArrayList<>(countMap.entrySet());
+        Collections.sort(list, (o1, o2) -> o2.getValue().compareTo(o1.getValue())); // 升序
+
+        int[] re = new int[k];
+        for(int j=0;j<k;j++){
+            re[j]=list.get(j).getKey();
+        }
+        return re;
+    }
+
+    /**
+     * 最小堆（优先队列）解法
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int[] topKFrequentByDeepSeek(int[] nums, int k) {
+        Map<Integer, Integer> countMap = new HashMap<>();
+        for (int num : nums) {
+            countMap.put(num, countMap.getOrDefault(num, 0) + 1);
+        }
+
+        PriorityQueue<Map.Entry<Integer, Integer>> minHeap = new PriorityQueue<>(
+                (a, b) -> a.getValue() - b.getValue()
+        );
+
+        for (Map.Entry<Integer, Integer> entry : countMap.entrySet()) {
+            minHeap.offer(entry);
+            if (minHeap.size() > k) {
+                minHeap.poll(); // 移除频率最小的元素
+            }
+        }
+
+        int[] result = new int[k];
+        for (int i = 0; i < k; i++) {
+            result[i] = minHeap.poll().getKey();
+        }
+        return result;
     }
 
     /**
