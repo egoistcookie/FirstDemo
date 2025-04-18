@@ -415,14 +415,53 @@ public class AlgorithmAboutCollection {
         // 347.前k个高频元素
         // 给你一个整数数组 nums 和一个整数 k ，请你返回其中出现频率前 k 高的元素。你可以按 任意顺序 返回答案。.
         // 解法：最小堆（优先队列），hashMap转list排序也可以
-        int[] re = topKFrequent(new int[]{1,1,1,2,2,3},2);
-        for(int i : re ){
-            System.out.print(i+" ");
-        }
+        // int[] re = topKFrequent(new int[]{1,1,1,2,2,3},2);
+        // for(int i : re ){
+        //     System.out.print(i+" ");
+        // }
+
+        // 64.最小路径和
+        // 给定一个包含非负整数的 m x n 网格 grid ，请找出一条从左上角到右下角的路径，使得路径上的数字总和为最小。
+        // 解法：标准的动态规划
+        System.out.println(minPathSum(new int[][]{{1,3,1},{1,5,1},{4,2,1}}));
+        System.out.println(minPathSum(new int[][]{{1,2,3},{4,5,6}}));
 
 
     }
 
+
+    /**
+     * 给定一个包含非负整数的 m x n 网格 grid ，请找出一条从左上角到右下角的路径，使得路径上的数字总和为最小。
+     * @param grid
+     * @return
+     */
+    static public int minPathSum(int[][] grid) {
+
+        int[][] re = new int[grid.length][grid[0].length];
+
+        re[0][0] = grid[0][0];
+
+        for(int i=0;i<grid.length;i++){
+
+            for(int j=0;j<grid[i].length;j++){
+
+                int lastMin =0;
+                if(i > 0 && j > 0){
+                    lastMin = Math.min(re[i-1][j] , re[i][j-1]);
+                }else if(i == 0 && j>0){
+                    lastMin = re[i][j-1];
+                }else if(i>0){
+                    lastMin = re[i-1][j];
+                }
+                re[i][j] = lastMin + grid[i][j];
+
+            }
+
+        }
+
+        return re[grid.length-1][grid[0].length-1];
+
+    }
 
     /**
      * 给你一个整数数组 nums 和一个整数 k ，请你返回其中出现频率前 k 高的元素。
