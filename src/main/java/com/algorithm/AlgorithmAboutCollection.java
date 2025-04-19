@@ -423,10 +423,44 @@ public class AlgorithmAboutCollection {
         // 64.最小路径和
         // 给定一个包含非负整数的 m x n 网格 grid ，请找出一条从左上角到右下角的路径，使得路径上的数字总和为最小。
         // 解法：标准的动态规划
-        System.out.println(minPathSum(new int[][]{{1,3,1},{1,5,1},{4,2,1}}));
-        System.out.println(minPathSum(new int[][]{{1,2,3},{4,5,6}}));
+        // System.out.println(minPathSum(new int[][]{{1,3,1},{1,5,1},{4,2,1}}));
+        // System.out.println(minPathSum(new int[][]{{1,2,3},{4,5,6}}));
+
+        // 128.最长连续序列
+        // 给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。
+        // 解法：哈希集合保存和判断：for里有while，也是On，只要总次数不超过n即可。
+        System.out.println(longestConsecutive(new int[]{100,4,200,1,3,2}));
+        System.out.println(longestConsecutive(new int[]{0,3,7,2,5,8,4,6,0,1}));
+        System.out.println(longestConsecutive(new int[]{1,0,1,2}));
 
 
+
+    }
+
+
+
+    /**
+     * 给定一个未排序的整数数组 nums ，找出数字连续的最长序列
+     * @param nums
+     * @return
+     */
+    static public int longestConsecutive(int[] nums) {
+        Set<Integer> numSet = new HashSet<>();
+        for (int num : nums) numSet.add(num); // 去重
+
+        int maxLength = 0;
+        for (int num : numSet) {
+            if (!numSet.contains(num - 1)) { // 仅处理起点
+                int currentNum = num;
+                int currentLength = 1;
+                while (numSet.contains(currentNum + 1)) {
+                    currentNum++;
+                    currentLength++;
+                }
+                maxLength = Math.max(maxLength, currentLength);
+            }
+        }
+        return maxLength;
     }
 
 
