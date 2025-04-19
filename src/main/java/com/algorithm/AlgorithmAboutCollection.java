@@ -428,7 +428,7 @@ public class AlgorithmAboutCollection {
 
         // 128.最长连续序列
         // 给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。
-        // 解法：哈希集合保存和判断：for里有while，也是On，只要总次数不超过n即可。
+        // 解法：哈希集合保存和判断：for里有while，也是On，只要总次数不超过n即可。test
         System.out.println(longestConsecutive(new int[]{100,4,200,1,3,2}));
         System.out.println(longestConsecutive(new int[]{0,3,7,2,5,8,4,6,0,1}));
         System.out.println(longestConsecutive(new int[]{1,0,1,2}));
