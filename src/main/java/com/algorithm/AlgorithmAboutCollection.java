@@ -435,7 +435,9 @@ public class AlgorithmAboutCollection {
 
         // 42.接雨水
         // 给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
+        // 解法：双指针法，记录左右两侧的最高柱
         System.out.println(trap(new int[]{0,1,0,2,1,0,1,3,2,1,2,1}));
+        System.out.println(trap(new int[]{4,2,0,3,2,5}));
 
 
     }
@@ -447,36 +449,22 @@ public class AlgorithmAboutCollection {
      * @return 6
      */
     static public int trap(int[] height) {
-        int totalNum = 0;
-        int curNum = 0;
-        HashMap<Integer,Integer> curNumMap = new HashMap<>();
-        int lastH = height[0];
-        for(int i=1;i<height.length;i++){
-            if(height[i] >= height[i-1]){
+        int left = 0, right = height.length - 1;
+        int leftMax = 0, rightMax = 0;
+        int result = 0;
 
-                if(height[i]>curNum){
-                    lastH = height[i];
-                    curNum = 0;
-                }else{
-                    int subNum = lastH-height[i];
-                    int curN = curNumMap.get(subNum)!=null?curNumMap.get(subNum):0;
-                    curNum = subNum * curN;
-                    totalNum = totalNum + curNum;
-                }
-
-            }else if(height[i]<lastH){
-                curNum = curNum + (lastH-height[i]);
-                int subNum = lastH-height[i];
-                if(curNumMap.containsKey(subNum)){
-                    int curN = curNumMap.get(subNum);
-                    curNumMap.put(subNum,++curN);
-                }else{
-                    curNumMap.put(subNum,1);
-                }
+        while (left < right) {
+            if (height[left] < height[right]) {
+                leftMax = Math.max(leftMax, height[left]);
+                result += leftMax - height[left];
+                left++;
+            } else {
+                rightMax = Math.max(rightMax, height[right]);
+                result += rightMax - height[right];
+                right--;
             }
         }
-
-        return totalNum;
+        return result;
     }
 
     /**
