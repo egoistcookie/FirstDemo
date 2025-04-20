@@ -429,15 +429,55 @@ public class AlgorithmAboutCollection {
         // 128.最长连续序列
         // 给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。
         // 解法：哈希集合保存和判断：for里有while，也是On，只要总次数不超过n即可。test
-        System.out.println(longestConsecutive(new int[]{100,4,200,1,3,2}));
-        System.out.println(longestConsecutive(new int[]{0,3,7,2,5,8,4,6,0,1}));
-        System.out.println(longestConsecutive(new int[]{1,0,1,2}));
+        // System.out.println(longestConsecutive(new int[]{100,4,200,1,3,2}));
+        // System.out.println(longestConsecutive(new int[]{0,3,7,2,5,8,4,6,0,1}));
+        // System.out.println(longestConsecutive(new int[]{1,0,1,2}));
 
+        // 42.接雨水
+        // 给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
+        System.out.println(trap(new int[]{0,1,0,2,1,0,1,3,2,1,2,1}));
 
 
     }
 
 
+    /**
+     * 给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
+     * @param height {0,1,0,2,1,0,1,3,2,1,2,1}
+     * @return 6
+     */
+    static public int trap(int[] height) {
+        int totalNum = 0;
+        int curNum = 0;
+        HashMap<Integer,Integer> curNumMap = new HashMap<>();
+        int lastH = height[0];
+        for(int i=1;i<height.length;i++){
+            if(height[i] >= height[i-1]){
+
+                if(height[i]>curNum){
+                    lastH = height[i];
+                    curNum = 0;
+                }else{
+                    int subNum = lastH-height[i];
+                    int curN = curNumMap.get(subNum)!=null?curNumMap.get(subNum):0;
+                    curNum = subNum * curN;
+                    totalNum = totalNum + curNum;
+                }
+
+            }else if(height[i]<lastH){
+                curNum = curNum + (lastH-height[i]);
+                int subNum = lastH-height[i];
+                if(curNumMap.containsKey(subNum)){
+                    int curN = curNumMap.get(subNum);
+                    curNumMap.put(subNum,++curN);
+                }else{
+                    curNumMap.put(subNum,1);
+                }
+            }
+        }
+
+        return totalNum;
+    }
 
     /**
      * 给定一个未排序的整数数组 nums ，找出数字连续的最长序列
