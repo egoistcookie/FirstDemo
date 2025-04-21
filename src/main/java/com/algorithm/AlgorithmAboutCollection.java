@@ -436,12 +436,52 @@ public class AlgorithmAboutCollection {
         // 42.接雨水
         // 给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
         // 解法：双指针法，记录左右两侧的最高柱
-        System.out.println(trap(new int[]{0,1,0,2,1,0,1,3,2,1,2,1}));
-        System.out.println(trap(new int[]{4,2,0,3,2,5}));
+        // System.out.println(trap(new int[]{0,1,0,2,1,0,1,3,2,1,2,1}));
+        // System.out.println(trap(new int[]{4,2,0,3,2,5}));
+
+        // 21.合并两个有序链表
+        // 将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。
+        // 解法：迭代，新链表遍历两个旧链表
+        ListNode commNode = new ListNode(1);
+        commNode.next = new ListNode(2);
+        commNode.next.next = new ListNode(4);
+        ListNode commNode2 = new ListNode(1);
+        commNode2.next = new ListNode(3);
+        commNode2.next.next = new ListNode(4);
+        ListNode mergeN = mergeTwoLists(commNode,commNode2);
+        while(mergeN != null){
+            System.out.print(mergeN.val+" ");
+            mergeN = mergeN.next;
+        }
 
 
     }
 
+
+    /**
+     * 将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。
+     * @param list1 [1,2,4]
+     * @param list2 [1,3,4]
+     * @return [1,1,2,3,4,4]
+     */
+    static public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+
+        ListNode dummy = new ListNode(-1); // 虚拟头节点
+        ListNode cur = dummy;
+        while (list1 != null && list2 != null) {
+            if (list1.val <= list2.val) {
+                cur.next = list1;
+                list1 = list1.next;
+            } else {
+                cur.next = list2;
+                list2 = list2.next;
+            }
+            cur = cur.next;
+        }
+        cur.next = (list1 != null) ? list1 : list2; // 处理剩余节点
+        return dummy.next;
+
+    }
 
     /**
      * 给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
