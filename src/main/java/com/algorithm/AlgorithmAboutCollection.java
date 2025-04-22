@@ -442,21 +442,64 @@ public class AlgorithmAboutCollection {
         // 21.合并两个有序链表
         // 将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。
         // 解法：迭代，新链表遍历两个旧链表
+        // ListNode commNode = new ListNode(1);
+        // commNode.next = new ListNode(2);
+        // commNode.next.next = new ListNode(4);
+        // ListNode commNode2 = new ListNode(1);
+        // commNode2.next = new ListNode(3);
+        // commNode2.next.next = new ListNode(4);
+        // ListNode mergeN = mergeTwoLists(commNode,commNode2);
+        // while(mergeN != null){
+        //     System.out.print(mergeN.val+" ");
+        //     mergeN = mergeN.next;
+        // }
+
+        // 19.删除链表的倒数第N个节点
+        // 给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
+        // 解法：快慢双指针，快指针先走n步
         ListNode commNode = new ListNode(1);
         commNode.next = new ListNode(2);
-        commNode.next.next = new ListNode(4);
-        ListNode commNode2 = new ListNode(1);
-        commNode2.next = new ListNode(3);
-        commNode2.next.next = new ListNode(4);
-        ListNode mergeN = mergeTwoLists(commNode,commNode2);
-        while(mergeN != null){
-            System.out.print(mergeN.val+" ");
-            mergeN = mergeN.next;
+        commNode.next.next = new ListNode(3);
+        commNode.next.next.next = new ListNode(4);
+        commNode.next.next.next.next = new ListNode(5);
+        ListNode commNode1 = new ListNode(1);
+        commNode1.next = new ListNode(2);
+        ListNode ret = removeNthFromEnd(commNode,2);
+        while(ret != null){
+            System.out.print(ret.val+" ");
+            ret = ret.next;
         }
 
 
     }
 
+
+    /**
+     * 给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
+     * @param head [1,2,3,4,5]
+     * @param n 2
+     * @return [1,2,3,5]
+     */
+    static public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode fast = dummy, slow = dummy;
+
+        // 快指针先走n+1步
+        for (int i = 0; i <= n; i++) {
+            fast = fast.next;
+        }
+
+        // 同步移动至快指针到末尾
+        while (fast != null) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+
+        // 删除倒数第N个节点
+        slow.next = slow.next.next;
+        return dummy.next;
+    }
 
     /**
      * 将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。
