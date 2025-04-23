@@ -112,16 +112,56 @@ public class AlgorithmAboutTree {
         // 226.翻转二叉树
         // 给你一棵二叉树的根节点 root ，翻转这棵二叉树，并返回其根节点。
         // 解法：递归，交换左右子树
-        TreeNode rootTree1 = new TreeNode(4);
+        // TreeNode rootTree1 = new TreeNode(4);
+        // rootTree1.left = new TreeNode(2);
+        // rootTree1.right = new TreeNode(7);
+        // rootTree1.left.left = new TreeNode(1);
+        // rootTree1.left.right = new TreeNode(3);
+        // rootTree1.right.left = new TreeNode(9);
+        // rootTree1.right.right = new TreeNode(9);
+        // System.out.println(invertTree(rootTree1).left.val);
+
+        // 101.对称二叉树
+        // 给你一个二叉树的根节点 root ， 检查它是否轴对称。
+        // 解法：递归
+        TreeNode rootTree1 = new TreeNode(1);
         rootTree1.left = new TreeNode(2);
-        rootTree1.right = new TreeNode(7);
-        rootTree1.left.left = new TreeNode(1);
-        rootTree1.left.right = new TreeNode(3);
-        rootTree1.right.left = new TreeNode(9);
-        rootTree1.right.right = new TreeNode(9);
-        System.out.println(invertTree(rootTree1).left.val);
+        rootTree1.right = new TreeNode(2);
+        rootTree1.left.left = new TreeNode(3);
+        rootTree1.left.right = new TreeNode(4);
+        rootTree1.right.left = new TreeNode(4);
+        rootTree1.right.right = new TreeNode(3);
+        System.out.println(isSymmetric(rootTree1));
+        TreeNode rootTree2 = new TreeNode(1);
+        rootTree2.left = new TreeNode(2);
+        rootTree2.right = new TreeNode(2);
+        rootTree2.left.right = new TreeNode(3);
+        rootTree2.right.right = new TreeNode(3);
+        System.out.println(isSymmetric(rootTree2));
+
+
+
 
     }
+
+
+    /**
+     * 给你一个二叉树的根节点 root ， 检查它是否轴对称。
+     * @param root [1,2,2,3,4,4,3]
+     * @return true
+     */
+    static public boolean isSymmetric(TreeNode root) {
+        boolean isSym = isSym(root.left,root.right);
+        return isSym;
+    }
+
+    private static boolean isSym(TreeNode left, TreeNode right) {
+        if (left == null && right == null) return true;
+        if (left == null || right == null) return false; // 显式处理单侧为空
+        if (left.val != right.val) return false; // 显式处理值不等
+        return isSym(left.left, right.right) && isSym(left.right, right.left); // 直接返回递归结果
+    }
+
 
     /**
      * 给你一棵二叉树的根节点 root ，翻转这棵二叉树，并返回其根节点。
