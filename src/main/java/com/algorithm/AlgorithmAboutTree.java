@@ -124,26 +124,52 @@ public class AlgorithmAboutTree {
         // 101.对称二叉树
         // 给你一个二叉树的根节点 root ， 检查它是否轴对称。
         // 解法：递归
+        // TreeNode rootTree1 = new TreeNode(1);
+        // rootTree1.left = new TreeNode(2);
+        // rootTree1.right = new TreeNode(2);
+        // rootTree1.left.left = new TreeNode(3);
+        // rootTree1.left.right = new TreeNode(4);
+        // rootTree1.right.left = new TreeNode(4);
+        // rootTree1.right.right = new TreeNode(3);
+        // System.out.println(isSymmetric(rootTree1));
+        // TreeNode rootTree2 = new TreeNode(1);
+        // rootTree2.left = new TreeNode(2);
+        // rootTree2.right = new TreeNode(2);
+        // rootTree2.left.right = new TreeNode(3);
+        // rootTree2.right.right = new TreeNode(3);
+        // System.out.println(isSymmetric(rootTree2));
+
+        // 543.二叉树的直径
+        // 给你一棵二叉树的根节点，返回该树的 直径 。
+        // 二叉树的 直径 是指树中任意两个节点之间最长路径的 长度 。这条路径可能经过也可能不经过根节点 root 。
+        // 解法：递归，对于每个节点，其直径 = 左子树深度 + 右子树深度。
         TreeNode rootTree1 = new TreeNode(1);
         rootTree1.left = new TreeNode(2);
-        rootTree1.right = new TreeNode(2);
-        rootTree1.left.left = new TreeNode(3);
-        rootTree1.left.right = new TreeNode(4);
-        rootTree1.right.left = new TreeNode(4);
-        rootTree1.right.right = new TreeNode(3);
-        System.out.println(isSymmetric(rootTree1));
-        TreeNode rootTree2 = new TreeNode(1);
-        rootTree2.left = new TreeNode(2);
-        rootTree2.right = new TreeNode(2);
-        rootTree2.left.right = new TreeNode(3);
-        rootTree2.right.right = new TreeNode(3);
-        System.out.println(isSymmetric(rootTree2));
+        rootTree1.right = new TreeNode(3);
+        rootTree1.left.left = new TreeNode(4);
+        rootTree1.left.right = new TreeNode(5);
+        System.out.println(diameterOfBinaryTree(rootTree1));
 
 
 
 
     }
 
+    static private int maxDiameter = 0; // 全局变量记录最大直径
+
+    static public int diameterOfBinaryTree(TreeNode root) {
+        maxDepth(root);
+        return maxDiameter;
+    }
+
+    // 计算子树深度并更新直径
+    static private int maxDepth(TreeNode node) {
+        if (node == null) return 0;
+        int leftDepth = maxDepth(node.left);  // 左子树深度
+        int rightDepth = maxDepth(node.right); // 右子树深度
+        maxDiameter = Math.max(maxDiameter, leftDepth + rightDepth); // 更新直径
+        return Math.max(leftDepth, rightDepth) + 1; // 返回当前子树深度
+    }
 
     /**
      * 给你一个二叉树的根节点 root ， 检查它是否轴对称。
@@ -285,14 +311,14 @@ public class AlgorithmAboutTree {
      * @param root [3,9,20,null,null,15,7]
      * @return 3
      */
-    static public int maxDepth(TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
-        int leftDepth = maxDepth(root.left);
-        int rightDepth = maxDepth(root.right);
-        return Math.max(leftDepth, rightDepth) + 1;
-    }
+    // static public int maxDepth(TreeNode root) {
+    //     if (root == null) {
+    //         return 0;
+    //     }
+    //     int leftDepth = maxDepth(root.left);
+    //     int rightDepth = maxDepth(root.right);
+    //     return Math.max(leftDepth, rightDepth) + 1;
+    // }
 
     /**
      * 算法124.二叉树中的最大路径和
