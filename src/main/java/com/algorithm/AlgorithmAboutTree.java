@@ -1,9 +1,6 @@
 package com.algorithm;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * 树形结构的算法类
@@ -143,17 +140,54 @@ public class AlgorithmAboutTree {
         // 给你一棵二叉树的根节点，返回该树的 直径 。
         // 二叉树的 直径 是指树中任意两个节点之间最长路径的 长度 。这条路径可能经过也可能不经过根节点 root 。
         // 解法：递归，对于每个节点，其直径 = 左子树深度 + 右子树深度。
-        TreeNode rootTree1 = new TreeNode(1);
-        rootTree1.left = new TreeNode(2);
-        rootTree1.right = new TreeNode(3);
-        rootTree1.left.left = new TreeNode(4);
-        rootTree1.left.right = new TreeNode(5);
-        System.out.println(diameterOfBinaryTree(rootTree1));
+        // TreeNode rootTree1 = new TreeNode(1);
+        // rootTree1.left = new TreeNode(2);
+        // rootTree1.right = new TreeNode(3);
+        // rootTree1.left.left = new TreeNode(4);
+        // rootTree1.left.right = new TreeNode(5);
+        // System.out.println(diameterOfBinaryTree(rootTree1));
 
-
+        // 230.二叉树中第k小的元素
+        // 给定一个二叉搜索树的根节点 root ，和一个整数 k ，请你设计一个算法查找其中第 k 小的元素（从 1 开始计数）。
+        // 解法：递归+队列
+        TreeNode rootTree1 = new TreeNode(3);
+        rootTree1.left = new TreeNode(1);
+        rootTree1.right = new TreeNode(4);
+        rootTree1.left.right = new TreeNode(2);
+        System.out.println(kthSmallest(rootTree1,1));
+        TreeNode rootTree2 = new TreeNode(5);
+        rootTree2.left = new TreeNode(3);
+        rootTree2.right = new TreeNode(6);
+        rootTree2.left.left = new TreeNode(2);
+        rootTree2.left.right = new TreeNode(4);
+        rootTree2.left.left.left = new TreeNode(1);
+        System.out.println(kthSmallest(rootTree2,3));
 
 
     }
+
+
+    /**
+     * 给定一个二叉搜索树的根节点 root ，和一个整数 k ，请你设计一个算法查找其中第 k 小的元素（从 1 开始计数）。
+     * @param root [3,1,4,null,2]
+     * @param k 1
+     * @return 1
+     */
+    static public int kthSmallest(TreeNode root, int k) {
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        while (root != null || !stack.isEmpty()) {
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+            root = stack.pop();
+            if (--k == 0) return root.val;
+            root = root.right;
+        }
+        return -1;
+
+    }
+
 
     static private int maxDiameter = 0; // 全局变量记录最大直径
 
