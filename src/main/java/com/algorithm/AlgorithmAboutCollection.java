@@ -457,20 +457,66 @@ public class AlgorithmAboutCollection {
         // 19.删除链表的倒数第N个节点
         // 给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
         // 解法：快慢双指针，快指针先走n步
-        ListNode commNode = new ListNode(1);
-        commNode.next = new ListNode(2);
-        commNode.next.next = new ListNode(3);
-        commNode.next.next.next = new ListNode(4);
-        commNode.next.next.next.next = new ListNode(5);
-        ListNode commNode1 = new ListNode(1);
-        commNode1.next = new ListNode(2);
-        ListNode ret = removeNthFromEnd(commNode,2);
-        while(ret != null){
-            System.out.print(ret.val+" ");
-            ret = ret.next;
+        // ListNode commNode = new ListNode(1);
+        // commNode.next = new ListNode(2);
+        // commNode.next.next = new ListNode(3);
+        // commNode.next.next.next = new ListNode(4);
+        // commNode.next.next.next.next = new ListNode(5);
+        // ListNode commNode1 = new ListNode(1);
+        // commNode1.next = new ListNode(2);
+        // ListNode ret = removeNthFromEnd(commNode,2);
+        // while(ret != null){
+        //     System.out.print(ret.val+" ");
+        //     ret = ret.next;
+        // }
+
+        // 139.单词拆分
+        // 给你一个字符串 s 和一个字符串列表 wordDict 作为字典。如果可以利用字典中出现的一个或多个单词拼接出 s 则返回 true。
+        // 解法：动态规划，数组表示字符串前i位能否被拆分
+        List<String> wordDict = new ArrayList<>();
+        wordDict.add("leet");
+        wordDict.add("code");
+        System.out.println(wordBreak("codeleet",wordDict));
+        List<String> wordDict1 = new ArrayList<>();
+        wordDict1.add("apple");
+        wordDict1.add("pen");
+        System.out.println(wordBreak("applepenapple",wordDict1));
+        List<String> wordDict2 = new ArrayList<>();
+        wordDict2.add("cats");
+        wordDict2.add("dog");
+        wordDict2.add("sand");
+        wordDict2.add("and");
+        wordDict2.add("cat");
+        System.out.println(wordBreak("catsandog",wordDict2));
+        List<String> wordDict3 = new ArrayList<>();
+        wordDict3.add("aa");
+        wordDict3.add("aaa");
+        System.out.println(wordBreak("aaaaaaa",wordDict3));
+
+
+    }
+
+
+    /**
+     * 给你一个字符串 s 和一个字符串列表 wordDict 作为字典。如果可以利用字典中出现的一个或多个单词拼接出 s 则返回 true。
+     * @param s leetcode
+     * @param wordDict ["leet", "code"]
+     * @return true
+     */
+    static public boolean wordBreak(String s, List<String> wordDict) {
+        boolean[] dp = new boolean[s.length()+1];
+        dp[0] = true; // 空字符串可拆分
+        Set<String> wordSet = new HashSet<>(wordDict);
+
+        for(int i=1; i<=s.length(); i++){
+            for(int j=0; j<i; j++){
+                if(dp[j] && wordSet.contains(s.substring(j,i))){
+                    dp[i] = true;
+                    break;
+                }
+            }
         }
-
-
+        return dp[s.length()];
     }
 
 
