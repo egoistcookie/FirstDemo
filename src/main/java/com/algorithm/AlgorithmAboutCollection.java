@@ -473,29 +473,64 @@ public class AlgorithmAboutCollection {
         // 139.单词拆分
         // 给你一个字符串 s 和一个字符串列表 wordDict 作为字典。如果可以利用字典中出现的一个或多个单词拼接出 s 则返回 true。
         // 解法：动态规划，数组表示字符串前i位能否被拆分
-        List<String> wordDict = new ArrayList<>();
-        wordDict.add("leet");
-        wordDict.add("code");
-        System.out.println(wordBreak("codeleet",wordDict));
-        List<String> wordDict1 = new ArrayList<>();
-        wordDict1.add("apple");
-        wordDict1.add("pen");
-        System.out.println(wordBreak("applepenapple",wordDict1));
-        List<String> wordDict2 = new ArrayList<>();
-        wordDict2.add("cats");
-        wordDict2.add("dog");
-        wordDict2.add("sand");
-        wordDict2.add("and");
-        wordDict2.add("cat");
-        System.out.println(wordBreak("catsandog",wordDict2));
-        List<String> wordDict3 = new ArrayList<>();
-        wordDict3.add("aa");
-        wordDict3.add("aaa");
-        System.out.println(wordBreak("aaaaaaa",wordDict3));
+        // List<String> wordDict = new ArrayList<>();
+        // wordDict.add("leet");
+        // wordDict.add("code");
+        // System.out.println(wordBreak("codeleet",wordDict));
+        // List<String> wordDict1 = new ArrayList<>();
+        // wordDict1.add("apple");
+        // wordDict1.add("pen");
+        // System.out.println(wordBreak("applepenapple",wordDict1));
+        // List<String> wordDict2 = new ArrayList<>();
+        // wordDict2.add("cats");
+        // wordDict2.add("dog");
+        // wordDict2.add("sand");
+        // wordDict2.add("and");
+        // wordDict2.add("cat");
+        // System.out.println(wordBreak("catsandog",wordDict2));
+        // List<String> wordDict3 = new ArrayList<>();
+        // wordDict3.add("aa");
+        // wordDict3.add("aaa");
+        // System.out.println(wordBreak("aaaaaaa",wordDict3));
+
+        // 34.在排序数组中查找元素出现的第一个和最后一个位置
+        // 给你一个按照非递减顺序排列的整数数组 nums，和一个目标值 target。请你找出给定目标值在数组中的开始位置和结束位置。
+        // 解法：两次二分查找，第一次找到左边界，第二次找到右边界
+        int[] re = searchRange(new int[]{5,7,7,8,8,9},8);
+        System.out.println(re[0]+" "+re[1]);
+
 
 
     }
 
+
+    /**
+     * 在排序数组中查找元素出现的第一个和最后一个位置
+     * @param nums {5,7,7,8,8,10}
+     * @param target 8
+     * @return [3,4]
+     */
+    static public int[] searchRange(int[] nums, int target) {
+        int first = findFirst(nums, target);
+        int last = findFirst(nums, target + 1) - 1;
+        if (first <= last && last < nums.length) {
+            return new int[]{first, last};
+        }
+        return new int[]{-1, -1};
+    }
+
+    private static int findFirst(int[] nums, int target) {
+        int left = 0, right = nums.length;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return left;
+    }
 
     /**
      * 给你一个字符串 s 和一个字符串列表 wordDict 作为字典。如果可以利用字典中出现的一个或多个单词拼接出 s 则返回 true。
