@@ -496,13 +496,51 @@ public class AlgorithmAboutCollection {
         // 34.在排序数组中查找元素出现的第一个和最后一个位置
         // 给你一个按照非递减顺序排列的整数数组 nums，和一个目标值 target。请你找出给定目标值在数组中的开始位置和结束位置。
         // 解法：两次二分查找，第一次找到左边界，第二次找到右边界
-        int[] re = searchRange(new int[]{5,7,7,8,8,9},8);
-        System.out.println(re[0]+" "+re[1]);
+        // int[] re = searchRange(new int[]{5,7,7,8,8,9},8);
+        // System.out.println(re[0]+" "+re[1]);
 
+        // 24.两两交换链表中的节点
+        // 给你一个链表，两两交换其中相邻的节点，并返回交换后链表的头节点。你必须在不修改节点内部的值的情况下完成本题（即，只能进行节点交换）。
+        // 解法：迭代，新建节点再交换
+        ListNode commNode = new ListNode(1);
+        commNode.next = new ListNode(2);
+        commNode.next.next = new ListNode(3);
+        commNode.next.next.next = new ListNode(4);
+        commNode = swapPairs(commNode);
+        while(commNode != null){
+            System.out.print(commNode.val+" ");
+            commNode = commNode.next;
+        }
 
 
     }
 
+
+    /**
+     * 两两交换链表中的节点
+     * @param head [1,2,3,4]
+     * @return [2,1,4,3]
+     */
+    static public ListNode swapPairs(ListNode head) {
+
+        ListNode dummy = new ListNode(0); // 虚拟头节点
+        dummy.next = head;
+        ListNode current = dummy;
+
+        while (current.next != null && current.next.next != null) {
+            ListNode first = current.next;
+            ListNode second = current.next.next;
+
+            // 执行交换
+            first.next = second.next;
+            current.next = second;
+            second.next = first;
+
+            current = first; // 移动指针到下一组的前驱节点
+        }
+        return dummy.next;
+
+    }
 
     /**
      * 在排序数组中查找元素出现的第一个和最后一个位置
