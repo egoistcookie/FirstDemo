@@ -165,6 +165,7 @@ public class AlgorithmAboutTree {
 
         // 199.二叉树的右视图
         // 给定一个二叉树的 根节点 root，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。
+        // 解法：BFS-队列-广度优先搜索，记录每层最后一个节点的值
         TreeNode rootTree1 = new TreeNode(1);
         rootTree1.left = new TreeNode(2);
         rootTree1.right = new TreeNode(3);
@@ -184,11 +185,24 @@ public class AlgorithmAboutTree {
      * @return [1,3,4]
      */
     static public List<Integer> rightSideView(TreeNode root) {
-        List<Integer> re = new ArrayList<>();
-        re.add(root.val);
-        //逐层递归，获取最右侧节点的值
+        List<Integer> res = new ArrayList<>();
+        if (root == null) return res;
 
-        return re;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                if (i == size - 1) { // 当前层最后一个节点
+                    res.add(node.val);
+                }
+                if (node.left != null) queue.offer(node.left);
+                if (node.right != null) queue.offer(node.right);
+            }
+        }
+        return res;
     }
 
 
