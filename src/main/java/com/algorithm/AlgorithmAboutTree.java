@@ -150,20 +150,45 @@ public class AlgorithmAboutTree {
         // 230.二叉树中第k小的元素
         // 给定一个二叉搜索树的根节点 root ，和一个整数 k ，请你设计一个算法查找其中第 k 小的元素（从 1 开始计数）。
         // 解法：递归+队列
-        TreeNode rootTree1 = new TreeNode(3);
-        rootTree1.left = new TreeNode(1);
-        rootTree1.right = new TreeNode(4);
-        rootTree1.left.right = new TreeNode(2);
-        System.out.println(kthSmallest(rootTree1,1));
-        TreeNode rootTree2 = new TreeNode(5);
-        rootTree2.left = new TreeNode(3);
-        rootTree2.right = new TreeNode(6);
-        rootTree2.left.left = new TreeNode(2);
-        rootTree2.left.right = new TreeNode(4);
-        rootTree2.left.left.left = new TreeNode(1);
-        System.out.println(kthSmallest(rootTree2,3));
+        // TreeNode rootTree1 = new TreeNode(3);
+        // rootTree1.left = new TreeNode(1);
+        // rootTree1.right = new TreeNode(4);
+        // rootTree1.left.right = new TreeNode(2);
+        // System.out.println(kthSmallest(rootTree1,1));
+        // TreeNode rootTree2 = new TreeNode(5);
+        // rootTree2.left = new TreeNode(3);
+        // rootTree2.right = new TreeNode(6);
+        // rootTree2.left.left = new TreeNode(2);
+        // rootTree2.left.right = new TreeNode(4);
+        // rootTree2.left.left.left = new TreeNode(1);
+        // System.out.println(kthSmallest(rootTree2,3));
+
+        // 199.二叉树的右视图
+        // 给定一个二叉树的 根节点 root，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。
+        TreeNode rootTree1 = new TreeNode(1);
+        rootTree1.left = new TreeNode(2);
+        rootTree1.right = new TreeNode(3);
+        rootTree1.left.right = new TreeNode(5);
+        rootTree1.right.right = new TreeNode(4);
+        List<Integer> re = rightSideView(rootTree1);
+        for(int i : re){
+            System.out.printf(i+" ");
+        }
+
+    }
 
 
+    /**
+     * 二叉树的右视图
+     * @param root [1,2,3,null,5,null,4]
+     * @return [1,3,4]
+     */
+    static public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> re = new ArrayList<>();
+        re.add(root.val);
+        //逐层递归，获取最右侧节点的值
+
+        return re;
     }
 
 
