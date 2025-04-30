@@ -502,17 +502,48 @@ public class AlgorithmAboutCollection {
         // 24.两两交换链表中的节点
         // 给你一个链表，两两交换其中相邻的节点，并返回交换后链表的头节点。你必须在不修改节点内部的值的情况下完成本题（即，只能进行节点交换）。
         // 解法：迭代，新建节点再交换
-        ListNode commNode = new ListNode(1);
-        commNode.next = new ListNode(2);
-        commNode.next.next = new ListNode(3);
-        commNode.next.next.next = new ListNode(4);
-        commNode = swapPairs(commNode);
-        while(commNode != null){
-            System.out.print(commNode.val+" ");
-            commNode = commNode.next;
+        // ListNode commNode = new ListNode(1);
+        // commNode.next = new ListNode(2);
+        // commNode.next.next = new ListNode(3);
+        // commNode.next.next.next = new ListNode(4);
+        // commNode = swapPairs(commNode);
+        // while(commNode != null){
+        //     System.out.print(commNode.val+" ");
+        //     commNode = commNode.next;
+        // }
+
+        // 300.最长递增子序列
+        // 给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。
+        // 子序列 是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，[3,6,2,7] 是数组 [0,3,1,6,2,2,7] 的子序列。
+        // 解法：动态规划，获取每个位置的最大子序列长度
+        System.out.print(lengthOfLIS(new int[]{10,9,2,5,3,7,101,18}));
+        System.out.print(lengthOfLIS(new int[]{0,1,0,3,2,3}));
+        System.out.print(lengthOfLIS(new int[]{}));
+
+
+
+
+    }
+
+    /**
+     * 给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。
+     * @param nums {10,9,2,5,1,2,101,18}  {0,1,0,3,2,3}
+     * @return 4 4
+     */
+    static public int lengthOfLIS(int[] nums) {
+        if(nums==null || nums.length==0) return 0;
+        int[] re = new int[nums.length];
+        Arrays.fill(re,1);
+        int maxLen = 1;
+        for(int i=1;i<nums.length;i++){
+            for(int j=0;j<i;j++){
+                if(nums[i] > nums[j]){
+                    re[i] = Math.max(re[i],re[j]+1);
+                }
+            }
+            maxLen = Math.max(maxLen, re[i]); // 更新最大值
         }
-
-
+        return maxLen;
     }
 
 
