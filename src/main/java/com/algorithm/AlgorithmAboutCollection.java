@@ -516,13 +516,34 @@ public class AlgorithmAboutCollection {
         // 给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。
         // 子序列 是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，[3,6,2,7] 是数组 [0,3,1,6,2,2,7] 的子序列。
         // 解法：动态规划，获取每个位置的最大子序列长度
-        System.out.print(lengthOfLIS(new int[]{10,9,2,5,3,7,101,18}));
-        System.out.print(lengthOfLIS(new int[]{0,1,0,3,2,3}));
-        System.out.print(lengthOfLIS(new int[]{}));
+        // System.out.print(lengthOfLIS(new int[]{10,9,2,5,3,7,101,18}));
+        // System.out.print(lengthOfLIS(new int[]{0,1,0,3,2,3}));
+        // System.out.print(lengthOfLIS(new int[]{}));
+
+        // 189.轮转数组
+        // 给定一个整数数组 nums，将数组中的元素向右轮转 k 个位置，其中 k 是非负数。
+        // 解法：遍历塞到新数组
+        rotate(new int[]{1,2,3,4,5,6,7},3);
 
 
 
 
+    }
+
+    /**
+     * 给定一个整数数组 nums，将数组中的元素向右轮转 k 个位置，其中 k 是非负数。
+     * @param nums {1,2,3,4,5,6,7}
+     * @param k 3
+     *          [5,6,7,1,2,3,4]
+     */
+    static public void rotate(int[] nums, int k) {
+        int length = nums.length;
+        k %= length; // 处理k超过数组长度的情况
+        int[] re = new int[length];
+        for (int i = 0; i < length; i++) {
+            re[(i + k) % length] = nums[i]; // 直接计算新位置
+        }
+        System.arraycopy(re, 0, nums, 0, length); // 将结果复制回原数组
     }
 
     /**
