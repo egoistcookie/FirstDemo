@@ -523,11 +523,69 @@ public class AlgorithmAboutCollection {
         // 189.轮转数组
         // 给定一个整数数组 nums，将数组中的元素向右轮转 k 个位置，其中 k 是非负数。
         // 解法：遍历塞到新数组
-        rotate(new int[]{1,2,3,4,5,6,7},3);
+        // rotate(new int[]{1,2,3,4,5,6,7},3);
+
+        // 25.K个一组翻转链表
+        // 给你链表的头节点 head ，每 k 个节点一组进行翻转，请你返回修改后的链表。
+        // 如果节点总数不是 k 的整数倍，那么请将最后剩余的节点保持原有顺序。
+        // 解法：头插法构建新链，分组三指针翻转最优
+        ListNode commNode = new ListNode(1);
+        commNode.next = new ListNode(2);
+        commNode.next.next = new ListNode(3);
+        commNode.next.next.next = new ListNode(4);
+        commNode.next.next.next.next = new ListNode(5);
+        ListNode re = reverseKGroup(commNode,2);
+        while(re !=null){
+            System.out.println(" "+re.val);
+            re = re.next;
+        }
+        re = reverseKGroup(commNode,3);
+        while(re !=null){
+            System.out.println(" "+re.val);
+            re = re.next;
+        }
 
 
 
 
+
+    }
+
+    /**
+     * 给你链表的头节点 head ，每 k 个节点一组进行翻转，请你返回修改后的链表。
+     * @param head [1,2,3,4,5]
+     * @param k 2
+     * @return [2,1,4,3,5]
+     */
+    static public ListNode reverseKGroup(ListNode head, int k) {
+
+        ListNode dummy = new ListNode(0, head);
+        ListNode prevGroupEnd = dummy;
+        ListNode curr = head;
+        while (true) {
+            ListNode groupStart = curr;
+            int count = 0;
+            // 检测剩余节点是否足够k个
+            while (curr != null && count < k) {
+                curr = curr.next;
+                count++;
+            }
+            if (count < k) break; // 不足k个，退出
+
+            // 翻转当前组
+            ListNode prev = curr; // 当前组翻转后应连接的下一个节点
+            ListNode node = groupStart;
+            for (int i = 0; i < k; i++) {
+                ListNode next = node.next;
+                node.next = prev;
+                prev = node;
+                node = next;
+            }
+            // 连接上一组和当前组
+            prevGroupEnd.next = prev;
+            prevGroupEnd = groupStart;
+        }
+        return dummy.next;
     }
 
     /**
