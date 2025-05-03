@@ -529,26 +529,62 @@ public class AlgorithmAboutCollection {
         // 给你链表的头节点 head ，每 k 个节点一组进行翻转，请你返回修改后的链表。
         // 如果节点总数不是 k 的整数倍，那么请将最后剩余的节点保持原有顺序。
         // 解法：头插法构建新链，分组三指针翻转最优
-        ListNode commNode = new ListNode(1);
-        commNode.next = new ListNode(2);
-        commNode.next.next = new ListNode(3);
-        commNode.next.next.next = new ListNode(4);
-        commNode.next.next.next.next = new ListNode(5);
-        ListNode re = reverseKGroup(commNode,2);
-        while(re !=null){
-            System.out.println(" "+re.val);
-            re = re.next;
+        // ListNode commNode = new ListNode(1);
+        // commNode.next = new ListNode(2);
+        // commNode.next.next = new ListNode(3);
+        // commNode.next.next.next = new ListNode(4);
+        // commNode.next.next.next.next = new ListNode(5);
+        // ListNode re = reverseKGroup(commNode,2);
+        // while(re !=null){
+        //     System.out.println(" "+re.val);
+        //     re = re.next;
+        // }
+        // re = reverseKGroup(commNode,3);
+        // while(re !=null){
+        //     System.out.println(" "+re.val);
+        //     re = re.next;
+        // }
+
+        // 438.字符串中所有异位词
+        // 给定两个字符串 s 和 p，找到 s 中所有 p 的 异位词 的子串，返回这些子串的起始索引。不考虑答案输出的顺序。
+        // 解法:滑动窗口,设置两个能存26位字母的数组用来比较,比tempStr替换法效率高.
+        List<Integer> re = findAnagrams("cbaebabacd","abc");
+        for(int i : re){
+            System.out.print(i+" ");
         }
-        re = reverseKGroup(commNode,3);
-        while(re !=null){
-            System.out.println(" "+re.val);
-            re = re.next;
+        System.out.println();
+        re = findAnagrams("abab","ab");
+        for(int i : re){
+            System.out.print(i+" ");
         }
 
 
 
 
 
+    }
+
+
+    /**
+     * 字符串中所有异位词
+     * @param s "cbaebabacd"
+     * @param p "abc"
+     * @return [0,6]
+     */
+    static public List<Integer> findAnagrams(String s, String p) {
+        List<Integer> result = new ArrayList<>();
+        if (s.length() < p.length()) return result;
+        int[] pCount = new int[26];
+        int[] windowCount = new int[26];
+        for (char c : p.toCharArray()) pCount[c - 'a']++;
+        for (int i = 0; i < s.length(); i++) {
+            windowCount[s.charAt(i) - 'a']++;
+            if (i >= p.length())
+                windowCount[s.charAt(i - p.length()) - 'a']--;
+            if (Arrays.equals(windowCount, pCount))
+                result.add(i - p.length() + 1);
+        }
+        return result;
     }
 
     /**
