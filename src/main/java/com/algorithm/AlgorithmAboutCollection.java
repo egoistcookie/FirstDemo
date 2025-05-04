@@ -548,22 +548,63 @@ public class AlgorithmAboutCollection {
         // 438.字符串中所有异位词
         // 给定两个字符串 s 和 p，找到 s 中所有 p 的 异位词 的子串，返回这些子串的起始索引。不考虑答案输出的顺序。
         // 解法:滑动窗口,设置两个能存26位字母的数组用来比较,比tempStr替换法效率高.
-        List<Integer> re = findAnagrams("cbaebabacd","abc");
-        for(int i : re){
-            System.out.print(i+" ");
-        }
-        System.out.println();
-        re = findAnagrams("abab","ab");
-        for(int i : re){
-            System.out.print(i+" ");
-        }
+        // List<Integer> re = findAnagrams("cbaebabacd","abc");
+        // for(int i : re){
+        //     System.out.print(i+" ");
+        // }
+        // System.out.println();
+        // re = findAnagrams("abab","ab");
+        // for(int i : re){
+        //     System.out.print(i+" ");
+        // }
 
-
+        // 22.括号生成
+        // 数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
+        // 解法：递归回溯，对比左右括号数量
+        List<String> reLi = generateParenthesis(3);
+        for(String s:reLi){
+            System.out.print(s+" ");
+        }
 
 
 
     }
 
+
+    /**
+     * 用于能够生成所有可能的并且 有效的 括号组合。
+     * @param n 3
+     * @return ["((()))","(()())","(())()","()(())","()()()"]
+     */
+    static public List<String> generateParenthesis(int n) {
+        List<String> result = new ArrayList<>();
+        if (n == 0) return result;
+        backtrack(result, new StringBuilder(), 0, 0, n);
+        return result;
+    }
+
+    private static void backtrack(List<String> result, StringBuilder current,
+                                  int leftCount, int rightCount, int max) {
+        // 终止条件：当前组合长度达到2n
+        if (current.length() == 2 * max) {
+            result.add(current.toString());
+            return;
+        }
+
+        // 添加左括号的条件：左括号数量未达n
+        if (leftCount < max) {
+            current.append('(');
+            backtrack(result, current, leftCount + 1, rightCount, max);
+            current.deleteCharAt(current.length() - 1); // 回溯
+        }
+
+        // 添加右括号的条件：右括号数量小于左括号
+        if (rightCount < leftCount) {
+            current.append(')');
+            backtrack(result, current, leftCount, rightCount + 1, max);
+            current.deleteCharAt(current.length() - 1); // 回溯
+        }
+    }
 
     /**
      * 字符串中所有异位词
