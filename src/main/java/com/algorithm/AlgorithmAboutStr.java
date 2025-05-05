@@ -81,10 +81,76 @@ public class AlgorithmAboutStr {
         // 给你一个整数数组 nums 和一个整数 k ，请你统计并返回 该数组中和为 k 的子数组的个数 。子数组是数组中元素的连续非空序列。
         // 解法：递归+回溯，比较低效，时间复杂度为n的阶乘
         // 用前缀和+哈希表，复杂度仅为On，前缀和算法主要是针对连续序列
-        System.out.println(subarraySum(new int[]{1,1,1},2));
-        System.out.println(subarraySum(new int[]{1,2,3},3));
+        // System.out.println(subarraySum(new int[]{1,1,1},2));
+        // System.out.println(subarraySum(new int[]{1,2,3},3));
+
+        // 76.最小覆盖子串
+        // 给你一个字符串 s 、一个字符串 t 。返回 s 中涵盖 t 所有字符的最小子串。如果 s 中不存在涵盖 t 所有字符的子串，则返回空字符串 "" 。
+        // 解法：统计字符频率+双指针滑动窗口
+        System.out.println(minWindow("ADOBECODEBANC","ABC"));
+        System.out.println(minWindow("a","a"));
+        System.out.println(minWindow("a","aa"));
 
 
+
+    }
+
+
+
+    static public String minWindow(String s, String t) {
+        int[] map = new int[128];
+        for (char c : t.toCharArray()) map[c]++;
+        int left = 0, right = 0, count = t.length(), minLen = Integer.MAX_VALUE, start = 0;
+        while (right < s.length()) {
+            if (map[s.charAt(right++)]-- > 0) count--;
+            while (count == 0) {
+                if (right - left < minLen) {
+                    minLen = right - left;
+                    start = left;
+                }
+                if (map[s.charAt(left++)]++ == 0) count++;
+            }
+        }
+        return minLen == Integer.MAX_VALUE ? "" : s.substring(start, start + minLen);
+    }
+
+    /**
+     * 给你一个字符串 s 、一个字符串 t 。返回 s 中涵盖 t 所有字符的最小子串。如果 s 中不存在涵盖 t 所有字符的子串，则返回空字符串 "" 。
+     * @param s "ADOBECODEBANC"
+     * @param t "ABC"
+     * @return "BANC"
+     */
+    static public String minWindowByMySelf(String s, String t) {
+        String reStr = "";
+        String temp = t;
+        String tempRe = "";
+        int nextIndex = 0;
+        for(int i=0;i<s.length();i++){
+            char chr = s.charAt(i);
+            if(temp.indexOf(chr)!=-1){
+                if(temp.length()==t.length()){
+                    tempRe = chr+"";
+                }
+                // 记录第二次出现子串的位置，视为下一次计数的起点
+                else if(temp.length()==t.length()-1){
+                    nextIndex = i-1;
+                    tempRe += chr;
+                }else{
+                    tempRe += chr;
+                }
+                temp = temp.replaceFirst(chr+"","");
+                if(temp.isEmpty()){
+                    temp = t;
+                    reStr = tempRe.length()<reStr.length() || reStr.isEmpty() ? tempRe : reStr;
+                    i = nextIndex;
+                }
+            }else{
+                if(temp.length()!=t.length()){
+                    tempRe += chr;
+                }
+            }
+        }
+        return reStr;
     }
 
     /**
