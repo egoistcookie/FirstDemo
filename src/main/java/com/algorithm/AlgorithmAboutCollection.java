@@ -561,15 +561,54 @@ public class AlgorithmAboutCollection {
         // 22.括号生成
         // 数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
         // 解法：递归回溯，对比左右括号数量
-        List<String> reLi = generateParenthesis(3);
-        for(String s:reLi){
-            System.out.print(s+" ");
+        // List<String> reLi = generateParenthesis(3);
+        // for(String s:reLi){
+        //     System.out.print(s+" ");
+        // }
+
+        // 73.矩阵置零
+        // 给定一个 m x n 的矩阵，如果一个元素为 0 ，则将其所在行和列的所有元素都设为 0 。请使用 原地 算法。
+        // 解法：两个hashset存行列状态
+        int[][] initArray = {{1,1,1},{1,0,1},{1,1,1}};
+        int[][] initArray1 = {{0,1,2,0},{3,4,5,2},{1,3,1,5}};
+        setZeroes(initArray1);
+        for(int i=0;i<initArray1.length;i++){
+            for(int j=0;j<initArray1[0].length;j++){
+                System.out.print(initArray1[i][j]+"");
+            }
+            System.out.println();
         }
 
 
 
     }
 
+
+    /**
+     * 给定一个 m x n 的矩阵，如果一个元素为 0 ，则将其所在行和列的所有元素都设为 0 。
+     * @param matrix {{1,1,1},{1,0,1},{1,1,1}}
+     */
+    static public void setZeroes(int[][] matrix) {
+        // 有0的列
+        HashSet<Integer> cols = new HashSet<>();
+        HashSet<Integer> rows = new HashSet<>();
+        for(int i=0;i<matrix.length;i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                if(matrix[i][j] == 0){
+                    cols.add(j);
+                    rows.add(i);
+                }
+            }
+        }
+        for(int i=0;i<matrix.length;i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                if(cols.contains(j) || rows.contains(i)){
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+
+    }
 
     /**
      * 用于能够生成所有可能的并且 有效的 括号组合。
