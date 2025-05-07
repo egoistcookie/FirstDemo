@@ -81,19 +81,70 @@ public class AlgorithmAboutCustomStruct {
         // 155.最小栈
         // 设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。
         // 解法：双栈法，辅助栈保存每次push的最小值。
-        MinStack minStack = new MinStack();
-        minStack.push(-2);
-        minStack.push(0);
-        minStack.push(-3);
-        System.out.println(minStack.getMin());  // --> 返回 -3.
-        minStack.pop();
-        System.out.println(minStack.top());      // --> 返回 0.
-        System.out.println(minStack.getMin());   // --> 返回 -2.
+        // MinStack minStack = new MinStack();
+        // minStack.push(-2);
+        // minStack.push(0);
+        // minStack.push(-3);
+        // System.out.println(minStack.getMin());  // --> 返回 -3.
+        // minStack.pop();
+        // System.out.println(minStack.top());      // --> 返回 0.
+        // System.out.println(minStack.getMin());   // --> 返回 -2.
 
+        // 138.随机链表的复制
+        // 给你一个长度为 n 的链表，每个节点包含一个额外增加的随机指针 random ，该指针可以指向链表中的任何节点或空节点。
+        // 构造这个链表的 深拷贝。
+        // 解法：两次遍历，第一次所有node，第二次node的两个属性
+        Node head = new Node(7);
+        Node node13 = new Node(13);
+        Node node11 = new Node(11);
+        Node node10 = new Node(10);
+        Node node1 = new Node(1);
+        head.next = node13;
+        head.next.next = node11;
+        head.next.random = head;
+        head.next.next.next = node10;
+        head.next.next.random = node11;
+        head.next.next.next.next = node1;
+        head.next.next.next.random = head;
+        copyRandomList(head);
 
 
     }
 
+    static public Node copyRandomList(Node head) {
+        if (head == null) return null;
+        Map<Node, Node> map = new HashMap<>();
+
+        // 第一次遍历：创建所有新节点并建立映射
+        Node curr = head;
+        while (curr != null) {
+            map.put(curr, new Node(curr.val));
+            curr = curr.next;
+        }
+
+        // 第二次遍历：设置指针
+        curr = head;
+        while (curr != null) {
+            Node clone = map.get(curr);
+            clone.next = map.get(curr.next);
+            clone.random = map.get(curr.random);
+            curr = curr.next;
+        }
+        return map.get(head);
+    }
+
+
+    static class Node {
+        int val;
+        Node next;
+        Node random;
+
+        public Node(int val) {
+            this.val = val;
+            this.next = null;
+            this.random = null;
+        }
+    }
 
     /**
      * 设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。
