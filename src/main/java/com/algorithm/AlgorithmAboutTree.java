@@ -166,18 +166,53 @@ public class AlgorithmAboutTree {
         // 199.二叉树的右视图
         // 给定一个二叉树的 根节点 root，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。
         // 解法：BFS-队列-广度优先搜索，记录每层最后一个节点的值
-        TreeNode rootTree1 = new TreeNode(1);
-        rootTree1.left = new TreeNode(2);
-        rootTree1.right = new TreeNode(3);
-        rootTree1.left.right = new TreeNode(5);
-        rootTree1.right.right = new TreeNode(4);
-        List<Integer> re = rightSideView(rootTree1);
-        for(int i : re){
-            System.out.printf(i+" ");
-        }
+        // TreeNode rootTree1 = new TreeNode(1);
+        // rootTree1.left = new TreeNode(2);
+        // rootTree1.right = new TreeNode(3);
+        // rootTree1.left.right = new TreeNode(5);
+        // rootTree1.right.right = new TreeNode(4);
+        // List<Integer> re = rightSideView(rootTree1);
+        // for(int i : re){
+        //     System.out.printf(i+" ");
+        // }
+
+        // 114.二叉树展开为链表
+        // 给你二叉树的根结点 root ，请你将它展开为一个单链表
+        // 解法：利用栈模拟前序遍历，维护前驱节点prev。
+        TreeNode head = new TreeNode(1);
+        head.left = new TreeNode(2);
+        head.right = new TreeNode(5);
+        head.left.left = new TreeNode(3);
+        head.left.right = new TreeNode(4);
+        head.right.right = new TreeNode(6);
+        flatten(head);
+
+
+
 
     }
 
+
+    static public void flatten(TreeNode root) {
+        if (root == null) return;
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        TreeNode prev = null;
+
+        while (!stack.isEmpty()) {
+            TreeNode curr = stack.pop();
+            if (prev != null) {
+                prev.right = curr;
+                prev.left = null;
+            }
+            // 先右后左入栈
+            if (curr.right != null) stack.push(curr.right);
+            if (curr.left != null) stack.push(curr.left);
+            prev = curr;
+        }
+
+        // root = newTree;
+    }
 
     /**
      * 二叉树的右视图
