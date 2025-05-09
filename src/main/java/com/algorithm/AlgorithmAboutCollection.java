@@ -569,20 +569,100 @@ public class AlgorithmAboutCollection {
         // 73.矩阵置零
         // 给定一个 m x n 的矩阵，如果一个元素为 0 ，则将其所在行和列的所有元素都设为 0 。请使用 原地 算法。
         // 解法：两个hashset存行列状态
-        int[][] initArray = {{1,1,1},{1,0,1},{1,1,1}};
-        int[][] initArray1 = {{0,1,2,0},{3,4,5,2},{1,3,1,5}};
-        setZeroes(initArray1);
-        for(int i=0;i<initArray1.length;i++){
-            for(int j=0;j<initArray1[0].length;j++){
-                System.out.print(initArray1[i][j]+"");
-            }
-            System.out.println();
-        }
+        // int[][] initArray = {{1,1,1},{1,0,1},{1,1,1}};
+        // int[][] initArray1 = {{0,1,2,0},{3,4,5,2},{1,3,1,5}};
+        // setZeroes(initArray1);
+        // for(int i=0;i<initArray1.length;i++){
+        //     for(int j=0;j<initArray1[0].length;j++){
+        //         System.out.print(initArray1[i][j]+"");
+        //     }
+        //     System.out.println();
+        // }
 
+        // 54.螺旋矩阵
+        // 给你一个 m 行 n 列的矩阵 matrix ，请按照 顺时针螺旋顺序 ，返回矩阵中的所有元素。
+        // 解法：边界模拟法
+        int [][] matrix = new int[][]{{1,2,3},{4,5,6},{7,8,9}};
+        List<Integer> spi = spiralOrder(matrix);
+        for(int i : spi){
+            System.out.println(i+" ");
+        }
 
 
     }
 
+
+    /**
+     * 给你一个 m 行 n 列的矩阵 matrix ，请按照 顺时针螺旋顺序 ，返回矩阵中的所有元素。
+     * @param matrix [[1,2,3],[4,5,6],[7,8,9]]
+     * @return [1,2,3,6,9,8,7,4,5]
+     */
+    static public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> result = new ArrayList<>();
+        if (matrix == null || matrix.length == 0) return result;
+
+        int top = 0, bottom = matrix.length - 1;
+        int left = 0, right = matrix[0].length - 1;
+
+        while (top <= bottom && left <= right) {
+            // 1. 从左到右遍历上边界
+            for (int i = left; i <= right; i++) {
+                result.add(matrix[top][i]);
+            }
+            top++;
+
+            // 2. 从上到下遍历右边界
+            for (int i = top; i <= bottom; i++) {
+                result.add(matrix[i][right]);
+            }
+            right--;
+
+            // 3. 从右到左遍历下边界（需检查是否还有剩余行）
+            if (top <= bottom) {
+                for (int i = right; i >= left; i--) {
+                    result.add(matrix[bottom][i]);
+                }
+                bottom--;
+            }
+
+            // 4. 从下到上遍历左边界（需检查是否还有剩余列）
+            if (left <= right) {
+                for (int i = bottom; i >= top; i--) {
+                    result.add(matrix[i][left]);
+                }
+                left++;
+            }
+        }
+        return result;
+    }
+
+    private static void addNodeSpial(int[][] matrix, int i, int j, int target,List<Integer> spi) {
+        if(matrix[i][j] == -1){
+            return;
+        }
+        spi.add(matrix[i][j]);
+        System.out.println(matrix[i][j]);
+        matrix[i][j]=-1;
+        if(target==0 && j+1<matrix[0].length && matrix[i][j+1]!=-1){
+            addNodeSpial(matrix,i,j+1,0,spi);
+        }else if(target==0 && (j+1>=matrix[0].length || matrix[i][j+1]==-1)){
+            addNodeSpial(matrix,i+1,j,1,spi);
+        }else if(target==1 && i+1<matrix.length && matrix[i+1][j]!=-1){
+            addNodeSpial(matrix,i+1,j,1,spi);
+        }else if(target==1 && (i+1>=matrix.length || matrix[i+1][j]==-1)){
+            addNodeSpial(matrix,i,j-1,2,spi);
+        }else if(target==2 && j-1>0 && matrix[i][j-1]!=-1){
+            addNodeSpial(matrix,i,j-1,2,spi);
+        }else if(target==2 && (j-1<=0 || matrix[i][j-1]==-1)){
+            addNodeSpial(matrix,i,j-1,3,spi);
+        }else if(target==3 && i-1>0 && matrix[i-1][j]!=-1){
+            addNodeSpial(matrix,i-1,j,3,spi);
+        }else if(target==3 && (i-1<=0 || matrix[i-1][j]==-1)){
+            addNodeSpial(matrix,i,j+1,0,spi);
+        }
+
+
+    }
 
     /**
      * 给定一个 m x n 的矩阵，如果一个元素为 0 ，则将其所在行和列的所有元素都设为 0 。
