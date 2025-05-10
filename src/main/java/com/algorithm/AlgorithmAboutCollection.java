@@ -582,13 +582,39 @@ public class AlgorithmAboutCollection {
         // 54.螺旋矩阵
         // 给你一个 m 行 n 列的矩阵 matrix ，请按照 顺时针螺旋顺序 ，返回矩阵中的所有元素。
         // 解法：边界模拟法
-        int [][] matrix = new int[][]{{1,2,3},{4,5,6},{7,8,9}};
-        List<Integer> spi = spiralOrder(matrix);
-        for(int i : spi){
-            System.out.println(i+" ");
+        // int [][] matrix = new int[][]{{1,2,3},{4,5,6},{7,8,9}};
+        // List<Integer> spi = spiralOrder(matrix);
+        // for(int i : spi){
+        //     System.out.println(i+" ");
+        // }
+
+        // 152.乘积最大子数组
+        // 给你一个整数数组 nums ，请你找出数组中乘积最大的非空连续 子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。
+        // 解法：动态规划，注意最小负数也需要保存，可能遇到负数乘为正数
+        System.out.println(maxProduct(new int[]{2,3,-2,4}));
+        System.out.println(maxProduct(new int[]{-2,0,-1}));
+        System.out.println(maxProduct(new int[]{2,3,-2,4,5}));
+
+
+
+    }
+
+
+    /**
+     * 给你一个整数数组 nums ，请你找出数组中乘积最大的非空连续 子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。
+     * @param nums {2,3,-2,4}
+     * @return 子数组 [2,3]  最大乘积 6
+     */
+    static public int maxProduct(int[] nums) {
+        // cur_min:以当前元素结尾的子数组的最小乘积（用于处理负数）
+        int max = nums[0], cur_max = nums[0], cur_min = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            int temp_max = cur_max; // 保存前一个状态
+            cur_max = Math.max(Math.max(cur_max * nums[i], cur_min * nums[i]), nums[i]);
+            cur_min = Math.min(Math.min(temp_max * nums[i], cur_min * nums[i]), nums[i]);
+            max = Math.max(max, cur_max);
         }
-
-
+        return max;
     }
 
 
