@@ -591,11 +591,65 @@ public class AlgorithmAboutCollection {
         // 152.乘积最大子数组
         // 给你一个整数数组 nums ，请你找出数组中乘积最大的非空连续 子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。
         // 解法：动态规划，注意最小负数也需要保存，可能遇到负数乘为正数
-        System.out.println(maxProduct(new int[]{2,3,-2,4}));
-        System.out.println(maxProduct(new int[]{-2,0,-1}));
-        System.out.println(maxProduct(new int[]{2,3,-2,4,5}));
+        // System.out.println(maxProduct(new int[]{2,3,-2,4}));
+        // System.out.println(maxProduct(new int[]{-2,0,-1}));
+        // System.out.println(maxProduct(new int[]{2,3,-2,4,5}));
+
+        // 79.单词搜索
+        // 给定一个 m x n 二维字符网格 board 和一个字符串单词 word 。如果 word 存在于网格中，返回 true ；否则，返回 false 。
+        // 解法：递归+回溯，确定true和false和继续三种情况。
+        System.out.println(exist(new char[][]{{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}},"ABCCED"));
+        System.out.println(exist(new char[][]{{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}},"SEE"));
+        System.out.println(exist(new char[][]{{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}},"ABCB"));
 
 
+
+    }
+
+
+    /**
+     * 给定一个 m x n 二维字符网格 board 和一个字符串单词 word 。如果 word 存在于网格中，返回 true ；否则，返回 false 。
+     * @param board {{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}}
+     * @param word "ABCCED"
+     * @return true
+     */
+    static public boolean exist(char[][] board, String word) {
+        isExist = false;
+        for(int i=0;i<board.length;i++){
+            for(int j=0;j<board[0].length;j++){
+                if((board[i][j]+"").equals(word.substring(0,1))){
+                    StringBuilder initStr = new StringBuilder();
+                    searchDig(board,i,j,0,word,initStr);
+                }
+            }
+        }
+        return isExist;
+    }
+
+    private static boolean isExist = false;
+
+    private static boolean searchDig(char[][] board, int i,int j,int from ,String word, StringBuilder initStr) {
+        if(i<0 || j<0 || i==board.length || j==board[0].length){
+            return false;
+        }
+        initStr.append(board[i][j]);
+        if(word.startsWith(initStr.toString())){
+            if(word.contentEquals(initStr)){
+                isExist = true;
+                return true;
+            }
+        }else{
+            // 回溯
+            initStr.deleteCharAt(initStr.length()-1);
+            return false;
+        }
+        // 继续，但不能走回头路
+        if(from!=2 && searchDig(board,i+1,j,1,word,initStr))return true;
+        if(from!=1 && searchDig(board,i-1,j,2,word,initStr))return true;
+        if(from!=4 && searchDig(board,i,j+1,3,word,initStr))return true;
+        if(from!=3 && searchDig(board,i,j-1,4,word,initStr))return true;
+
+        return false;
 
     }
 
