@@ -598,11 +598,41 @@ public class AlgorithmAboutCollection {
         // 79.单词搜索
         // 给定一个 m x n 二维字符网格 board 和一个字符串单词 word 。如果 word 存在于网格中，返回 true ；否则，返回 false 。
         // 解法：递归+回溯，确定true和false和继续三种情况。
-        System.out.println(exist(new char[][]{{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}},"ABCCED"));
-        System.out.println(exist(new char[][]{{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}},"SEE"));
-        System.out.println(exist(new char[][]{{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}},"ABCB"));
+        // System.out.println(exist(new char[][]{{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}},"ABCCED"));
+        // System.out.println(exist(new char[][]{{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}},"SEE"));
+        // System.out.println(exist(new char[][]{{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}},"ABCB"));
+
+        // 739.每日温度
+        // 给定一个整数数组 temperatures ，表示每天的温度，返回一个数组 answer ，其中 answer[i] 是指对于第 i 天，下一个更高温度出现在几天后。
+        // 如果气温在这之后都不会升高，请在该位置用 0 来代替。
+        // 解法：单调栈，从后向前遍历，维护一个递减的序列。
+        int[] re = dailyTemperatures(new int[]{73,74,75,71,69,72,76,73});
+        for(int i:re){
+            System.out.print(i+" ");
+        }
 
 
+
+    }
+
+
+    /**
+     * 给定一个整数数组 temperatures ，表示每天的温度，返回一个数组 answer ，其中 answer[i] 是指对于第 i 天，下一个更高温度出现在几天后。
+     * @param temperatures {73,74,75,71,69,72,76,73}
+     * @return {1,1,4,2,1,1,0,0}
+     */
+    static public int[] dailyTemperatures(int[] temperatures) {
+
+        int[] ans = new int[temperatures.length];
+        Deque<Integer> stack = new ArrayDeque<>();
+        for (int i = temperatures.length - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && temperatures[i] >= temperatures[stack.peek()]) {
+                stack.pop();
+            }
+            ans[i] = stack.isEmpty() ? 0 : stack.peek() - i;
+            stack.push(i);
+        }
+        return ans;
 
     }
 
