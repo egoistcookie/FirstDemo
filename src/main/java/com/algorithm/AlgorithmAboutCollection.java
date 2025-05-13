@@ -606,15 +606,53 @@ public class AlgorithmAboutCollection {
         // 给定一个整数数组 temperatures ，表示每天的温度，返回一个数组 answer ，其中 answer[i] 是指对于第 i 天，下一个更高温度出现在几天后。
         // 如果气温在这之后都不会升高，请在该位置用 0 来代替。
         // 解法：单调栈，从后向前遍历，维护一个递减的序列。
-        int[] re = dailyTemperatures(new int[]{73,74,75,71,69,72,76,73});
-        for(int i:re){
-            System.out.print(i+" ");
-        }
+        // int[] re = dailyTemperatures(new int[]{73,74,75,71,69,72,76,73});
+        // for(int i:re){
+        //     System.out.print(i+" ");
+        // }
+
+        // 31.下一个排列
+        // 整数数组的 下一个排列 是指其整数的下一个字典序更大的排列。
+        // 给你一个整数数组 nums ，找出 nums 的下一个排列。
+        // 解法：找降序点、找交换点、反转右侧
+        nextPermutation(new int[]{1,2,3});
+        nextPermutation(new int[]{3,2,1});
+        nextPermutation(new int[]{1,1,5});
 
 
 
     }
 
+
+    /**
+     * 给你一个整数数组 nums ，找出 nums 的下一个排列。
+     * @param nums {1,2,3} >> {1,3,2}
+     *             {3,2,1} >> {1,2,3}
+     */
+    static public void nextPermutation(int[] nums) {
+        int i = nums.length - 2;
+        while (i >= 0 && nums[i] >= nums[i + 1]) i--;
+
+        if (i >= 0) {
+            int j = nums.length - 1;
+            while (nums[j] <= nums[i]) j--;
+            swap(nums, i, j);
+        }
+        reverse(nums, i + 1);
+    }
+
+    private static void reverse(int[] nums, int start) {
+        int end = nums.length - 1;
+        while (start < end) {
+            swap(nums, start++, end--);
+        }
+    }
+
+    private static void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
 
     /**
      * 给定一个整数数组 temperatures ，表示每天的温度，返回一个数组 answer ，其中 answer[i] 是指对于第 i 天，下一个更高温度出现在几天后。
