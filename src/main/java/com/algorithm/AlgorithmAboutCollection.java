@@ -615,14 +615,54 @@ public class AlgorithmAboutCollection {
         // 整数数组的 下一个排列 是指其整数的下一个字典序更大的排列。
         // 给你一个整数数组 nums ，找出 nums 的下一个排列。
         // 解法：找降序点、找交换点、反转右侧
-        nextPermutation(new int[]{1,2,3});
-        nextPermutation(new int[]{3,2,1});
-        nextPermutation(new int[]{1,1,5});
+        // nextPermutation(new int[]{1,2,3});
+        // nextPermutation(new int[]{3,2,1});
+        // nextPermutation(new int[]{1,1,5});
+
+        // 33.搜索旋转排序数组
+        // 给你 旋转后 的数组 nums 和一个整数 target ，如果 nums 中存在这个目标值 target ，则返回它的下标，否则返回 -1 。
+        // 解法：二分法查找基础上，加一个判断左右半侧是否有序
+        System.out.println(search(new int[]{4,5,6,7,0,1,2},0));
+
 
 
 
     }
 
+
+    /**
+     * 给你 旋转后 的数组 nums 和一个整数 target ，如果 nums 中存在这个目标值 target ，则返回它的下标，否则返回 -1 。
+     * @param nums {4,5,6,7,0,1,2}
+     * @param target 0
+     * @return
+     */
+    static public int search(int[] nums, int target) {
+
+        int left = 0;
+        int right = nums.length - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            }
+            // 左半部分有序
+            if (nums[mid] >= nums[left]) {
+                if (target >= nums[left] && target < nums[mid]) {
+                    right = mid - 1; // 在左半部分查找
+                } else {
+                    left = mid + 1; // 在右半部分查找
+                }
+            } else { // 右半部分有序
+                if (target > nums[mid] && target <= nums[right]) {
+                    left = mid + 1; // 在右半部分查找
+                } else {
+                    right = mid - 1; // 在左半部分查找
+                }
+            }
+        }
+        return -1;
+    }
 
     /**
      * 给你一个整数数组 nums ，找出 nums 的下一个排列。
