@@ -626,7 +626,7 @@ public class AlgorithmAboutCollection {
 
         // 1143.最长公共子序列
         // 给定两个字符串 text1 和 text2，返回这两个字符串的最长 公共子序列 的长度。如果不存在 公共子序列 ，返回 0 。
-        // 解法：动态规划，理解转移方程
+        // 解法：动态规划，理解状态转移方程
         System.out.println(longestCommonSubsequence("abcde","ace"));
         System.out.println(longestCommonSubsequence("abc","abc"));
         System.out.println(longestCommonSubsequence("oxcpqrsvwf","shmtulqrypy"));
