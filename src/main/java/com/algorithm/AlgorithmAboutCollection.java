@@ -627,16 +627,38 @@ public class AlgorithmAboutCollection {
         // 1143.最长公共子序列
         // 给定两个字符串 text1 和 text2，返回这两个字符串的最长 公共子序列 的长度。如果不存在 公共子序列 ，返回 0 。
         // 解法：动态规划，理解状态转移方程
-        System.out.println(longestCommonSubsequence("abcde","ace"));
-        System.out.println(longestCommonSubsequence("abc","abc"));
-        System.out.println(longestCommonSubsequence("oxcpqrsvwf","shmtulqrypy"));
+        // System.out.println(longestCommonSubsequence("abcde","ace"));
+        // System.out.println(longestCommonSubsequence("abc","abc"));
+        // System.out.println(longestCommonSubsequence("oxcpqrsvwf","shmtulqrypy"));
 
-
+        // 45.跳跃游戏2
+        // 给定一个长度为 n 的 0 索引整数数组 nums。初始位置为 nums[0]。每个元素 nums[i] 表示从索引 i 向后跳转的最大长度。
+        // 返回到达 nums[n - 1] 的最小跳跃次数。
+        // 解法：贪心算法，达到最大边界就跳跃一次
+        System.out.println(jump(new int[]{2,3,1,1,4}));
+        System.out.println(jump(new int[]{2,3,0,1,4}));
+        System.out.println(jump(new int[]{0}));
 
 
     }
 
 
+    /**
+     * 给定一个长度为 n 的 0 索引整数数组 nums。返回到达 nums[n - 1] 的最小跳跃次数。
+     * @param nums {2,3,1,1,4}
+     * @return 2
+     */
+    static public int jump(int[] nums) {
+        int step = 0, end = 0, maxReach = 0;
+        for (int i = 0; i < nums.length - 1; i++) {
+            maxReach = Math.max(maxReach, i + nums[i]);
+            if (i == end) {
+                step++;
+                end = maxReach;
+            }
+        }
+        return step;
+    }
 
     /**
      * 给定两个字符串 text1 和 text2，返回这两个字符串的最长 公共子序列 的长度。
