@@ -635,13 +635,60 @@ public class AlgorithmAboutCollection {
         // 给定一个长度为 n 的 0 索引整数数组 nums。初始位置为 nums[0]。每个元素 nums[i] 表示从索引 i 向后跳转的最大长度。
         // 返回到达 nums[n - 1] 的最小跳跃次数。
         // 解法：贪心算法，达到最大边界就跳跃一次
-        System.out.println(jump(new int[]{2,3,1,1,4}));
-        System.out.println(jump(new int[]{2,3,0,1,4}));
-        System.out.println(jump(new int[]{0}));
+        // System.out.println(jump(new int[]{2,3,1,1,4}));
+        // System.out.println(jump(new int[]{2,3,0,1,4}));
+        // System.out.println(jump(new int[]{0}));
+
+        // 763.划分字母区间
+        // 给你一个字符串 s 。我们要把这个字符串划分为尽可能多的片段，同一字母最多出现在一个片段中。
+        // 解法：贪心算法。预处理获取每个字符的最后出现位置，会比在循环里用lastIndexOf效率更高
+        partitionLabels("ababcbacadefegdehijhklij");
+
+
+
 
 
     }
 
+    static public List<Integer> partitionLabels(String s) {
+        // 1. 预处理字符最后位置
+        int[] last = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            last[s.charAt(i) - 'a'] = i;
+        }
+
+        // 2. 划分区间
+        List<Integer> result = new ArrayList<>();
+        int start = 0, end = 0;
+        for (int i = 0; i < s.length(); i++) {
+            end = Math.max(end, last[s.charAt(i) - 'a']);
+            if (i == end) { // 当前片段结束
+                result.add(end - start + 1);
+                start = end + 1;
+            }
+        }
+        return result;
+    }
+
+
+    static public List<Integer> partitionLabelsByMySelf(String s) {
+
+        List<Integer> re = new ArrayList<>();
+        char startChar;
+        int left =0;
+        int right = 0;
+        while(left<s.length()){
+            startChar = s.charAt(left);
+            right = s.lastIndexOf(startChar);
+            for(int i=left;i<right+1;i++){
+                right = Math.max(s.lastIndexOf(s.charAt(i)),right);
+            }
+            re.add(right-left+1);
+            left = right+1;
+        }
+        return re;
+
+    }
 
     /**
      * 给定一个长度为 n 的 0 索引整数数组 nums。返回到达 nums[n - 1] 的最小跳跃次数。
