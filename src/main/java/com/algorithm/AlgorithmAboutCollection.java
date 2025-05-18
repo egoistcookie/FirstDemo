@@ -619,6 +619,78 @@ public class AlgorithmAboutCollection {
         // nextPermutation(new int[]{3,2,1});
         // nextPermutation(new int[]{1,1,5});
 
+        // 33.搜索旋转排序数组
+        // 给你 旋转后 的数组 nums 和一个整数 target ，如果 nums 中存在这个目标值 target ，则返回它的下标，否则返回 -1 。
+        // 解法：二分法查找基础上，加一个判断左右半侧是否有序
+        // System.out.println(search(new int[]{4,5,6,7,0,1,2},0));
+
+        // 1143.最长公共子序列
+        // 给定两个字符串 text1 和 text2，返回这两个字符串的最长 公共子序列 的长度。如果不存在 公共子序列 ，返回 0 。
+        // 解法：动态规划，理解状态转移方程
+        // System.out.println(longestCommonSubsequence("abcde","ace"));
+        // System.out.println(longestCommonSubsequence("abc","abc"));
+        // System.out.println(longestCommonSubsequence("oxcpqrsvwf","shmtulqrypy"));
+
+        // 45.跳跃游戏2
+        // 给定一个长度为 n 的 0 索引整数数组 nums。初始位置为 nums[0]。每个元素 nums[i] 表示从索引 i 向后跳转的最大长度。
+        // 返回到达 nums[n - 1] 的最小跳跃次数。
+        // 解法：贪心算法，达到最大边界就跳跃一次
+        // System.out.println(jump(new int[]{2,3,1,1,4}));
+        // System.out.println(jump(new int[]{2,3,0,1,4}));
+        // System.out.println(jump(new int[]{0}));
+
+        // 763.划分字母区间
+        // 给你一个字符串 s 。我们要把这个字符串划分为尽可能多的片段，同一字母最多出现在一个片段中。
+        // 解法：贪心算法。预处理获取每个字符的最后出现位置，会比在循环里用lastIndexOf效率更高
+        partitionLabels("ababcbacadefegdehijhklij");
+
+
+
+
+
+    }
+
+    static public List<Integer> partitionLabels(String s) {
+        // 1. 预处理字符最后位置
+        int[] last = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            last[s.charAt(i) - 'a'] = i;
+        }
+
+        // 2. 划分区间
+        List<Integer> result = new ArrayList<>();
+        int start = 0, end = 0;
+        for (int i = 0; i < s.length(); i++) {
+            end = Math.max(end, last[s.charAt(i) - 'a']);
+            if (i == end) { // 当前片段结束
+                result.add(end - start + 1);
+                start = end + 1;
+            }
+        }
+        return result;
+    }
+
+
+    static public List<Integer> partitionLabelsByMySelf(String s) {
+
+        List<Integer> re = new ArrayList<>();
+        char startChar;
+        int left =0;
+        int right = 0;
+        while(left<s.length()){
+            startChar = s.charAt(left);
+            right = s.lastIndexOf(startChar);
+            for(int i=left;i<right+1;i++){
+                right = Math.max(s.lastIndexOf(s.charAt(i)),right);
+            }
+            re.add(right-left+1);
+            left = right+1;
+        }
+        return re;
+        // nextPermutation(new int[]{1,2,3});
+        // nextPermutation(new int[]{3,2,1});
+        // nextPermutation(new int[]{1,1,5});
+
         // 41.缺失的第一个整数
         // 给你一个未排序的整数数组 nums ，请你找出其中没有出现的最小的正整数。
         // 解法：重新按序放置数组
@@ -627,8 +699,45 @@ public class AlgorithmAboutCollection {
         System.out.println(firstMissingPositive(new int[]{7,8,9,11,12}));
 
 
+    }
 
+    /**
+     * 给定一个长度为 n 的 0 索引整数数组 nums。返回到达 nums[n - 1] 的最小跳跃次数。
+     * @param nums {2,3,1,1,4}
+     * @return 2
+     */
+    static public int jump(int[] nums) {
+        int step = 0, end = 0, maxReach = 0;
+        for (int i = 0; i < nums.length - 1; i++) {
+            maxReach = Math.max(maxReach, i + nums[i]);
+            if (i == end) {
+                step++;
+                end = maxReach;
+            }
+        }
+        return step;
+    }
 
+    /**
+     * 给定两个字符串 text1 和 text2，返回这两个字符串的最长 公共子序列 的长度。
+     * @param text1 "abcde"
+     * @param text2 "ace"
+     * @return 3
+     */
+    static public int longestCommonSubsequence(String text1, String text2) {
+
+        int m = text1.length(), n = text2.length();
+        int[][] dp = new int[m + 1][n + 1];
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                } else {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+        return dp[m][n];
     }
 
 
@@ -654,6 +763,40 @@ public class AlgorithmAboutCollection {
             }
         }
         return n + 1;
+    }
+
+    /**
+     * 给你 旋转后 的数组 nums 和一个整数 target ，如果 nums 中存在这个目标值 target ，则返回它的下标，否则返回 -1 。
+     * @param nums {4,5,6,7,0,1,2}
+     * @param target 0
+     * @return
+     */
+    static public int search(int[] nums, int target) {
+
+        int left = 0;
+        int right = nums.length - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            }
+            // 左半部分有序
+            if (nums[mid] >= nums[left]) {
+                if (target >= nums[left] && target < nums[mid]) {
+                    right = mid - 1; // 在左半部分查找
+                } else {
+                    left = mid + 1; // 在右半部分查找
+                }
+            } else { // 右半部分有序
+                if (target > nums[mid] && target <= nums[right]) {
+                    left = mid + 1; // 在右半部分查找
+                } else {
+                    right = mid - 1; // 在左半部分查找
+                }
+            }
+        }
+        return -1;
     }
 
     /**
