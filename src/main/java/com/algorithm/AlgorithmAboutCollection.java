@@ -615,14 +615,46 @@ public class AlgorithmAboutCollection {
         // 整数数组的 下一个排列 是指其整数的下一个字典序更大的排列。
         // 给你一个整数数组 nums ，找出 nums 的下一个排列。
         // 解法：找降序点、找交换点、反转右侧
-        nextPermutation(new int[]{1,2,3});
-        nextPermutation(new int[]{3,2,1});
-        nextPermutation(new int[]{1,1,5});
+        // nextPermutation(new int[]{1,2,3});
+        // nextPermutation(new int[]{3,2,1});
+        // nextPermutation(new int[]{1,1,5});
+
+        // 41.缺失的第一个整数
+        // 给你一个未排序的整数数组 nums ，请你找出其中没有出现的最小的正整数。
+        // 解法：重新按序放置数组
+        System.out.println(firstMissingPositive(new int[]{100000, 3, 4000, 2, 15, 1, 99999}));
+        System.out.println(firstMissingPositive(new int[]{2,1}));
+        System.out.println(firstMissingPositive(new int[]{7,8,9,11,12}));
+
 
 
 
     }
 
+
+    /**
+     * 缺失的第一个整数
+     * @param nums {1,2,0} {3,4,-1,1} {100000, 3, 4000, 2, 15, 1, 99999}
+     * @return 3 2
+     */
+    static public int firstMissingPositive(int[] nums) {
+        int n = nums.length;
+        // 将数字放到正确位置
+        for (int i = 0; i < n; i++) {
+            while (nums[i] > 0 && nums[i] <= n && nums[nums[i] - 1] != nums[i]) {
+                int temp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = temp;
+            }
+        }
+        // 检查第一个不满足条件的位置
+        for (int i = 0; i < n; i++) {
+            if (nums[i] != i + 1) {
+                return i + 1;
+            }
+        }
+        return n + 1;
+    }
 
     /**
      * 给你一个整数数组 nums ，找出 nums 的下一个排列。
