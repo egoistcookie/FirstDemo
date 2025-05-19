@@ -647,11 +647,49 @@ public class AlgorithmAboutCollection {
         // 41.缺失的第一个整数
         // 给你一个未排序的整数数组 nums ，请你找出其中没有出现的最小的正整数。
         // 解法：重新按序放置数组
-        System.out.println(firstMissingPositive(new int[]{100000, 3, 4000, 2, 15, 1, 99999}));
-        System.out.println(firstMissingPositive(new int[]{2,1}));
-        System.out.println(firstMissingPositive(new int[]{7,8,9,11,12}));
+        // System.out.println(firstMissingPositive(new int[]{100000, 3, 4000, 2, 15, 1, 99999}));
+        // System.out.println(firstMissingPositive(new int[]{2,1}));
+        // System.out.println(firstMissingPositive(new int[]{7,8,9,11,12}));
+
+        // 148.排序链表
+        // 给你链表的头结点 head ，请将其按 升序 排列并返回 排序后的链表 。
+        // 解法：循环到list后排序
+        ListNode node = new ListNode(4);
+        node.next = new ListNode(2);
+        node.next.next = new ListNode(1);
+        node.next.next.next = new ListNode(3);
+        node = sortList(node);
+        while(node!=null){
+            System.out.println(node.val);
+            node = node.next;
+        }
 
 
+
+
+    }
+
+
+    /**
+     * 给你链表的头结点 head ，请将其按 升序 排列并返回 排序后的链表 。
+     * @param head [4,2,1,3]
+     * @return [1,2,3,4]
+     */
+    static public ListNode sortList(ListNode head) {
+        ListNode virtual = new ListNode(-1);
+        ListNode cur = head;
+        List<Integer> list = new ArrayList<>();
+        while(cur != null){
+            list.add(cur.val);
+            cur = cur.next;
+        }
+        Collections.sort(list); // 升序
+        cur = virtual;
+        for(int i : list){
+            cur.next = new ListNode(i);
+            cur = cur.next;
+        }
+        return virtual.next;
     }
 
     /**
