@@ -654,21 +654,64 @@ public class AlgorithmAboutCollection {
         // 148.排序链表
         // 给你链表的头结点 head ，请将其按 升序 排列并返回 排序后的链表 。
         // 解法：循环到list后排序
-        ListNode node = new ListNode(4);
-        node.next = new ListNode(2);
-        node.next.next = new ListNode(1);
-        node.next.next.next = new ListNode(3);
-        node = sortList(node);
-        while(node!=null){
-            System.out.println(node.val);
-            node = node.next;
+        // ListNode node = new ListNode(4);
+        // node.next = new ListNode(2);
+        // node.next.next = new ListNode(1);
+        // node.next.next.next = new ListNode(3);
+        // node = sortList(node);
+        // while(node!=null){
+        //     System.out.println(node.val);
+        //     node = node.next;
+        // }
+
+        // 23.合并k个升序链表
+        // 给你一个链表数组，每个链表都已经按升序排列。
+        // 请你将所有链表合并到一个升序链表中，返回合并后的链表。
+        // 解法：优先队列-最小堆（默认）
+        ListNode node1 = new ListNode(1);
+        node1.next = new ListNode(4);
+        node1.next.next = new ListNode(5);
+        ListNode node2 = new ListNode(1);
+        node2.next = new ListNode(3);
+        node2.next.next = new ListNode(4);
+        ListNode node3 = new ListNode(2);
+        node3.next = new ListNode(6);
+        ListNode[] ls = new ListNode[3];
+        ls[0]=node1;ls[1]=node2;ls[2]=node3;
+        ListNode ret = mergeKLists(ls);
+        while(ret != null){
+            System.out.print(ret.val+" ");
+            ret = ret.next;
         }
-
-
-
 
     }
 
+
+    /**
+     * 请你将所有链表合并到一个升序链表中
+     * @param lists [[1,4,5],[1,3,4],[2,6]]
+     * @return [1,1,2,3,4,4,5,6]
+     */
+    static public ListNode mergeKLists(ListNode[] lists) {
+
+        if (lists == null || lists.length == 0) return null;
+
+        PriorityQueue<ListNode> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a.val));
+        for (ListNode node : lists) {
+            if (node != null) pq.offer(node);
+        }
+
+        ListNode dummy = new ListNode(-1);
+        ListNode cur = dummy;
+        while (!pq.isEmpty()) {
+            ListNode minNode = pq.poll();
+            cur.next = minNode;
+            cur = cur.next;
+            if (minNode.next != null) pq.offer(minNode.next);
+        }
+        return dummy.next;
+
+    }
 
     /**
      * 给你链表的头结点 head ，请将其按 升序 排列并返回 排序后的链表 。
