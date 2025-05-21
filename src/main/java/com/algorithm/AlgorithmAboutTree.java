@@ -179,19 +179,58 @@ public class AlgorithmAboutTree {
         // 114.二叉树展开为链表
         // 给你二叉树的根结点 root ，请你将它展开为一个单链表
         // 解法：利用栈模拟前序遍历，维护前驱节点prev。
-        TreeNode head = new TreeNode(1);
-        head.left = new TreeNode(2);
-        head.right = new TreeNode(5);
-        head.left.left = new TreeNode(3);
-        head.left.right = new TreeNode(4);
-        head.right.right = new TreeNode(6);
-        flatten(head);
+        // TreeNode head = new TreeNode(1);
+        // head.left = new TreeNode(2);
+        // head.right = new TreeNode(5);
+        // head.left.left = new TreeNode(3);
+        // head.left.right = new TreeNode(4);
+        // head.right.right = new TreeNode(6);
+        // flatten(head);
 
-
+        // 105.从前序与中序遍历序列构造二叉树
+        // 给定两个整数数组 preorder 和 inorder ，其中 preorder 是二叉树的先序遍历， inorder 是同一棵树的中序遍历，请构造二叉树并返回其根节点。
+        // 解法：递归+哈希表优化查找效率
+        TreeNode tree = buildTree(new int[]{3,9,20,15,7},new int[]{9,3,15,20,7});
+        while(tree!=null && tree.left!=null){
+            System.out.println(tree.left.val+" "+ tree.right.val);
+            tree = tree.left;
+        }
 
 
     }
 
+
+    private static Map<Integer, Integer> inorderIndexMap;
+    /**
+     *
+     * @param preorder [3,9,20,15,7] [9,3,15,20,7]
+     * @param inorder [3,9,20,null,null,15,7]
+     * @return
+     */
+    static public TreeNode buildTree(int[] preorder, int[] inorder) {
+        inorderIndexMap = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            inorderIndexMap.put(inorder[i], i);
+        }
+        return buildSubTree(preorder, 0, preorder.length - 1, 0, inorder.length - 1);
+    }
+
+    private static TreeNode buildSubTree(int[] preorder, int preStart, int preEnd, int inStart, int inEnd) {
+        if (preStart > preEnd || inStart > inEnd) {
+            return null;
+        }
+        // 根节点是前序遍历的第一个元素
+        int rootVal = preorder[preStart];
+        TreeNode root = new TreeNode(rootVal);
+        // 在中序遍历中找到根节点的位置
+        int rootIndex = inorderIndexMap.get(rootVal);
+        int leftSubtreeSize = rootIndex - inStart;
+        // 构造左子树
+        root.left = buildSubTree(preorder, preStart + 1, preStart + leftSubtreeSize, inStart, rootIndex - 1);
+        // 构造右子树
+        root.right = buildSubTree(preorder, preStart + leftSubtreeSize + 1, preEnd, rootIndex + 1, inEnd);
+        return root;
+    }
 
     static public void flatten(TreeNode root) {
         if (root == null) return;
