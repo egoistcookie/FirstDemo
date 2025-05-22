@@ -196,8 +196,11 @@ public class AlgorithmAboutTree {
         //     tree = tree.left;
         // }
 
+
+        AlgorithmAboutTree at = new AlgorithmAboutTree();
         // 437.路径总和3
         // 给定一个二叉树的根节点 root ，和一个整数 targetSum ，求该二叉树里节点值之和等于 targetSum 的 路径 的数目。
+        // 解法：前缀和+哈希表
         TreeNode head = new TreeNode(10);
         head.left = new TreeNode(5);
         head.right = new TreeNode(-3);
@@ -207,11 +210,38 @@ public class AlgorithmAboutTree {
         head.left.left.left = new TreeNode(3);
         head.left.left.right = new TreeNode(-2);
         head.left.right.right = new TreeNode(1);
-        System.out.println(pathSum(head,8));
+        System.out.println(at.pathSum(head,8));
+        // System.out.println(pathSum(head,8));
 
 
     }
 
+    private Map<Long, Integer> prefixSumCount = new HashMap<>();
+    private int count = 0;
+
+    public int pathSum(TreeNode root, int targetSum) {
+        prefixSumCount.put(0L, 1); // 初始化：前缀和为0的路径有1条
+        dfs(root, 0L, targetSum);
+        return count;
+    }
+
+    private void dfs(TreeNode node, long currentSum, int targetSum) {
+        if (node == null) return;
+
+        currentSum += node.val; // 更新当前路径和
+        // 查找满足 currentSum - prefixSum = targetSum 的路径
+        count += prefixSumCount.getOrDefault(currentSum - targetSum, 0);
+
+        // 更新哈希表
+        prefixSumCount.put(currentSum, prefixSumCount.getOrDefault(currentSum, 0) + 1);
+
+        // 递归处理左右子树
+        dfs(node.left, currentSum, targetSum);
+        dfs(node.right, currentSum, targetSum);
+
+        // 回溯：恢复哈希表状态
+        prefixSumCount.put(currentSum, prefixSumCount.get(currentSum) - 1);
+    }
 
     /**
      * 给定一个二叉树的根节点 root ，和一个整数 targetSum ，求该二叉树里节点值之和等于 targetSum 的 路径 的数目。
@@ -219,7 +249,7 @@ public class AlgorithmAboutTree {
      * @param targetSum 8
      * @return 3
      */
-    static public int pathSum(TreeNode root, int targetSum) {
+    static public int pathSumByMy(TreeNode root, int targetSum) {
         pathSumTotal =0;
         addNode(root,targetSum,0);
 
