@@ -190,14 +190,60 @@ public class AlgorithmAboutTree {
         // 105.从前序与中序遍历序列构造二叉树
         // 给定两个整数数组 preorder 和 inorder ，其中 preorder 是二叉树的先序遍历， inorder 是同一棵树的中序遍历，请构造二叉树并返回其根节点。
         // 解法：递归+哈希表优化查找效率
-        TreeNode tree = buildTree(new int[]{3,9,20,15,7},new int[]{9,3,15,20,7});
-        while(tree!=null && tree.left!=null){
-            System.out.println(tree.left.val+" "+ tree.right.val);
-            tree = tree.left;
-        }
+        // TreeNode tree = buildTree(new int[]{3,9,20,15,7},new int[]{9,3,15,20,7});
+        // while(tree!=null && tree.left!=null){
+        //     System.out.println(tree.left.val+" "+ tree.right.val);
+        //     tree = tree.left;
+        // }
+
+        // 437.路径总和3
+        // 给定一个二叉树的根节点 root ，和一个整数 targetSum ，求该二叉树里节点值之和等于 targetSum 的 路径 的数目。
+        TreeNode head = new TreeNode(10);
+        head.left = new TreeNode(5);
+        head.right = new TreeNode(-3);
+        head.left.left = new TreeNode(3);
+        head.left.right = new TreeNode(2);
+        head.right.right = new TreeNode(11);
+        head.left.left.left = new TreeNode(3);
+        head.left.left.right = new TreeNode(-2);
+        head.left.right.right = new TreeNode(1);
+        System.out.println(pathSum(head,8));
 
 
     }
+
+
+    /**
+     * 给定一个二叉树的根节点 root ，和一个整数 targetSum ，求该二叉树里节点值之和等于 targetSum 的 路径 的数目。
+     * @param root [10,5,-3,3,2,null,11,3,-2,null,1]
+     * @param targetSum 8
+     * @return 3
+     */
+    static public int pathSum(TreeNode root, int targetSum) {
+        pathSumTotal =0;
+        addNode(root,targetSum,0);
+
+        return pathSumTotal;
+    }
+
+    private static void addNode(TreeNode root, int targetSum, int total) {
+        if(root == null){
+            return;
+        }
+        total = root.val + total;
+        System.out.println("total:"+total);
+        if(total == targetSum){
+            pathSumTotal ++;
+            total = root.val;
+        } else if (total > targetSum) {
+            total = root.val;
+        }
+        addNode(root.left,targetSum,total);
+        addNode(root.right,targetSum,total);
+
+    }
+
+    private static int pathSumTotal;
 
 
     private static Map<Integer, Integer> inorderIndexMap;
