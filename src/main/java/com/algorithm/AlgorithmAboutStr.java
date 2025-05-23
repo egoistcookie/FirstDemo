@@ -94,7 +94,14 @@ public class AlgorithmAboutStr {
         AlgorithmAboutStr as = new AlgorithmAboutStr();
         // 131.分割回文串
         // 给你一个字符串 s，请你将 s 分割成一些 子串，使每个子串都是 回文串 。返回 s 所有可能的分割方案。
-        as.partition("aab");
+        // 解法：深度搜索+while循环判断回文数
+        List<List<String>> res = as.partition("aab");
+        for(List<String> list:res){
+            for(String str:list){
+                System.out.println(str +" ");
+            }
+            System.out.println();
+        }
 
 
 
@@ -106,24 +113,40 @@ public class AlgorithmAboutStr {
      * @param s "aab"
      * @return ["a","a","b"],["aa","b"]
      */
+    List<List<String>> res = new ArrayList<>();
+
     public List<List<String>> partition(String s) {
-        int start =0,end = 0;
-        subPartition(s,start,end);
-
-        return partitionList;
+        dfs(s, new ArrayList<>());
+        return res;
     }
-    private void subPartition(String s, int start, int end) {
 
-        String subStr = s.substring(start,end);
-        if(subStr.length()==1){
-            List<String> subList = new ArrayList<>();
-            subList.add(subStr);
-            partitionList.add(subList);
+    private void dfs(String s, List<String> path) {
+        if (s.isEmpty()) {
+            res.add(new ArrayList<>(path));
+            return;
         }
-
+        for (int i = 1; i <= s.length(); i++) {
+            String sub = s.substring(0, i);
+            if (isPalindrome(sub)) {
+                path.add(sub);
+                dfs(s.substring(i), path);
+                path.remove(path.size() - 1);
+            }
+        }
     }
 
-    private List<List<String>> partitionList = new ArrayList<>();
+    /**
+     * 判断是否为回文数
+     * @param s
+     * @return
+     */
+    private boolean isPalindrome(String s) {
+        int left = 0, right = s.length() - 1;
+        while (left < right) {
+            if (s.charAt(left++) != s.charAt(right--)) return false;
+        }
+        return true;
+    }
 
 
 
