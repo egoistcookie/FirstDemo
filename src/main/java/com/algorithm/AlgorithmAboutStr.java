@@ -87,13 +87,43 @@ public class AlgorithmAboutStr {
         // 76.最小覆盖子串
         // 给你一个字符串 s 、一个字符串 t 。返回 s 中涵盖 t 所有字符的最小子串。如果 s 中不存在涵盖 t 所有字符的子串，则返回空字符串 "" 。
         // 解法：统计字符频率+双指针滑动窗口
-        System.out.println(minWindow("ADOBECODEBANC","ABC"));
-        System.out.println(minWindow("a","a"));
-        System.out.println(minWindow("a","aa"));
+        // System.out.println(minWindow("ADOBECODEBANC","ABC"));
+        // System.out.println(minWindow("a","a"));
+        // System.out.println(minWindow("a","aa"));
+
+        AlgorithmAboutStr as = new AlgorithmAboutStr();
+        // 131.分割回文串
+        // 给你一个字符串 s，请你将 s 分割成一些 子串，使每个子串都是 回文串 。返回 s 所有可能的分割方案。
+        as.partition("aab");
 
 
 
     }
+
+
+    /**
+     * 给你一个字符串 s，请你将 s 分割成一些 子串，使每个子串都是 回文串 。
+     * @param s "aab"
+     * @return ["a","a","b"],["aa","b"]
+     */
+    public List<List<String>> partition(String s) {
+        int start =0,end = 0;
+        subPartition(s,start,end);
+
+        return partitionList;
+    }
+    private void subPartition(String s, int start, int end) {
+
+        String subStr = s.substring(start,end);
+        if(subStr.length()==1){
+            List<String> subList = new ArrayList<>();
+            subList.add(subStr);
+            partitionList.add(subList);
+        }
+
+    }
+
+    private List<List<String>> partitionList = new ArrayList<>();
 
 
 
