@@ -668,23 +668,55 @@ public class AlgorithmAboutCollection {
         // 给你一个链表数组，每个链表都已经按升序排列。
         // 请你将所有链表合并到一个升序链表中，返回合并后的链表。
         // 解法：优先队列-最小堆（默认）
-        ListNode node1 = new ListNode(1);
-        node1.next = new ListNode(4);
-        node1.next.next = new ListNode(5);
-        ListNode node2 = new ListNode(1);
-        node2.next = new ListNode(3);
-        node2.next.next = new ListNode(4);
-        ListNode node3 = new ListNode(2);
-        node3.next = new ListNode(6);
-        ListNode[] ls = new ListNode[3];
-        ls[0]=node1;ls[1]=node2;ls[2]=node3;
-        ListNode ret = mergeKLists(ls);
-        while(ret != null){
-            System.out.print(ret.val+" ");
-            ret = ret.next;
-        }
+        // ListNode node1 = new ListNode(1);
+        // node1.next = new ListNode(4);
+        // node1.next.next = new ListNode(5);
+        // ListNode node2 = new ListNode(1);
+        // node2.next = new ListNode(3);
+        // node2.next.next = new ListNode(4);
+        // ListNode node3 = new ListNode(2);
+        // node3.next = new ListNode(6);
+        // ListNode[] ls = new ListNode[3];
+        // ls[0]=node1;ls[1]=node2;ls[2]=node3;
+        // ListNode ret = mergeKLists(ls);
+        // while(ret != null){
+        //     System.out.print(ret.val+" ");
+        //     ret = ret.next;
+        // }
+
+        AlgorithmAboutCollection ac = new AlgorithmAboutCollection();
+        // 153.寻找旋转排序数组中的最小值
+        // 给你一个元素值 互不相同 的数组 nums ，它原来是一个升序排列的数组，并按上述情形进行了多次旋转。请你找出并返回数组中的 最小元素 。
+        // 解法：二分查找，时间复杂度为logn
+        System.out.println(ac.findMin(new int[]{3,4,5,1,2}));
+        System.out.println(ac.findMin(new int[]{4,5,6,7,0,1,2}));
+        System.out.println(ac.findMin(new int[]{3,4,5,1,2}));
+
+
 
     }
+
+
+    /**
+     * 给你一个元素值 互不相同 的数组 nums ，它原来是一个升序排列的数组，并按上述情形进行了多次旋转。请你找出并返回数组中的 最小元素 。
+     * @param nums {3,4,5,1,2}
+     * @return 1
+     */
+    static public int findMin(int[] nums) {
+        int left=0,right=nums.length-1;
+        while(left < right){
+            int mid = left + (right-left)/2;
+            if (nums[mid] > nums[right]) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return nums[left];
+    }
+
+
+
 
 
     /**
