@@ -688,14 +688,42 @@ public class AlgorithmAboutCollection {
         // 153.寻找旋转排序数组中的最小值
         // 给你一个元素值 互不相同 的数组 nums ，它原来是一个升序排列的数组，并按上述情形进行了多次旋转。请你找出并返回数组中的 最小元素 。
         // 解法：二分查找，时间复杂度为logn
-        System.out.println(ac.findMin(new int[]{3,4,5,1,2}));
-        System.out.println(ac.findMin(new int[]{4,5,6,7,0,1,2}));
-        System.out.println(ac.findMin(new int[]{3,4,5,1,2}));
+        // System.out.println(ac.findMin(new int[]{3,4,5,1,2}));
+        // System.out.println(ac.findMin(new int[]{4,5,6,7,0,1,2}));
+        // System.out.println(ac.findMin(new int[]{3,4,5,1,2}));
 
+        // 84.柱状图中最大的矩形
+        // 给定 n 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。
+        // 求在该柱状图中，能够勾勒出来的矩形的最大面积。
+        // 解法：单调栈，首尾补0预处理
+        System.out.println(ac.largestRectangleArea(new int[]{2,1,5,6,2,3}));
+        System.out.println(ac.largestRectangleArea(new int[]{2,4}));
 
 
     }
 
+
+    /**
+     * 84.柱状图中最大的矩形
+     * @param heights [2,1,5,6,2,3]
+     * @return 10
+     */
+    public int largestRectangleArea(int[] heights) {
+        Deque<Integer> stack = new ArrayDeque<>();
+        int[] newHeights = new int[heights.length + 2];
+        System.arraycopy(heights, 0, newHeights, 1, heights.length); // 首尾补0
+        int maxArea = 0;
+
+         for (int i = 0; i < newHeights.length; i++) {
+            while (!stack.isEmpty() && newHeights[stack.peek()] > newHeights[i]) {
+                int h = newHeights[stack.pop()];
+                int w = i - stack.peek() - 1; // 宽度计算关键
+                maxArea = Math.max(maxArea, h * w);
+            }
+            stack.push(i);
+        }
+        return maxArea;
+    }
 
     /**
      * 给你一个元素值 互不相同 的数组 nums ，它原来是一个升序排列的数组，并按上述情形进行了多次旋转。请你找出并返回数组中的 最小元素 。
