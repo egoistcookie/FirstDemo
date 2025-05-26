@@ -94,21 +94,70 @@ public class AlgorithmAboutCustomStruct {
         // 给你一个长度为 n 的链表，每个节点包含一个额外增加的随机指针 random ，该指针可以指向链表中的任何节点或空节点。
         // 构造这个链表的 深拷贝。
         // 解法：两次遍历，第一次所有node，第二次node的两个属性
-        Node head = new Node(7);
-        Node node13 = new Node(13);
-        Node node11 = new Node(11);
-        Node node10 = new Node(10);
-        Node node1 = new Node(1);
-        head.next = node13;
-        head.next.next = node11;
-        head.next.random = head;
-        head.next.next.next = node10;
-        head.next.next.random = node11;
-        head.next.next.next.next = node1;
-        head.next.next.next.random = head;
-        copyRandomList(head);
+        // Node head = new Node(7);
+        // Node node13 = new Node(13);
+        // Node node11 = new Node(11);
+        // Node node10 = new Node(10);
+        // Node node1 = new Node(1);
+        // head.next = node13;
+        // head.next.next = node11;
+        // head.next.random = head;
+        // head.next.next.next = node10;
+        // head.next.next.random = node11;
+        // head.next.next.next.next = node1;
+        // head.next.next.next.random = head;
+        // copyRandomList(head);
+
+        AlgorithmAboutCustomStruct ac = new AlgorithmAboutCustomStruct();
+
+        // 295.数据流的中位数
+        // 中位数是有序整数列表中的中间值。如果列表的大小是偶数，则没有中间值，中位数是两个中间值的平均值。
+        // 解法：双堆法，大顶堆存较小一半，小顶堆存较大一半
+        MedianFinder medianFinder = new MedianFinder();
+        medianFinder.addNum(1);    // arr = [1]
+        medianFinder.addNum(2);    // arr = [1, 2]
+        System.out.println(medianFinder.findMedian()); // 返回 1.5 ((1 + 2) / 2)
+        medianFinder.addNum(3);    // arr[1, 2, 3]
+        System.out.println(medianFinder.findMedian()); // return 2.0
 
 
+    }
+
+
+    /**
+     * 295.数据流的中位数
+     */
+    static class MedianFinder {
+
+        private PriorityQueue<Integer> maxHeap; // 较小半（大顶堆）
+        private PriorityQueue<Integer> minHeap; // 较大半（小顶堆）
+
+        public MedianFinder() {
+            maxHeap = new PriorityQueue<>((a, b) -> b - a);
+            minHeap = new PriorityQueue<>();
+        }
+
+        public void addNum(int num) {
+            if (maxHeap.isEmpty() || num <= maxHeap.peek()) {
+                maxHeap.offer(num);
+            } else {
+                minHeap.offer(num);
+            }
+            // 平衡堆大小
+            if (maxHeap.size() > minHeap.size() + 1) {
+                minHeap.offer(maxHeap.poll());
+            } else if (minHeap.size() > maxHeap.size()) {
+                maxHeap.offer(minHeap.poll());
+            }
+        }
+
+        public double findMedian() {
+            if (maxHeap.size() == minHeap.size()) {
+                return (maxHeap.peek() + minHeap.peek()) / 2.0;
+            } else {
+                return maxHeap.peek();
+            }
+        }
     }
 
     static public Node copyRandomList(Node head) {
