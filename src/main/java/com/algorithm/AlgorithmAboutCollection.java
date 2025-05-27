@@ -696,12 +696,47 @@ public class AlgorithmAboutCollection {
         // 给定 n 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。
         // 求在该柱状图中，能够勾勒出来的矩形的最大面积。
         // 解法：单调栈，首尾补0预处理
-        System.out.println(ac.largestRectangleArea(new int[]{2,1,5,6,2,3}));
-        System.out.println(ac.largestRectangleArea(new int[]{2,4}));
+        // System.out.println(ac.largestRectangleArea(new int[]{2,1,5,6,2,3}));
+        // System.out.println(ac.largestRectangleArea(new int[]{2,4}));
+
+        // 416.分割等和子集
+        // 给你一个 只包含正整数 的 非空 数组 nums 。请你判断是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。
+        // 解法：求有没有和为数组总和一半的子集即可，动态规划优于回溯
+        System.out.println(ac.canPartition(new int[]{1,5,11,5}));
+        System.out.println(ac.canPartition(new int[]{1,2,3,5}));
+
+
 
 
     }
 
+
+    /**
+     * 416.分割等和子集
+     * @param nums {1,5,11,5}
+     * @return true
+     */
+    public boolean canPartition(int[] nums) {
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        // 如果总和是奇数，不能平分
+        if (sum % 2 != 0) {
+            return false;
+        }
+        int target = sum / 2;
+        boolean[] dp = new boolean[target + 1];
+        dp[0] = true; // 和为0总是能做到（空集合）
+
+        for (int num : nums) {
+            // 从后往前更新dp数组
+            for (int j = target; j >= num; j--) {
+                dp[j] = dp[j] || dp[j - num];
+            }
+        }
+        return dp[target];
+    }
 
     /**
      * 84.柱状图中最大的矩形
