@@ -702,14 +702,45 @@ public class AlgorithmAboutCollection {
         // 416.分割等和子集
         // 给你一个 只包含正整数 的 非空 数组 nums 。请你判断是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。
         // 解法：求有没有和为数组总和一半的子集即可，动态规划优于回溯
-        System.out.println(ac.canPartition(new int[]{1,5,11,5}));
-        System.out.println(ac.canPartition(new int[]{1,2,3,5}));
+        // System.out.println(ac.canPartition(new int[]{1,5,11,5}));
+        // System.out.println(ac.canPartition(new int[]{1,2,3,5}));
+
+        // 32.最长有效括号
+        // 给你一个只包含 '(' 和 ')' 的字符串，找出最长有效（格式正确且连续）括号子串的长度。
+        // 解法：栈，栈存储未匹配括号的索引。
+        System.out.println(ac.longestValidParentheses(")()())"));
+
+
 
 
 
 
     }
 
+
+    /**
+     * 给你一个只包含 '(' 和 ')' 的字符串，找出最长有效（格式正确且连续）括号子串的长度。
+     * @param s (() )()())
+     * @return 2 4
+     */
+    public int longestValidParentheses(String s) {
+        int max = 0;
+        Stack<Integer> stack = new Stack<>();
+        stack.push(-1); // 初始边界
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {
+                stack.push(i);
+            } else {
+                stack.pop();
+                if (stack.isEmpty()) {
+                    stack.push(i); // 更新边界
+                } else {
+                    max = Math.max(max, i - stack.peek());
+                }
+            }
+        }
+        return max;
+    }
 
     /**
      * 416.分割等和子集
