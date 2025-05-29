@@ -708,13 +708,51 @@ public class AlgorithmAboutCollection {
         // 32.最长有效括号
         // 给你一个只包含 '(' 和 ')' 的字符串，找出最长有效（格式正确且连续）括号子串的长度。
         // 解法：栈，栈存储未匹配括号的索引。
-        System.out.println(ac.longestValidParentheses(")()())"));
+        // System.out.println(ac.longestValidParentheses(")()())"));
+
+        // 72.编辑距离
+        // 给你两个单词 word1 和 word2， 请返回将 word1 转换成 word2 所使用的最少操作数。
+        // 解法：动态规划，替换、删除、插入各占一个原状态位置
+        System.out.println(ac.minDistance("horse","ros"));
 
 
 
 
 
 
+    }
+
+
+    /**
+     * 给你两个单词 word1 和 word2， 请返回将 word1 转换成 word2 所使用的最少操作数  。
+     * @param word1 "horse"
+     * @param word2 "ros"
+     * @return 3
+     */
+    public int minDistance(String word1, String word2) {
+        int m = word1.length(), n = word2.length();
+        int[][] dp = new int[m + 1][n + 1];
+
+        // 初始化边界条件
+        for (int i = 0; i <= m; i++) dp[i][0] = i;  // 删除所有字符
+        for (int j = 0; j <= n; j++) dp[0][j] = j;  // 插入所有字符
+
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1];  // 字符匹配，无需操作
+                } else {
+                    dp[i][j] = Math.min(
+                            dp[i - 1][j - 1] + 1,    // 替换
+                            Math.min(
+                                    dp[i - 1][j] + 1,    // 删除
+                                    dp[i][j - 1] + 1     // 插入
+                            )
+                    );
+                }
+            }
+        }
+        return dp[m][n];
     }
 
 
