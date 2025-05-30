@@ -713,13 +713,36 @@ public class AlgorithmAboutCollection {
         // 72.编辑距离
         // 给你两个单词 word1 和 word2， 请返回将 word1 转换成 word2 所使用的最少操作数。
         // 解法：动态规划，替换、删除、插入各占一个原状态位置
-        System.out.println(ac.minDistance("horse","ros"));
+        // System.out.println(ac.minDistance("horse","ros"));
+
+        // 287.寻找重复数
+        // 给定一个包含 n + 1 个整数的数组 nums ，其数字都在 [1, n] 范围内（包括 1 和 n），可知至少存在一个重复的整数。
+        // 解法：hashSet解决，空间复杂度On
+        System.out.println(ac.findDuplicate(new int[]{1,3,4,2,2}));
+        System.out.println(ac.findDuplicate(new int[]{3,1,3,4,2}));
+        System.out.println(ac.findDuplicate(new int[]{3,3,3,3,3}));
 
 
 
 
+    }
 
 
+    /**
+     * 假设 nums 只有 一个重复的整数 ，返回 这个重复的数 。
+     * @param nums {1,3,4,2,2}
+     * @return 2
+     */
+    public int findDuplicate(int[] nums) {
+        HashSet<Integer> exitSet = new HashSet<>();
+        for(int i:nums){
+            if(exitSet.contains(i)){
+                return i;
+            }else{
+                exitSet.add(i);
+            }
+        }
+        return 0;
     }
 
 
