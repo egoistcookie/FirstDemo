@@ -1,6 +1,7 @@
 package com.algorithm;
 
 import java.util.Arrays;
+import java.util.HashSet;
 
 public class AlgorithmAboutCollection150 {
 
@@ -16,13 +17,36 @@ public class AlgorithmAboutCollection150 {
         // 27.移除元素
         // 给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素。元素的顺序可能发生改变。然后返回 nums 中与 val 不同的元素的数量。
         // 解法：双指针法
-        System.out.println(ac.removeElement(new int[]{3,2,2,3},3));
-        System.out.println(ac.removeElement(new int[]{0,1,2,2,3,0,4,2},2));
+        // System.out.println(ac.removeElement(new int[]{3,2,2,3},3));
+        // System.out.println(ac.removeElement(new int[]{0,1,2,2,3,0,4,2},2));
+
+        // 26.删除有序数组中的重复项
+        // 给你一个 非严格递增排列 的数组 nums ，请你 原地 删除重复出现的元素，使每个元素 只出现一次 ，返回删除后数组的新长度。元素的 相对顺序 应该保持 一致 。
+        // 解法：双指针法，按序遍历
+        System.out.println(ac.removeDuplicates(new int[]{1,1,2}));
+        System.out.println(ac.removeDuplicates(new int[]{0,0,1,1,1,2,2,3,3,4}));
 
 
 
     }
 
+
+    /**
+     * 26.删除有序数组中的重复项
+     * @param nums {1,1,2}
+     * @return 2
+     */
+    public int removeDuplicates(int[] nums) {
+        if (nums.length == 0) return 0;
+        int slow = 0;
+        for (int fast = 1; fast < nums.length; fast++) {
+            if (nums[fast] != nums[slow]) {
+                slow++;
+                nums[slow] = nums[fast];
+            }
+        }
+        return slow + 1;
+    }
 
     /**
      * 27.移除元素
