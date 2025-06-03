@@ -728,12 +728,26 @@ public class AlgorithmAboutCollection {
     }
 
 
+    public int findDuplicate(int[] nums) {
+        int slow = 0, fast = 0;
+        do {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        } while (slow != fast);
+        slow = 0;
+        while (slow != fast) {
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+        return slow;
+    }
+
     /**
      * 假设 nums 只有 一个重复的整数 ，返回 这个重复的数 。
      * @param nums {1,3,4,2,2}
      * @return 2
      */
-    public int findDuplicate(int[] nums) {
+    public int findDuplicateByMy(int[] nums) {
         HashSet<Integer> exitSet = new HashSet<>();
         for(int i:nums){
             if(exitSet.contains(i)){

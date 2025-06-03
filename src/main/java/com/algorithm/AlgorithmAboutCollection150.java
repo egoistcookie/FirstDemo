@@ -23,8 +23,15 @@ public class AlgorithmAboutCollection150 {
         // 26.删除有序数组中的重复项
         // 给你一个 非严格递增排列 的数组 nums ，请你 原地 删除重复出现的元素，使每个元素 只出现一次 ，返回删除后数组的新长度。元素的 相对顺序 应该保持 一致 。
         // 解法：双指针法，按序遍历
-        System.out.println(ac.removeDuplicates(new int[]{1,1,2}));
-        System.out.println(ac.removeDuplicates(new int[]{0,0,1,1,1,2,2,3,3,4}));
+        // System.out.println(ac.removeDuplicates(new int[]{1,1,2}));
+        // System.out.println(ac.removeDuplicates(new int[]{0,0,1,1,1,2,2,3,3,4}));
+
+        // 80.删除有序数组中的重复项
+        // 给你一个有序数组 nums ，请你 原地 删除重复出现的元素，使得出现次数超过两次的元素只出现两次 ，返回删除后数组的新长度。
+        // 解法：双指针
+        System.out.println(ac.removeDuplicates(new int[]{1,1,1,2,2,3}));
+        System.out.println(ac.removeDuplicates(new int[]{0,0,1,1,1,1,2,3,3}));
+
 
 
 
@@ -32,21 +39,41 @@ public class AlgorithmAboutCollection150 {
 
 
     /**
+     * 80.删除有序数组中的重复项
+     * @param nums
+     * @return
+     */
+    public int removeDuplicates(int[] nums) {
+        if (nums.length == 0) return 0;
+        int slow =0;
+        for(int fast=1;fast<nums.length;fast++){
+            if(nums[slow]!=nums[fast]){
+                slow ++;
+                nums[slow] = nums[fast];
+            }else if(slow==0 || nums[slow-1]!=nums[fast]){
+                slow ++;
+                nums[slow] = nums[fast];
+            }
+        }
+        return slow+1;
+    }
+
+    /**
      * 26.删除有序数组中的重复项
      * @param nums {1,1,2}
      * @return 2
      */
-    public int removeDuplicates(int[] nums) {
-        if (nums.length == 0) return 0;
-        int slow = 0;
-        for (int fast = 1; fast < nums.length; fast++) {
-            if (nums[fast] != nums[slow]) {
-                slow++;
-                nums[slow] = nums[fast];
-            }
-        }
-        return slow + 1;
-    }
+    // public int removeDuplicates(int[] nums) {
+    //     if (nums.length == 0) return 0;
+    //     int slow = 0;
+    //     for (int fast = 1; fast < nums.length; fast++) {
+    //         if (nums[fast] != nums[slow]) {
+    //             slow++;
+    //             nums[slow] = nums[fast];
+    //         }
+    //     }
+    //     return slow + 1;
+    // }
 
     /**
      * 27.移除元素
