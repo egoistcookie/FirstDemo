@@ -29,11 +29,43 @@ public class AlgorithmAboutCollection150 {
         // 80.删除有序数组中的重复项
         // 给你一个有序数组 nums ，请你 原地 删除重复出现的元素，使得出现次数超过两次的元素只出现两次 ，返回删除后数组的新长度。
         // 解法：双指针
-        System.out.println(ac.removeDuplicates(new int[]{1,1,1,2,2,3}));
-        System.out.println(ac.removeDuplicates(new int[]{0,0,1,1,1,1,2,3,3}));
+        // System.out.println(ac.removeDuplicates(new int[]{1,1,1,2,2,3}));
+        // System.out.println(ac.removeDuplicates(new int[]{0,0,1,1,1,1,2,3,3}));
+
+        // 274.H指数
+        // 给你一个整数数组 citations ，其中 citations[i] 表示研究者的第 i 篇论文被引用的次数。计算并返回该研究者的 h 指数。
+        // 一名科研人员的 h 指数 是指他（她）至少发表了 h 篇论文，并且 至少 有 h 篇论文被引用次数大于等于 h 。如果 h 有多种可能的值，h 指数 是其中最大的那个。
+        // 解法：计数排序法，额外数组统计引用次数分布。
+        System.out.println(ac.hIndex(new int[]{3,0,6,1,5}));
+        System.out.println(ac.hIndex(new int[]{1,3,1}));
 
 
 
+
+    }
+
+
+
+    /**
+     * 274.H指数
+     * @param citations {3,0,6,1,5}
+     * @return 3
+     */
+    public int hIndex(int[] citations) {
+
+        int n = citations.length;
+        int[] count = new int[n + 1];
+        for (int c : citations) {
+            count[Math.min(c, n)]++;
+        }
+        int total = 0;
+        for (int i = n; i >= 0; i--) {
+            total += count[i];
+            if (total >= i) {
+                return i;
+            }
+        }
+        return 0;
 
     }
 
