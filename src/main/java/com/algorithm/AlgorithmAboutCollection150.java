@@ -36,8 +36,16 @@ public class AlgorithmAboutCollection150 {
         // 给你一个整数数组 citations ，其中 citations[i] 表示研究者的第 i 篇论文被引用的次数。计算并返回该研究者的 h 指数。
         // 一名科研人员的 h 指数 是指他（她）至少发表了 h 篇论文，并且 至少 有 h 篇论文被引用次数大于等于 h 。如果 h 有多种可能的值，h 指数 是其中最大的那个。
         // 解法：计数排序法，额外数组统计引用次数分布。
-        System.out.println(ac.hIndex(new int[]{3,0,6,1,5}));
-        System.out.println(ac.hIndex(new int[]{1,3,1}));
+        // System.out.println(ac.hIndex(new int[]{3,0,6,1,5}));
+        // System.out.println(ac.hIndex(new int[]{1,3,1}));
+
+        // 122.买卖股票的最佳时机2
+        // 给你一个整数数组 prices ，其中 prices[i] 表示某支股票第 i 天的价格。
+        // 解法：贪心算法
+        System.out.println(ac.maxProfit(new int[]{7,1,5,3,6,4}));
+        System.out.println(ac.maxProfit(new int[]{1,2,3,4,5}));
+        System.out.println(ac.maxProfit(new int[]{7,6,4,3,1}));
+
 
 
 
@@ -45,6 +53,24 @@ public class AlgorithmAboutCollection150 {
     }
 
 
+    /**
+     * 122.买卖股票的最佳时机2
+     * @param prices {7,1,5,3,6,4}
+     * @return 4+3 = 7
+     */
+    public int maxProfit(int[] prices) {
+        if(prices.length ==0)return 0;
+        int maxP = 0;
+        int subN = 0;
+        for(int i=1;i<prices.length;i++){
+            if(prices[i] > prices[i-1]){
+                subN = prices[i] - prices[i-1];
+                maxP += subN;
+            }
+        }
+        return maxP;
+
+    }
 
     /**
      * 274.H指数
