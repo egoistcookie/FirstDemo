@@ -42,16 +42,47 @@ public class AlgorithmAboutCollection150 {
         // 122.买卖股票的最佳时机2
         // 给你一个整数数组 prices ，其中 prices[i] 表示某支股票第 i 天的价格。
         // 解法：贪心算法
-        System.out.println(ac.maxProfit(new int[]{7,1,5,3,6,4}));
-        System.out.println(ac.maxProfit(new int[]{1,2,3,4,5}));
-        System.out.println(ac.maxProfit(new int[]{7,6,4,3,1}));
+        // System.out.println(ac.maxProfit(new int[]{7,1,5,3,6,4}));
+        // System.out.println(ac.maxProfit(new int[]{1,2,3,4,5}));
+        // System.out.println(ac.maxProfit(new int[]{7,6,4,3,1}));
 
-
+        // 134.加油站
+        // 在一条环路上有 n 个加油站，其中第 i 个加油站有汽油 gas[i] 升。
+        // 从第 i 个加油站开往第 i+1 个加油站需要消耗汽油 cost[i] 升。你从其中的一个加油站出发，开始时油箱为空。
+        // 如果你可以按顺序绕环路行驶一周，则返回出发时加油站的编号，否则返回 -1 。
+        // 解法：贪心算法
+        System.out.println(ac.canCompleteCircuit(new int[]{1,2,3,4,5},new int[]{3,4,5,1,2}));
+        System.out.println(ac.canCompleteCircuit(new int[]{2,3,4},new int[]{3,4,3}));
 
 
 
     }
 
+
+    /**
+     * 134.加油站
+     * @param gas {1,2,3,4,5}
+     * @param cost {3,4,5,1,2}
+     * @return 3
+     */
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int totalGas = 0, totalCost = 0;
+        for (int i = 0; i < gas.length; i++) {
+            totalGas += gas[i];
+            totalCost += cost[i];
+        }
+        if (totalGas < totalCost) return -1;
+
+        int currentGas = 0, start = 0;
+        for (int i = 0; i < gas.length; i++) {
+            currentGas += gas[i] - cost[i];
+            if (currentGas < 0) {
+                currentGas = 0;
+                start = i + 1;
+            }
+        }
+        return start;
+    }
 
     /**
      * 122.买卖股票的最佳时机2
