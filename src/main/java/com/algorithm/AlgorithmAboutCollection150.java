@@ -51,13 +51,47 @@ public class AlgorithmAboutCollection150 {
         // 从第 i 个加油站开往第 i+1 个加油站需要消耗汽油 cost[i] 升。你从其中的一个加油站出发，开始时油箱为空。
         // 如果你可以按顺序绕环路行驶一周，则返回出发时加油站的编号，否则返回 -1 。
         // 解法：贪心算法
-        System.out.println(ac.canCompleteCircuit(new int[]{1,2,3,4,5},new int[]{3,4,5,1,2}));
-        System.out.println(ac.canCompleteCircuit(new int[]{2,3,4},new int[]{3,4,3}));
+        // System.out.println(ac.canCompleteCircuit(new int[]{1,2,3,4,5},new int[]{3,4,5,1,2}));
+        // System.out.println(ac.canCompleteCircuit(new int[]{2,3,4},new int[]{3,4,3}));
+
+        // 135.分发糖果
+        // n 个孩子站成一排。给你一个整数数组 ratings 表示每个孩子的评分。
+        // 解法：正序倒序两次贪心算法
+        System.out.println(ac.candy(new int[]{1}));
+        System.out.println(ac.candy(new int[]{1,0,2}));
+        System.out.println(ac.candy(new int[]{1,3,2,2,1}));
 
 
 
     }
 
+
+    /**
+     * 135.分发糖果s
+     * @param ratings 1,0,2
+     * @return 2+1+2 =5
+     */
+    public int candy(int[] ratings) {
+        int n = ratings.length;
+        int[] candies = new int[n];
+        Arrays.fill(candies, 1);
+        // 从左到右
+        for (int i = 1; i < n; i++) {
+            if (ratings[i] > ratings[i-1]) {
+                candies[i] = candies[i-1] + 1;
+            }
+        }
+        // 从右到左
+        for (int i = n-2; i >= 0; i--) {
+            if (ratings[i] > ratings[i+1]) {
+                candies[i] = Math.max(candies[i], candies[i+1] + 1);
+            }
+        }
+        // 统计总数
+        int total = 0;
+        for (int num : candies) total += num;
+        return total;
+    }
 
     /**
      * 134.加油站
