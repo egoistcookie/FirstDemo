@@ -1,7 +1,9 @@
 package com.algorithm;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 public class AlgorithmAboutCollection150 {
 
@@ -57,14 +59,56 @@ public class AlgorithmAboutCollection150 {
         // 135.分发糖果
         // n 个孩子站成一排。给你一个整数数组 ratings 表示每个孩子的评分。
         // 解法：正序倒序两次贪心算法
-        System.out.println(ac.candy(new int[]{1}));
-        System.out.println(ac.candy(new int[]{1,0,2}));
-        System.out.println(ac.candy(new int[]{1,3,2,2,1}));
+        // System.out.println(ac.candy(new int[]{1,3,2,2,1}));
+        // System.out.println(ac.candy(new int[]{1}));
+        // System.out.println(ac.candy(new int[]{1,0,2}));
+
+        // 13.罗马数字转整数
+        // 给定一个罗马数字，将其转换成整数。
+        // 解法：一次遍历，map存映射
+        System.out.println(ac.romanToInt("III"));
+        System.out.println(ac.romanToInt("IV"));
+        System.out.println(ac.romanToInt("IX"));
+        System.out.println(ac.romanToInt("LVIII"));
+        System.out.println(ac.romanToInt("MCMXCIV"));
 
 
 
     }
 
+    /**
+     * 13.罗马数字转整数
+     * @param s "MCMXCIV"
+     * @return 1994
+     */
+    public int romanToInt(String s) {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("I", 1);
+        map.put("IV", 4);
+        map.put("V", 5);
+        map.put("IX", 9);
+        map.put("X", 10);
+        map.put("XL", 40);
+        map.put("L", 50);
+        map.put("XC", 90);
+        map.put("C", 100);
+        map.put("CD", 400);
+        map.put("D", 500);
+        map.put("CM", 900);
+        map.put("M", 1000);
+
+        int ans = 0;
+        for(int i = 0;i < s.length();) {
+            if(i + 1 < s.length() && map.containsKey(s.substring(i, i+2))) {
+                ans += map.get(s.substring(i, i+2));
+                i += 2;
+            } else {
+                ans += map.get(s.substring(i, i+1));
+                i ++;
+            }
+        }
+        return ans;
+    }
 
     /**
      * 135.分发糖果s
