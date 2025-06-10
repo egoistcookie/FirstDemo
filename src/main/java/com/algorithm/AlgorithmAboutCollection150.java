@@ -1,9 +1,6 @@
 package com.algorithm;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 public class AlgorithmAboutCollection150 {
 
@@ -66,13 +63,56 @@ public class AlgorithmAboutCollection150 {
         // 13.罗马数字转整数
         // 给定一个罗马数字，将其转换成整数。
         // 解法：一次遍历，map存映射
-        System.out.println(ac.romanToInt("III"));
-        System.out.println(ac.romanToInt("IV"));
-        System.out.println(ac.romanToInt("IX"));
-        System.out.println(ac.romanToInt("LVIII"));
-        System.out.println(ac.romanToInt("MCMXCIV"));
+        // System.out.println(ac.romanToInt("III"));
+        // System.out.println(ac.romanToInt("IV"));
+        // System.out.println(ac.romanToInt("IX"));
+        // System.out.println(ac.romanToInt("LVIII"));
+        // System.out.println(ac.romanToInt("MCMXCIV"));
+
+        // 12.整数转罗马数字
+        // 给定一个整数，将其转换为罗马数字。
+        // 解法：贪心算法，LinkedHashMap保持键值对的插入顺序（从大到小）
+        System.out.println(ac.intToRoman(3749));
 
 
+
+    }
+
+
+    /**
+     * 12.整数转罗马数字
+     * @param num 3749
+     * @return "MMMDCCXLIX"
+     */
+    public String intToRoman(int num) {
+        Map<Integer, String> map = new LinkedHashMap<>();
+        map.put(1000,"M");
+        map.put(900,"CM");
+        map.put(500,"D");
+        map.put(400,"CD");
+        map.put(100,"C");
+        map.put(90,"XC");
+        map.put(50,"L");
+        map.put(40,"XL");
+        map.put(10,"X");
+        map.put(9,"IX");
+        map.put(5,"V");
+        map.put(4,"IV");
+        map.put(1,"I");
+
+        StringBuilder roman = new StringBuilder();
+
+        for (Map.Entry<Integer, String> entry : map.entrySet()) {
+            int value = entry.getKey();
+            String symbol = entry.getValue();
+
+            while (num >= value) {
+                roman.append(symbol);
+                num -= value;
+            }
+        }
+
+        return roman.toString();
 
     }
 
