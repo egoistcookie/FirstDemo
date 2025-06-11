@@ -72,12 +72,38 @@ public class AlgorithmAboutCollection150 {
         // 12.整数转罗马数字
         // 给定一个整数，将其转换为罗马数字。
         // 解法：贪心算法，LinkedHashMap保持键值对的插入顺序（从大到小）
-        System.out.println(ac.intToRoman(3749));
+        // System.out.println(ac.intToRoman(3749));
+
+        // 58.最后一个单词的长度
+        // 给你一个字符串 s，由若干单词组成，单词前后用一些空格字符隔开。返回字符串中 最后一个 单词的长度。
+        // 解法：倒序遍历
+        System.out.println(ac.lengthOfLastWord("World"));
+        System.out.println(ac.lengthOfLastWord("   fly me   to   the moon  "));
+        System.out.println(ac.lengthOfLastWord("luffy is still joyboy"));
 
 
 
     }
 
+    /**
+     * 58.最后一个单词的长度
+     * @param s "Hello World"
+     * @return 5
+     */
+    public int lengthOfLastWord(String s) {
+        int result = 0;
+        boolean existWord = false;
+        for(int i=s.length()-1;i>=0;i--){
+            char chr = s.charAt(i);
+            if(chr != ' '){
+                result ++;
+                existWord = true;
+            }else if(existWord){
+                break;
+            }
+        }
+        return result;
+    }
 
     /**
      * 12.整数转罗马数字
