@@ -77,12 +77,36 @@ public class AlgorithmAboutCollection150 {
         // 58.最后一个单词的长度
         // 给你一个字符串 s，由若干单词组成，单词前后用一些空格字符隔开。返回字符串中 最后一个 单词的长度。
         // 解法：倒序遍历
-        System.out.println(ac.lengthOfLastWord("World"));
-        System.out.println(ac.lengthOfLastWord("   fly me   to   the moon  "));
-        System.out.println(ac.lengthOfLastWord("luffy is still joyboy"));
+        // System.out.println(ac.lengthOfLastWord("World"));
+        // System.out.println(ac.lengthOfLastWord("   fly me   to   the moon  "));
+        // System.out.println(ac.lengthOfLastWord("luffy is still joyboy"));
+
+        // 14.最长公共前缀
+        // 编写一个函数来查找字符串数组中的最长公共前缀。
+        // 解法：纵向扫描：逐列比较所有字符串的同一位置字符，直到出现不匹配或某字符串结束
+        System.out.println(ac.longestCommonPrefix(new String[]{"flower","flow","flight"}));
+        System.out.println(ac.longestCommonPrefix(new String[]{"dog","racecar","car"}));
 
 
+    }
 
+
+    /**
+     * 14.最长公共前缀
+     * @param strs
+     * @return
+     */
+    public String longestCommonPrefix(String[] strs) {
+        if (strs == null || strs.length == 0) return "";
+        for (int i = 0; i < strs[0].length(); i++) {
+            char c = strs[0].charAt(i);
+            for (int j = 1; j < strs.length; j++) {
+                if (i == strs[j].length() || strs[j].charAt(i) != c) {
+                    return strs[0].substring(0, i);
+                }
+            }
+        }
+        return strs[0];
     }
 
     /**
