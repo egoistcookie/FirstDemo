@@ -84,12 +84,46 @@ public class AlgorithmAboutCollection150 {
         // 14.最长公共前缀
         // 编写一个函数来查找字符串数组中的最长公共前缀。
         // 解法：纵向扫描：逐列比较所有字符串的同一位置字符，直到出现不匹配或某字符串结束
-        System.out.println(ac.longestCommonPrefix(new String[]{"flower","flow","flight"}));
-        System.out.println(ac.longestCommonPrefix(new String[]{"dog","racecar","car"}));
+        // System.out.println(ac.longestCommonPrefix(new String[]{"flower","flow","flight"}));
+        // System.out.println(ac.longestCommonPrefix(new String[]{"dog","racecar","car"}));
+
+        // 151.反转字符串中的单词
+        // 给你一个字符串 s ，请你反转字符串中 单词 的顺序。
+        // 解法：遍历+栈存单词。或者双指针反转。
+        System.out.println(ac.reverseWords("the sky is blue"));
+        System.out.println(ac.reverseWords("  hello world  "));
+        System.out.println(ac.reverseWords("a good   example"));
+
 
 
     }
 
+
+    /**
+     * 151.反转字符串中的单词
+     * @param s "the sky is blue"
+     * @return "blue is sky the"
+     */
+    public String reverseWords(String s) {
+        StringBuilder str = new StringBuilder();
+        String subStr = "";
+        Stack<String> stack = new Stack<>();
+        for(int i=0;i<=s.length();i++){
+            char chr = i==s.length()?' ':s.charAt(i);
+            if(chr != ' '){
+                subStr += chr;
+            }else{
+                if(!subStr.isEmpty()){
+                    stack.push(subStr);
+                    subStr = "";
+                }
+            }
+        }
+        while(!stack.isEmpty()){
+            str.append(stack.pop() +" ");
+        }
+        return str.toString().trim();
+    }
 
     /**
      * 14.最长公共前缀
