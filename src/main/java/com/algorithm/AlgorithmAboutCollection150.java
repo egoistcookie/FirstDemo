@@ -98,18 +98,81 @@ public class AlgorithmAboutCollection150 {
         // 给你两个字符串 haystack 和 needle ，请你在 haystack 字符串中找出 needle 字符串的第一个匹配项的下标（下标从 0 开始）。
         // 如果 needle 不是 haystack 的一部分，则返回  -1 。
         // 解法：indexOf
-        System.out.println(ac.strStr("sadbutsad","sad"));
-        System.out.println(ac.strStr("leetcode","leeto"));
+        // System.out.println(ac.strStr("sadbutsad","sad"));
+        // System.out.println(ac.strStr("leetcode","leeto"));
 
+        // 68.文本左右对齐
+        // 给定一个单词数组 words 和一个长度 maxWidth ，重新排版单词，使其成为每行恰好有 maxWidth 个字符，且左右两端对齐的文本。
+        // 尽可能多地往每行中放置单词。必要时可用空格 ' ' 填充。
+        // 尽可能均匀分配单词间的空格数量。如果某一行单词间的空格不能均匀分配，则左侧放置的空格数要多于右侧的空格数。
+        // 解法：贪心算法，均匀分配空格和最后一行特殊处理
+        // List<String> fullRe = ac.fullJustify(new String[]{"This", "is", "an", "example", "of", "text", "justification."}, 16);
+        List<String> fullRe = ac.fullJustify(new String[]{"What","must","be","acknowledgment","shall","be"}, 16);
+        // List<String> fullRe = ac.fullJustify(new String[]{"Science","is","what","we","understand","well","enough","to","explain","to","a","computer.","Art","is","everything","else","we","do"}, 20);
+        for (String str : fullRe) {
+            System.out.println(str);
+        }
 
 
     }
 
 
     /**
+     * 68.文本左右对齐
+     *
+     * @param words    {"This", "is", "an", "example", "of", "text", "justification."}
+     * @param maxWidth 16
+     * @return "This    is    an",
+            * "example  of text",
+            * "justification.  "
+     */
+    public List<String> fullJustify(String[] words, int maxWidth) {
+        List<String> result = new ArrayList<>();
+        List<String> currentLine = new ArrayList<>();
+        int currentLength = 0;
+
+        for (String word : words) {
+            if (currentLength + currentLine.size() + word.length() > maxWidth) {
+                // 处理非最后一行
+                int totalSpaces = maxWidth - currentLength;
+                StringBuilder line = new StringBuilder();
+                if (currentLine.size() == 1) {
+                    line.append(currentLine.get(0));
+                    line.append(" ".repeat(totalSpaces));
+                } else {
+                    int baseSpaces = totalSpaces / (currentLine.size() - 1);
+                    int extraSpaces = totalSpaces % (currentLine.size() - 1);
+                    for (int i = 0; i < currentLine.size(); i++) {
+                        line.append(currentLine.get(i));
+                        if (i < currentLine.size() - 1) {
+                            int spaces = baseSpaces + (i < extraSpaces ? 1 : 0);
+                            line.append(" ".repeat(spaces));
+                        }
+                    }
+                }
+                result.add(line.toString());
+                currentLine.clear();
+                currentLength = 0;
+            }
+            currentLine.add(word);
+            currentLength += word.length();
+        }
+
+        // 处理最后一行（左对齐）
+        if (!currentLine.isEmpty()) {
+            String lastLine = String.join(" ", currentLine);
+            lastLine += " ".repeat(maxWidth - lastLine.length());
+            result.add(lastLine);
+        }
+
+        return result;
+    }
+
+    /**
      * 28.找出字符串中第一个匹配项的下标
+     *
      * @param haystack "sadbutsad"
-     * @param needle "sad"
+     * @param needle   "sad"
      * @return 0
      */
     public int strStr(String haystack, String needle) {
@@ -118,6 +181,7 @@ public class AlgorithmAboutCollection150 {
 
     /**
      * 151.反转字符串中的单词
+     *
      * @param s "the sky is blue"
      * @return "blue is sky the"
      */
@@ -125,25 +189,26 @@ public class AlgorithmAboutCollection150 {
         StringBuilder str = new StringBuilder();
         String subStr = "";
         Stack<String> stack = new Stack<>();
-        for(int i=0;i<=s.length();i++){
-            char chr = i==s.length()?' ':s.charAt(i);
-            if(chr != ' '){
+        for (int i = 0; i <= s.length(); i++) {
+            char chr = i == s.length() ? ' ' : s.charAt(i);
+            if (chr != ' ') {
                 subStr += chr;
-            }else{
-                if(!subStr.isEmpty()){
+            } else {
+                if (!subStr.isEmpty()) {
                     stack.push(subStr);
                     subStr = "";
                 }
             }
         }
-        while(!stack.isEmpty()){
-            str.append(stack.pop() +" ");
+        while (!stack.isEmpty()) {
+            str.append(stack.pop() + " ");
         }
         return str.toString().trim();
     }
 
     /**
      * 14.最长公共前缀
+     *
      * @param strs
      * @return
      */
@@ -162,18 +227,19 @@ public class AlgorithmAboutCollection150 {
 
     /**
      * 58.最后一个单词的长度
+     *
      * @param s "Hello World"
      * @return 5
      */
     public int lengthOfLastWord(String s) {
         int result = 0;
         boolean existWord = false;
-        for(int i=s.length()-1;i>=0;i--){
+        for (int i = s.length() - 1; i >= 0; i--) {
             char chr = s.charAt(i);
-            if(chr != ' '){
-                result ++;
+            if (chr != ' ') {
+                result++;
                 existWord = true;
-            }else if(existWord){
+            } else if (existWord) {
                 break;
             }
         }
@@ -182,24 +248,25 @@ public class AlgorithmAboutCollection150 {
 
     /**
      * 12.整数转罗马数字
+     *
      * @param num 3749
      * @return "MMMDCCXLIX"
      */
     public String intToRoman(int num) {
         Map<Integer, String> map = new LinkedHashMap<>();
-        map.put(1000,"M");
-        map.put(900,"CM");
-        map.put(500,"D");
-        map.put(400,"CD");
-        map.put(100,"C");
-        map.put(90,"XC");
-        map.put(50,"L");
-        map.put(40,"XL");
-        map.put(10,"X");
-        map.put(9,"IX");
-        map.put(5,"V");
-        map.put(4,"IV");
-        map.put(1,"I");
+        map.put(1000, "M");
+        map.put(900, "CM");
+        map.put(500, "D");
+        map.put(400, "CD");
+        map.put(100, "C");
+        map.put(90, "XC");
+        map.put(50, "L");
+        map.put(40, "XL");
+        map.put(10, "X");
+        map.put(9, "IX");
+        map.put(5, "V");
+        map.put(4, "IV");
+        map.put(1, "I");
 
         StringBuilder roman = new StringBuilder();
 
@@ -219,6 +286,7 @@ public class AlgorithmAboutCollection150 {
 
     /**
      * 13.罗马数字转整数
+     *
      * @param s "MCMXCIV"
      * @return 1994
      */
@@ -239,13 +307,13 @@ public class AlgorithmAboutCollection150 {
         map.put("M", 1000);
 
         int ans = 0;
-        for(int i = 0;i < s.length();) {
-            if(i + 1 < s.length() && map.containsKey(s.substring(i, i+2))) {
-                ans += map.get(s.substring(i, i+2));
+        for (int i = 0; i < s.length(); ) {
+            if (i + 1 < s.length() && map.containsKey(s.substring(i, i + 2))) {
+                ans += map.get(s.substring(i, i + 2));
                 i += 2;
             } else {
-                ans += map.get(s.substring(i, i+1));
-                i ++;
+                ans += map.get(s.substring(i, i + 1));
+                i++;
             }
         }
         return ans;
@@ -253,6 +321,7 @@ public class AlgorithmAboutCollection150 {
 
     /**
      * 135.分发糖果s
+     *
      * @param ratings 1,0,2
      * @return 2+1+2 =5
      */
@@ -262,14 +331,14 @@ public class AlgorithmAboutCollection150 {
         Arrays.fill(candies, 1);
         // 从左到右
         for (int i = 1; i < n; i++) {
-            if (ratings[i] > ratings[i-1]) {
-                candies[i] = candies[i-1] + 1;
+            if (ratings[i] > ratings[i - 1]) {
+                candies[i] = candies[i - 1] + 1;
             }
         }
         // 从右到左
-        for (int i = n-2; i >= 0; i--) {
-            if (ratings[i] > ratings[i+1]) {
-                candies[i] = Math.max(candies[i], candies[i+1] + 1);
+        for (int i = n - 2; i >= 0; i--) {
+            if (ratings[i] > ratings[i + 1]) {
+                candies[i] = Math.max(candies[i], candies[i + 1] + 1);
             }
         }
         // 统计总数
@@ -280,7 +349,8 @@ public class AlgorithmAboutCollection150 {
 
     /**
      * 134.加油站
-     * @param gas {1,2,3,4,5}
+     *
+     * @param gas  {1,2,3,4,5}
      * @param cost {3,4,5,1,2}
      * @return 3
      */
@@ -305,16 +375,17 @@ public class AlgorithmAboutCollection150 {
 
     /**
      * 122.买卖股票的最佳时机2
+     *
      * @param prices {7,1,5,3,6,4}
      * @return 4+3 = 7
      */
     public int maxProfit(int[] prices) {
-        if(prices.length ==0)return 0;
+        if (prices.length == 0) return 0;
         int maxP = 0;
         int subN = 0;
-        for(int i=1;i<prices.length;i++){
-            if(prices[i] > prices[i-1]){
-                subN = prices[i] - prices[i-1];
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] > prices[i - 1]) {
+                subN = prices[i] - prices[i - 1];
                 maxP += subN;
             }
         }
@@ -324,6 +395,7 @@ public class AlgorithmAboutCollection150 {
 
     /**
      * 274.H指数
+     *
      * @param citations {3,0,6,1,5}
      * @return 3
      */
@@ -348,22 +420,23 @@ public class AlgorithmAboutCollection150 {
 
     /**
      * 80.删除有序数组中的重复项
+     *
      * @param nums
      * @return
      */
     public int removeDuplicates(int[] nums) {
         if (nums.length == 0) return 0;
-        int slow =0;
-        for(int fast=1;fast<nums.length;fast++){
-            if(nums[slow]!=nums[fast]){
-                slow ++;
+        int slow = 0;
+        for (int fast = 1; fast < nums.length; fast++) {
+            if (nums[slow] != nums[fast]) {
+                slow++;
                 nums[slow] = nums[fast];
-            }else if(slow==0 || nums[slow-1]!=nums[fast]){
-                slow ++;
+            } else if (slow == 0 || nums[slow - 1] != nums[fast]) {
+                slow++;
                 nums[slow] = nums[fast];
             }
         }
-        return slow+1;
+        return slow + 1;
     }
 
     /**
@@ -385,8 +458,9 @@ public class AlgorithmAboutCollection150 {
 
     /**
      * 27.移除元素
+     *
      * @param nums {3,2,2,3}
-     * @param val 3
+     * @param val  3
      * @return
      */
     public int removeElement(int[] nums, int val) {
@@ -401,11 +475,12 @@ public class AlgorithmAboutCollection150 {
 
     /**
      * 合并两个有序数组
+     *
      * @param nums1 1,2,3,0,0,0
-     * @param m 3
+     * @param m     3
      * @param nums2 2,5,6
-     * @param n 3
-     *          1,2,2,3,5,6
+     * @param n     3
+     *              1,2,2,3,5,6
      */
     public void merge(int[] nums1, int m, int[] nums2, int n) {
         int cur1 = m - 1, cur2 = n - 1, i = m + n - 1;
