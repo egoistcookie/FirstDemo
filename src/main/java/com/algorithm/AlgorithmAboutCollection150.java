@@ -107,15 +107,41 @@ public class AlgorithmAboutCollection150 {
         // 尽可能均匀分配单词间的空格数量。如果某一行单词间的空格不能均匀分配，则左侧放置的空格数要多于右侧的空格数。
         // 解法：贪心算法，均匀分配空格和最后一行特殊处理
         // List<String> fullRe = ac.fullJustify(new String[]{"This", "is", "an", "example", "of", "text", "justification."}, 16);
-        List<String> fullRe = ac.fullJustify(new String[]{"What","must","be","acknowledgment","shall","be"}, 16);
-        // List<String> fullRe = ac.fullJustify(new String[]{"Science","is","what","we","understand","well","enough","to","explain","to","a","computer.","Art","is","everything","else","we","do"}, 20);
-        for (String str : fullRe) {
-            System.out.println(str);
-        }
+        // List<String> fullRe = ac.fullJustify(new String[]{"What","must","be","acknowledgment","shall","be"}, 16);
+        // // List<String> fullRe = ac.fullJustify(new String[]{"Science","is","what","we","understand","well","enough","to","explain","to","a","computer.","Art","is","everything","else","we","do"}, 20);
+        // for (String str : fullRe) {
+        //     System.out.println(str);
+        // }
+
+        // 125.验证回文串
+        // 给你一个字符串 s，如果它是 回文串 ，返回 true ；否则，返回 false 。
+        // 解法：双指针
+        System.out.println(ac.isPalindrome("A man, a plan, a canal: Panama"));
+        System.out.println(ac.isPalindrome("race a car"));
+        System.out.println(ac.isPalindrome(" "));
+
 
 
     }
 
+
+    /**
+     * 125.验证回文串
+     * @param s
+     * @return
+     */
+    public boolean isPalindrome(String s) {
+        String str = s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+        int left=0,right=str.length()-1;
+        boolean isPalindrome = true;
+        while(left < right){
+            if(str.charAt(left++) != str.charAt(right--)){
+                isPalindrome = false;
+                break;
+            }
+        }
+        return isPalindrome;
+    }
 
     /**
      * 68.文本左右对齐
