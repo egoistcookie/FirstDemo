@@ -116,14 +116,40 @@ public class AlgorithmAboutCollection150 {
         // 125.验证回文串
         // 给你一个字符串 s，如果它是 回文串 ，返回 true ；否则，返回 false 。
         // 解法：双指针
-        System.out.println(ac.isPalindrome("A man, a plan, a canal: Panama"));
-        System.out.println(ac.isPalindrome("race a car"));
-        System.out.println(ac.isPalindrome(" "));
+        // System.out.println(ac.isPalindrome("A man, a plan, a canal: Panama"));
+        // System.out.println(ac.isPalindrome("race a car"));
+        // System.out.println(ac.isPalindrome(" "));
+
+        // 392.判断子序列
+        // 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
+        // 解法：双指针
+        System.out.println(ac.isSubsequence("abc","ahbgdc"));
+        System.out.println(ac.isSubsequence("axc","ahbgdc"));
 
 
 
     }
 
+    /**
+     * 392.判断子序列
+     * @param s "abc"
+     * @param t "ahbgdc"
+     * @return true
+     */
+    public boolean isSubsequence(String s, String t) {
+        if (s.length() == 0) return true; // 处理空串
+        int fast = 0, slow = 0;
+        while (fast < t.length()) {
+            if (s.charAt(slow) == t.charAt(fast)) {
+                slow++;
+                if (slow == s.length()) { // 全部匹配完成
+                    return true;
+                }
+            }
+            fast++;
+        }
+        return false;
+    }
 
     /**
      * 125.验证回文串
