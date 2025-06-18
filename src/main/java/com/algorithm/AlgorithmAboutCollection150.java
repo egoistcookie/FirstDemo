@@ -123,11 +123,44 @@ public class AlgorithmAboutCollection150 {
         // 392.判断子序列
         // 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
         // 解法：双指针
-        System.out.println(ac.isSubsequence("abc","ahbgdc"));
-        System.out.println(ac.isSubsequence("axc","ahbgdc"));
+        // System.out.println(ac.isSubsequence("abc","ahbgdc"));
+        // System.out.println(ac.isSubsequence("axc","ahbgdc"));
+
+        // 209.长度最小的连续子数组
+        // 给定一个含有 n 个正整数的数组和一个正整数 target 。
+        // 找出该数组中满足其总和大于等于 target 的长度最小的 子数组
+        // 解法：滑动窗口
+        System.out.println(ac.minSubArrayLen(7,new int[]{2,3,1,2,4,3}));
+        System.out.println(ac.minSubArrayLen(4,new int[]{1,4,4}));
+        System.out.println(ac.minSubArrayLen(11,new int[]{1,1,1,1,1,1,1,1}));
 
 
 
+    }
+
+
+    /**
+     * 209.长度最小的子数组
+     * @param target 7
+     * @param nums {2,3,1,2,4,3}
+     * @return 2
+     */
+    public int minSubArrayLen(int target, int[] nums) {
+        int n = nums.length;
+        int left = 0, sum = 0, minLength = Integer.MAX_VALUE;
+
+        for (int right = 0; right < n; right++) {
+            sum += nums[right]; // 扩展窗口，加入当前元素
+
+            // 窗口内的和大于等于 target 时，尝试缩小窗口
+            while (sum >= target) {
+                minLength = Math.min(minLength, right - left + 1);
+                sum -= nums[left]; // 移动左指针，缩小窗口
+                left++;
+            }
+        }
+
+        return minLength == Integer.MAX_VALUE ? 0 : minLength;
     }
 
     /**
