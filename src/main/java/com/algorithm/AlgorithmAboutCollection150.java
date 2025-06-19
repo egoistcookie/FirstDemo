@@ -130,12 +130,37 @@ public class AlgorithmAboutCollection150 {
         // 给定一个含有 n 个正整数的数组和一个正整数 target 。
         // 找出该数组中满足其总和大于等于 target 的长度最小的 子数组
         // 解法：滑动窗口
-        System.out.println(ac.minSubArrayLen(7,new int[]{2,3,1,2,4,3}));
-        System.out.println(ac.minSubArrayLen(4,new int[]{1,4,4}));
-        System.out.println(ac.minSubArrayLen(11,new int[]{1,1,1,1,1,1,1,1}));
+        // System.out.println(ac.minSubArrayLen(7,new int[]{2,3,1,2,4,3}));
+        // System.out.println(ac.minSubArrayLen(4,new int[]{1,4,4}));
+        // System.out.println(ac.minSubArrayLen(11,new int[]{1,1,1,1,1,1,1,1}));
+
+        // 383.赎金信
+        // 给你两个字符串：ransomNote 和 magazine ，判断 ransomNote 能不能由 magazine 里面的字符构成。
+        // 如果可以，返回 true ；否则返回 false 。
+        // 解法：数组保存字母出现次数
+        System.out.println(ac.canConstruct("a","b"));
+        System.out.println(ac.canConstruct("aa","ab"));
+        System.out.println(ac.canConstruct("aa","aab"));
 
 
 
+
+    }
+
+
+    /**
+     * 383.赎金信
+     * @param ransomNote
+     * @param magazine
+     * @return
+     */
+    public boolean canConstruct(String ransomNote, String magazine) {
+        int[] count = new int[26];
+        for (char c : magazine.toCharArray()) count[c - 'a']++;
+        for (char c : ransomNote.toCharArray()) {
+            if (--count[c - 'a'] < 0) return false;
+        }
+        return true;
     }
 
 
