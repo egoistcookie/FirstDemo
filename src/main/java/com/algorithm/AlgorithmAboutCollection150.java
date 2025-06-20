@@ -138,15 +138,55 @@ public class AlgorithmAboutCollection150 {
         // 给你两个字符串：ransomNote 和 magazine ，判断 ransomNote 能不能由 magazine 里面的字符构成。
         // 如果可以，返回 true ；否则返回 false 。
         // 解法：数组保存字母出现次数
-        System.out.println(ac.canConstruct("a","b"));
-        System.out.println(ac.canConstruct("aa","ab"));
-        System.out.println(ac.canConstruct("aa","aab"));
+        // System.out.println(ac.canConstruct("a","b"));
+        // System.out.println(ac.canConstruct("aa","ab"));
+        // System.out.println(ac.canConstruct("aa","aab"));
 
+        // 205.同构字符串
+        // 给定两个字符串 s 和 t ，判断它们是否是同构的。
+        // 解法：以两个hashmap保存各自结构做对比
+        System.out.println(ac.isIsomorphic("badc","baba"));
 
 
 
     }
 
+
+    /**
+     * 205.同构字符串
+     * @param s
+     * @param t
+     * @return
+     */
+    public boolean isIsomorphic(String s, String t) {
+        HashMap<Character,String> retMap = new HashMap<>();
+        HashMap<Character,String> retMapT = new HashMap<>();
+        if(s.length() != t.length()) return false;
+        for(int i=0;i<s.length();i++){
+            char chr = s.charAt(i);
+            char chrT = t.charAt(i);
+            if(retMap.containsKey(chr)){
+                if(!retMapT.containsKey(chrT)){
+                    return false;
+                }
+                String indexStr = retMap.get(chr);
+                String indexStrT = retMapT.get(chrT);
+                if(!indexStr.equals(indexStrT)){
+                    return false;
+                }
+                retMap.put(chr,indexStr+i );
+                retMapT.put(chrT,indexStrT+i );
+            }else{
+                if(retMapT.containsKey(chrT)){
+                    return false;
+                }
+                retMap.put(chr,i+"");
+                retMapT.put(chrT,i+"");
+            }
+        }
+        return true;
+
+    }
 
     /**
      * 383.赎金信
