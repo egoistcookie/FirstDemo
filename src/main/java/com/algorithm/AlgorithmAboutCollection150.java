@@ -145,12 +145,53 @@ public class AlgorithmAboutCollection150 {
         // 205.同构字符串
         // 给定两个字符串 s 和 t ，判断它们是否是同构的。
         // 解法：以两个hashmap保存各自结构做对比
-        System.out.println(ac.isIsomorphic("badc","baba"));
+        // System.out.println(ac.isIsomorphic("badc","baba"));
+
+        // 290.单词规律
+        // 给定一种规律 pattern 和一个字符串 s ，判断 s 是否遵循相同的规律。
+        // 解法：两个hashmap双向映射char与string，a代表dog，cat代表b
+        System.out.println(ac.wordPattern("abba","dog cat cat dog"));
+        System.out.println(ac.wordPattern("abba","dog cat cat fish"));
+        System.out.println(ac.wordPattern("aaaa","dog cat cat fish"));
+        System.out.println(ac.wordPattern("abba","dog dog dog dog"));
 
 
 
     }
 
+
+    /**
+     * 290.单词规律
+     * @param pattern "abba"
+     * @param s "dog cat cat dog"
+     * @return true
+     */
+    public boolean wordPattern(String pattern, String s) {
+        String[] words = s.split(" ");
+        if (pattern.length() != words.length) return false;
+
+        HashMap<Character, String> charToWord = new HashMap<>();
+        HashMap<String, Character> wordToChar = new HashMap<>();
+
+        for (int i = 0; i < pattern.length(); i++) {
+            char c = pattern.charAt(i);
+            String word = words[i];
+
+            // 检查字符→单词的映射是否一致
+            if (charToWord.containsKey(c)) {
+                if (!charToWord.get(c).equals(word)) return false;
+            } else {
+                charToWord.put(c, word);
+            }
+            // 检查单词→字符的映射是否一致
+            if (wordToChar.containsKey(word)) {
+                if (wordToChar.get(word) != c) return false;
+            } else {
+                wordToChar.put(word, c);
+            }
+        }
+        return true;
+    }
 
     /**
      * 205.同构字符串
