@@ -4,6 +4,25 @@ import java.util.*;
 
 public class AlgorithmAboutCollection150 {
 
+    public static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
     public static void main(String[] args) {
 
         AlgorithmAboutCollection150 ac = new AlgorithmAboutCollection150();
@@ -150,15 +169,34 @@ public class AlgorithmAboutCollection150 {
         // 290.单词规律
         // 给定一种规律 pattern 和一个字符串 s ，判断 s 是否遵循相同的规律。
         // 解法：两个hashmap双向映射char与string，a代表dog，cat代表b
-        System.out.println(ac.wordPattern("abba","dog cat cat dog"));
-        System.out.println(ac.wordPattern("abba","dog cat cat fish"));
-        System.out.println(ac.wordPattern("aaaa","dog cat cat fish"));
-        System.out.println(ac.wordPattern("abba","dog dog dog dog"));
+        // System.out.println(ac.wordPattern("abba","dog cat cat dog"));
+        // System.out.println(ac.wordPattern("abba","dog cat cat fish"));
+        // System.out.println(ac.wordPattern("aaaa","dog cat cat fish"));
+        // System.out.println(ac.wordPattern("abba","dog dog dog dog"));
 
+        // 104.二叉树的最大深度
+        // 给定一个二叉树 root ，返回其最大深度。
+        // 解法：递归左右树
+        TreeNode root = new TreeNode(3);
+        root.left = new TreeNode(9);
+        root.right = new TreeNode(20);
+        root.right.left = new TreeNode(15);
+        root.right.right = new TreeNode(7);
+        System.out.println(ac.maxDepth(root));
 
 
     }
 
+
+    /**
+     * 104.二叉树的最大深度
+     * @param root
+     * @return
+     */
+    public int maxDepth(TreeNode root) {
+        if(root == null) return 0;
+        return Math.max(maxDepth(root.left),maxDepth(root.right))+1;
+    }
 
     /**
      * 290.单词规律
