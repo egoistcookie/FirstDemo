@@ -177,16 +177,52 @@ public class AlgorithmAboutCollection150 {
         // 104.二叉树的最大深度
         // 给定一个二叉树 root ，返回其最大深度。
         // 解法：递归左右树
-        TreeNode root = new TreeNode(3);
-        root.left = new TreeNode(9);
-        root.right = new TreeNode(20);
-        root.right.left = new TreeNode(15);
-        root.right.right = new TreeNode(7);
-        System.out.println(ac.maxDepth(root));
+        // TreeNode root = new TreeNode(3);
+        // root.left = new TreeNode(9);
+        // root.right = new TreeNode(20);
+        // root.right.left = new TreeNode(15);
+        // root.right.right = new TreeNode(7);
+        // System.out.println(ac.maxDepth(root));
+
+        // 100.相同的树
+        // 给你两棵二叉树的根节点 p 和 q ，编写一个函数来检验这两棵树是否相同。
+        // 解法：递归
+        TreeNode p = new TreeNode(1);
+        p.left = new TreeNode(2);
+        p.right = new TreeNode(3);
+        TreeNode q = new TreeNode(1);
+        q.left = new TreeNode(2);
+        q.right = new TreeNode(3);
+        System.out.println(ac.isSameTree(p,q));
+
+
 
 
     }
 
+
+    /**
+     * 100.相同的树
+     * @param p [1,2,3]
+     * @param q [1,2,3]
+     * @return true
+     */
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        // 两个节点都为空
+        if (p == null && q == null) {
+            return true;
+        }
+        // 只有一个节点为空
+        if (p == null || q == null) {
+            return false;
+        }
+        // 节点值不相等
+        if (p.val != q.val) {
+            return false;
+        }
+        // 递归比较左右子树
+        return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+    }
 
     /**
      * 104.二叉树的最大深度
