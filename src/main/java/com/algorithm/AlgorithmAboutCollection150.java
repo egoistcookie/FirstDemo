@@ -187,19 +187,42 @@ public class AlgorithmAboutCollection150 {
         // 100.相同的树
         // 给你两棵二叉树的根节点 p 和 q ，编写一个函数来检验这两棵树是否相同。
         // 解法：递归
-        TreeNode p = new TreeNode(1);
-        p.left = new TreeNode(2);
+        // TreeNode p = new TreeNode(1);
+        // p.left = new TreeNode(2);
+        // p.right = new TreeNode(3);
+        // TreeNode q = new TreeNode(1);
+        // q.left = new TreeNode(2);
+        // q.right = new TreeNode(3);
+        // System.out.println(ac.isSameTree(p,q));
+
+        // 226.翻转二叉树
+        // 给你一棵二叉树的根节点 root ，翻转这棵二叉树，并返回其根节点。
+        // 解法：递归
+        TreeNode p = new TreeNode(2);
+        p.left = new TreeNode(1);
         p.right = new TreeNode(3);
-        TreeNode q = new TreeNode(1);
-        q.left = new TreeNode(2);
-        q.right = new TreeNode(3);
-        System.out.println(ac.isSameTree(p,q));
+        System.out.println(ac.invertTree(p).left.val);
+
+
 
 
 
 
     }
 
+
+    /**
+     * 226.翻转二叉树
+     * @param root
+     * @return
+     */
+    public TreeNode invertTree(TreeNode root) {
+        if(root == null) return null;
+        TreeNode temp = root.left;
+        root.left = invertTree(root.right);
+        root.right = invertTree(temp);
+        return root;
+    }
 
     /**
      * 100.相同的树
