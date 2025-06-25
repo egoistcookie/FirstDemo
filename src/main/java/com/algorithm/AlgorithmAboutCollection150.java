@@ -198,18 +198,66 @@ public class AlgorithmAboutCollection150 {
         // 226.翻转二叉树
         // 给你一棵二叉树的根节点 root ，翻转这棵二叉树，并返回其根节点。
         // 解法：递归
-        TreeNode p = new TreeNode(2);
-        p.left = new TreeNode(1);
-        p.right = new TreeNode(3);
-        System.out.println(ac.invertTree(p).left.val);
+        // TreeNode p = new TreeNode(2);
+        // p.left = new TreeNode(1);
+        // p.right = new TreeNode(3);
+        // System.out.println(ac.invertTree(p).left.val);
 
-
-
-
+        // 36.有效的数组
+        // 请你判断一个 9 x 9 的数独是否有效。只需要 根据以下规则 ，验证已经填入的数字是否有效即可。
+        // 解法：hashmap记录每行每列每个3x3
+        System.out.println(ac.isValidSudoku(new char[][]{{1,1},{2,2},{3,3}}));
 
 
     }
 
+
+        /**
+         * 36.有效的数组
+         */
+        public boolean isValidSudoku(char[][] board) {
+            // 检查每行
+            for (int i = 0; i < 9; i++) {
+                int[] rowCount = new int[10]; // 记录每行数字出现次数
+                int[] colCount = new int[10]; // 记录每列数字出现次数
+                for (int j = 0; j < 9; j++) {
+                    // 检查行
+                    if (board[i][j] != '.') {
+                        int num = board[i][j] - '0'; // 将字符转换为数字(1-9)
+                        if (rowCount[num]++ > 0) {
+                            return false;
+                        }
+                    }
+                    // 检查列
+                    if (board[j][i] != '.') {
+                        int num = board[j][i] - '0';
+                        if (colCount[num]++ > 0) {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            // 检查3x3子方格
+            for (int i = 0; i < 9; i += 3) {
+                for (int j = 0; j < 9; j += 3) {
+                    int[] subBoxCount = new int[10];
+                    // 遍历当前3x3子方格
+                    for (int p = i; p < i + 3; p++) {
+                        for (int q = j; q < j + 3; q++) {
+                            if (board[p][q] != '.') {
+                                int num = board[p][q] - '0';
+                                if (subBoxCount[num]++ > 0) {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
 
     /**
      * 226.翻转二叉树
