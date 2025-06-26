@@ -206,58 +206,97 @@ public class AlgorithmAboutCollection150 {
         // 36.有效的数组
         // 请你判断一个 9 x 9 的数独是否有效。只需要 根据以下规则 ，验证已经填入的数字是否有效即可。
         // 解法：hashmap记录每行每列每个3x3
-        System.out.println(ac.isValidSudoku(new char[][]{{1,1},{2,2},{3,3}}));
+        // System.out.println(ac.isValidSudoku(new char[][]{{1,1},{2,2},{3,3}}));
+
+        // 228.汇总区间
+        // 给定一个  无重复元素 的 有序 整数数组 nums 。
+        // 区间 [a,b] 是从 a 到 b（包含）的所有整数的集合。
+        // 解法：一次遍历
+        System.out.println(ac.summaryRanges(new int[]{0,1,2,4,5,7}));
+
 
 
     }
 
 
-        /**
-         * 36.有效的数组
-         */
-        public boolean isValidSudoku(char[][] board) {
-            // 检查每行
-            for (int i = 0; i < 9; i++) {
-                int[] rowCount = new int[10]; // 记录每行数字出现次数
-                int[] colCount = new int[10]; // 记录每列数字出现次数
-                for (int j = 0; j < 9; j++) {
-                    // 检查行
-                    if (board[i][j] != '.') {
-                        int num = board[i][j] - '0'; // 将字符转换为数字(1-9)
-                        if (rowCount[num]++ > 0) {
-                            return false;
-                        }
+    /**
+     * 228.汇总区间
+     * @param nums
+     * @return
+     */
+    public List<String> summaryRanges(int[] nums) {
+        List<String> result = new ArrayList<>();
+        if (nums.length == 0) return result;
+
+        int start = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] != nums[i-1] + 1) {
+                // 区间结束
+                if (nums[i-1] == start) {
+                    result.add(String.valueOf(start));
+                } else {
+                    result.add(start + "->" + nums[i-1]);
+                }
+                start = nums[i];
+            }
+        }
+
+        // 处理最后一个区间
+        if (nums[nums.length-1] == start) {
+            result.add(String.valueOf(start));
+        } else {
+            result.add(start + "->" + nums[nums.length-1]);
+        }
+
+        return result;
+    }
+
+    /**
+     * 36.有效的数组
+     */
+    public boolean isValidSudoku(char[][] board) {
+        // 检查每行
+        for (int i = 0; i < 9; i++) {
+            int[] rowCount = new int[10]; // 记录每行数字出现次数
+            int[] colCount = new int[10]; // 记录每列数字出现次数
+            for (int j = 0; j < 9; j++) {
+                // 检查行
+                if (board[i][j] != '.') {
+                    int num = board[i][j] - '0'; // 将字符转换为数字(1-9)
+                    if (rowCount[num]++ > 0) {
+                        return false;
                     }
-                    // 检查列
-                    if (board[j][i] != '.') {
-                        int num = board[j][i] - '0';
-                        if (colCount[num]++ > 0) {
-                            return false;
-                        }
+                }
+                // 检查列
+                if (board[j][i] != '.') {
+                    int num = board[j][i] - '0';
+                    if (colCount[num]++ > 0) {
+                        return false;
                     }
                 }
             }
+        }
 
-            // 检查3x3子方格
-            for (int i = 0; i < 9; i += 3) {
-                for (int j = 0; j < 9; j += 3) {
-                    int[] subBoxCount = new int[10];
-                    // 遍历当前3x3子方格
-                    for (int p = i; p < i + 3; p++) {
-                        for (int q = j; q < j + 3; q++) {
-                            if (board[p][q] != '.') {
-                                int num = board[p][q] - '0';
-                                if (subBoxCount[num]++ > 0) {
-                                    return false;
-                                }
+        // 检查3x3子方格
+        for (int i = 0; i < 9; i += 3) {
+            for (int j = 0; j < 9; j += 3) {
+                int[] subBoxCount = new int[10];
+                // 遍历当前3x3子方格
+                for (int p = i; p < i + 3; p++) {
+                    for (int q = j; q < j + 3; q++) {
+                        if (board[p][q] != '.') {
+                            int num = board[p][q] - '0';
+                            if (subBoxCount[num]++ > 0) {
+                                return false;
                             }
                         }
                     }
                 }
             }
-
-            return true;
         }
+
+        return true;
+    }
 
     /**
      * 226.翻转二叉树
