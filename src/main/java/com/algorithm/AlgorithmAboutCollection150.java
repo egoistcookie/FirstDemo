@@ -212,10 +212,46 @@ public class AlgorithmAboutCollection150 {
         // 给定一个  无重复元素 的 有序 整数数组 nums 。
         // 区间 [a,b] 是从 a 到 b（包含）的所有整数的集合。
         // 解法：一次遍历
-        System.out.println(ac.summaryRanges(new int[]{0,1,2,4,5,7}));
+        // System.out.println(ac.summaryRanges(new int[]{0,1,2,4,5,7}));
+
+        // 56.合并区间
+        // 以数组 intervals 表示若干个区间的集合，其中单个区间为 intervals[i] = [starti, endi] 。
+        // 请你合并所有重叠的区间，并返回 一个不重叠的区间数组，该数组需恰好覆盖输入中的所有区间 。
+        // 解法：先排序再遍历合并
+        int[][] re = ac.merge(new int[][]{{1,3},{2,6},{8,10},{15,18}});
+        System.out.println(re[0][1]);
 
 
 
+    }
+
+
+    /**
+     * 56.合并区间
+     * @param intervals
+     * @return
+     */
+    public int[][] merge(int[][] intervals) {
+        if (intervals == null || intervals.length == 0) {
+            return new int[0][];
+        }
+        // 1. 按区间起始点排序
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+        List<int[]> merged = new ArrayList<>();
+        merged.add(intervals[0]);
+        // 2. 合并重叠区间
+        for (int i = 1; i < intervals.length; i++) {
+            int[] last = merged.get(merged.size() - 1);
+            int[] current = intervals[i];
+            if (current[0] <= last[1]) {
+                // 合并区间，更新结束点
+                last[1] = Math.max(last[1], current[1]);
+            } else {
+                merged.add(current);
+            }
+        }
+        // 3. 转换List到二维数组
+        return merged.toArray(new int[merged.size()][]);
     }
 
 
