@@ -218,13 +218,66 @@ public class AlgorithmAboutCollection150 {
         // 以数组 intervals 表示若干个区间的集合，其中单个区间为 intervals[i] = [starti, endi] 。
         // 请你合并所有重叠的区间，并返回 一个不重叠的区间数组，该数组需恰好覆盖输入中的所有区间 。
         // 解法：先排序再遍历合并
-        int[][] re = ac.merge(new int[][]{{1,3},{2,6},{8,10},{15,18}});
-        System.out.println(re[0][1]);
+        // int[][] re = ac.merge(new int[][]{{1,3},{2,6},{8,10},{15,18}});
+        // System.out.println(re[0][1]);
+
+        // 17.电话号码的排列组合
+        // 给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回。
+        // 解法：递归回溯
+        List<String> ret = ac.letterCombinations("23");
+        for(String str : ret){
+            System.out.println(str + " ");
+        }
+
 
 
 
     }
 
+
+    /**
+     * 17.电话号码的排列组合
+     * @param digits "23"
+     * @return ["ad","ae","af","bd","be","bf","cd","ce","cf"]
+     */
+    // 数字到字母的映射表
+    private static final String[] MAPPING = {
+            "",     // 0
+            "",     // 1
+            "abc",  // 2
+            "def",  // 3
+            "ghi",  // 4
+            "jkl",  // 5
+            "mno",  // 6
+            "pqrs", // 7
+            "tuv",  // 8
+            "wxyz"  // 9
+    };
+    public List<String> letterCombinations(String digits) {
+        List<String> result = new ArrayList<>();
+        if (digits == null || digits.length() == 0) {
+            return result;
+        }
+        backtrack(result, new StringBuilder(), digits, 0);
+        return result;
+    }
+
+    private void backtrack(List<String> result, StringBuilder current,
+                           String digits, int index) {
+        // 终止条件：当前组合长度等于输入数字长度
+        if (current.length() == digits.length()) {
+            result.add(current.toString());
+            return;
+        }
+
+        // 获取当前数字对应的字母集合
+        String letters = MAPPING[digits.charAt(index) - '0'];
+        for (char letter : letters.toCharArray()) {
+            current.append(letter);  // 选择当前字母
+            backtrack(result, current, digits, index + 1);  // 递归处理下一个数字
+            current.deleteCharAt(current.length() - 1);  // 回溯，撤销选择
+        }
+    }
 
     /**
      * 56.合并区间
