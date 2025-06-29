@@ -224,16 +224,45 @@ public class AlgorithmAboutCollection150 {
         // 17.电话号码的排列组合
         // 给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回。
         // 解法：递归回溯
-        List<String> ret = ac.letterCombinations("23");
-        for(String str : ret){
-            System.out.println(str + " ");
-        }
+        // List<String> ret = ac.letterCombinations("23");
+        // for(String str : ret){
+        //     System.out.println(str + " ");
+        // }
 
+        // 167.两数之和
+        // 给你一个下标从 1 开始的整数数组 numbers ，该数组已按 非递减顺序排列  ，请你从数组中找出满足相加之和等于目标数 target 的两个数。
+        // 如果设这两个数分别是 numbers[index1] 和 numbers[index2] ，则 1 <= index1 < index2 <= numbers.length 。
+        // 解法:双指针法
+        int[] ret = ac.twoSum(new int[]{1,3,4,5,6,7,11,15},9);
+        System.out.println(ret[0] + ":" +ret[1]);
 
 
 
     }
 
+
+    /**
+     * 167.两数之和
+     * @param numbers {1,2,3,4,5,6,11,15}
+     * @param target 9
+     * @return {1,2}
+     */
+    public int[] twoSum(int[] numbers, int target) {
+
+        int left = 0,right = numbers.length-1;
+        while(left < right){
+            if(numbers[left] + numbers[right] == target){
+                break;
+            }else{
+                if(numbers[right] > target-numbers[left]){
+                    right --;
+                }else{
+                    left ++;
+                }
+            }
+        }
+        return new int[]{left+1,right+1};
+    }
 
     /**
      * 17.电话号码的排列组合
