@@ -233,11 +233,50 @@ public class AlgorithmAboutCollection150 {
         // 给你一个下标从 1 开始的整数数组 numbers ，该数组已按 非递减顺序排列  ，请你从数组中找出满足相加之和等于目标数 target 的两个数。
         // 如果设这两个数分别是 numbers[index1] 和 numbers[index2] ，则 1 <= index1 < index2 <= numbers.length 。
         // 解法:双指针法
-        int[] ret = ac.twoSum(new int[]{1,3,4,5,6,7,11,15},9);
-        System.out.println(ret[0] + ":" +ret[1]);
+        // int[] ret = ac.twoSum(new int[]{1,3,4,5,6,7,11,15},9);
+        // System.out.println(ret[0] + ":" +ret[1]);
+
+        // 71.简化路径
+        // 给你一个字符串 path ，表示指向某一文件或目录的 Unix 风格 绝对路径 （以 '/' 开头），请你将其转化为 更加简洁的规范路径。
+        // 解法：ArrayDeque来模拟栈
+        System.out.println(ac.simplifyPath("/.../a/../b/c/../d/./"));
 
 
 
+
+    }
+
+
+    /**
+     * 71.简化路径
+     * @param path "/.../a/../b/c/../d/./"
+     * @return "/.../b/d"
+     */
+    public String simplifyPath(String path) {
+        Deque<String> stack = new ArrayDeque<>();
+        String[] parts = path.split("/");
+
+        for (String part : parts) {
+            if (part.equals("") || part.equals(".")) {
+                continue;
+            } else if (part.equals("..")) {
+                if (!stack.isEmpty()) {
+                    stack.pollLast();
+                }
+            } else {
+                stack.addLast(part);
+            }
+        }
+
+        if (stack.isEmpty()) {
+            return "/";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        while (!stack.isEmpty()) {
+            sb.append("/").append(stack.pollFirst());
+        }
+        return sb.toString();
     }
 
 
