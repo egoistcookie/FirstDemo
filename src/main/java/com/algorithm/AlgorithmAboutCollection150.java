@@ -239,11 +239,42 @@ public class AlgorithmAboutCollection150 {
         // 71.简化路径
         // 给你一个字符串 path ，表示指向某一文件或目录的 Unix 风格 绝对路径 （以 '/' 开头），请你将其转化为 更加简洁的规范路径。
         // 解法：ArrayDeque来模拟栈
-        System.out.println(ac.simplifyPath("/.../a/../b/c/../d/./"));
+        // System.out.println(ac.simplifyPath("/.../a/../b/c/../d/./"));
+
+        // 67.二进制求和
+        // 给你两个二进制字符串 a 和 b ，以二进制字符串的形式返回它们的和。
+        // 解法：循环与进位
+        System.out.println(ac.addBinary("11","1"));
+        System.out.println(ac.addBinary("1010","1011"));
 
 
 
 
+
+    }
+
+
+    /**
+     * 67.二进制求和
+     * @param a "11"
+     * @param b "1"
+     * @return "100"
+     */
+    public String addBinary(String a, String b) {
+        StringBuilder sb = new StringBuilder();
+        int i = a.length() - 1, j = b.length() - 1;
+        int carry = 0;
+
+        while (i >= 0 || j >= 0 || carry > 0) {
+            int sum = carry;
+            if (i >= 0) sum += a.charAt(i--) - '0';
+            if (j >= 0) sum += b.charAt(j--) - '0';
+
+            sb.append(sum % 2);
+            carry = sum / 2;
+        }
+
+        return sb.reverse().toString();
     }
 
 
