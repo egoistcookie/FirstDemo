@@ -244,15 +244,39 @@ public class AlgorithmAboutCollection150 {
         // 67.二进制求和
         // 给你两个二进制字符串 a 和 b ，以二进制字符串的形式返回它们的和。
         // 解法：循环与进位
-        System.out.println(ac.addBinary("11","1"));
-        System.out.println(ac.addBinary("1010","1011"));
+        // System.out.println(ac.addBinary("11","1"));
+        // System.out.println(ac.addBinary("1010","1011"));
 
-
-
+        // 150.逆波兰表达式求值
+        // 给你一个字符串数组 tokens ，表示一个根据 逆波兰表示法 表示的算术表达式。
+        // 请你计算该表达式。返回一个表示表达式值的整数。
+        // 解法：ArrayDeque模拟栈
+        System.out.println(ac.evalRPN(new String[]{"2","1","+","3","*"}));
+        System.out.println(ac.evalRPN(new String[]{"4","13","5","/","+"}));
+        System.out.println(ac.evalRPN(new String[]{"10","6","9","3","+","-11","*","/","*","17","+","5","+"}));
 
 
     }
 
+
+    /**
+     * 150.逆波兰表达式求值
+     * @param tokens {"2","1","+","3","*"}
+     * @return
+     */
+    public int evalRPN(String[] tokens) {
+        ArrayDeque<Integer> stack = new ArrayDeque<>();
+        for (String token : tokens) {
+            switch (token) {
+                case "+": stack.push(stack.pop() + stack.pop()); break;
+                case "-": int num2 = stack.pop(), num1 = stack.pop(); stack.push(num1 - num2); break;
+                case "*": stack.push(stack.pop() * stack.pop()); break;
+                case "/": num2 = stack.pop(); num1 = stack.pop(); stack.push(num1 / num2); break;
+                default: stack.push(Integer.parseInt(token));
+            }
+        }
+        return stack.pop();
+    }
 
     /**
      * 67.二进制求和
