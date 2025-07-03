@@ -251,11 +251,69 @@ public class AlgorithmAboutCollection150 {
         // 给你一个字符串数组 tokens ，表示一个根据 逆波兰表示法 表示的算术表达式。
         // 请你计算该表达式。返回一个表示表达式值的整数。
         // 解法：ArrayDeque模拟栈
-        System.out.println(ac.evalRPN(new String[]{"2","1","+","3","*"}));
-        System.out.println(ac.evalRPN(new String[]{"4","13","5","/","+"}));
-        System.out.println(ac.evalRPN(new String[]{"10","6","9","3","+","-11","*","/","*","17","+","5","+"}));
+        // System.out.println(ac.evalRPN(new String[]{"2","1","+","3","*"}));
+        // System.out.println(ac.evalRPN(new String[]{"4","13","5","/","+"}));
+        // System.out.println(ac.evalRPN(new String[]{"10","6","9","3","+","-11","*","/","*","17","+","5","+"}));
+
+        // 155.最小栈
+        // 设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。
+        // 解法：自定义Node，存储最小值
+        MinStack minStack = new MinStack();
+        minStack.push(-2);
+        minStack.push(0);
+        minStack.push(-3);
+        System.out.println(minStack.getMin());
+        minStack.pop();
+        System.out.println(minStack.top());
+        System.out.println(minStack.getMin());
 
 
+
+    }
+
+
+    /**
+     * 155.最小栈
+     */
+    static class MinStack {
+
+        private static class Node {
+            int val;
+            int min;
+            Node next;
+
+            public Node(int val, int min, Node next) {
+                this.val = val;
+                this.min = min;
+                this.next = next;
+            }
+        }
+
+        private Node head;
+
+        public MinStack() {
+            head = null;
+        }
+
+        public void push(int val) {
+            if (head == null) {
+                head = new Node(val, val, null);
+            } else {
+                head = new Node(val, Math.min(val, head.min), head);
+            }
+        }
+
+        public void pop() {
+            head = head.next;
+        }
+
+        public int top() {
+            return head.val;
+        }
+
+        public int getMin() {
+            return head.min;
+        }
     }
 
 
