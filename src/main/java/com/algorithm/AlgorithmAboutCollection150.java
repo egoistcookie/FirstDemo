@@ -258,17 +258,66 @@ public class AlgorithmAboutCollection150 {
         // 155.最小栈
         // 设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。
         // 解法：自定义Node，存储最小值
-        MinStack minStack = new MinStack();
-        minStack.push(-2);
-        minStack.push(0);
-        minStack.push(-3);
-        System.out.println(minStack.getMin());
-        minStack.pop();
-        System.out.println(minStack.top());
-        System.out.println(minStack.getMin());
+        // MinStack minStack = new MinStack();
+        // minStack.push(-2);
+        // minStack.push(0);
+        // minStack.push(-3);
+        // System.out.println(minStack.getMin());
+        // minStack.pop();
+        // System.out.println(minStack.top());
+        // System.out.println(minStack.getMin());
+
+        // 120.三角形最小路径和
+        // 给定一个三角形 triangle ，找出自顶向下的最小路径和。
+        // 解法：二维动态规划，计划每个未知的最小路径和
+        List<Integer> l1 = new ArrayList<>();
+        l1.add(2);
+        List<Integer> l2 = new ArrayList<>();
+        l2.add(3);
+        l2.add(4);
+        List<Integer> l3 = new ArrayList<>();
+        l3.add(6);
+        l3.add(5);
+        l3.add(7);
+        List<Integer> l4 = new ArrayList<>();
+        l4.add(4);
+        l4.add(1);
+        l4.add(8);
+        l4.add(3);
+        List<List<Integer>> list = new ArrayList<>();
+        list.add(l1);list.add(l2);list.add(l3);list.add(l4);
+        System.out.println(ac.minimumTotal(list));
+        List<List<Integer>> list1 = new ArrayList<>();
+        List<Integer> l11 = new ArrayList<>();
+        l11.add(-11);list1.add(l11);
+        System.out.println(ac.minimumTotal(list1));
 
 
 
+
+    }
+
+
+    /**
+     * 120.三角形最小路径和
+     * @param triangle [[2],[3,4],[6,5,7],[4,1,8,3]]
+     * @return 2 + 3 + 5 + 1 = 11
+     */
+    public int minimumTotal(List<List<Integer>> triangle) {
+        if (triangle == null || triangle.isEmpty()) return 0;
+        int n = triangle.size();
+        int[] dp = new int[n];
+        // 初始化最后一行
+        for (int j = 0; j < triangle.get(n-1).size(); j++) {
+            dp[j] = triangle.get(n-1).get(j);
+        }
+        // 自底向上递推
+        for (int i = n-2; i >= 0; i--) {
+            for (int j = 0; j < triangle.get(i).size(); j++) {
+                dp[j] = triangle.get(i).get(j) + Math.min(dp[j], dp[j+1]);
+            }
+        }
+        return dp[0];
     }
 
 
