@@ -270,33 +270,61 @@ public class AlgorithmAboutCollection150 {
         // 120.三角形最小路径和
         // 给定一个三角形 triangle ，找出自顶向下的最小路径和。
         // 解法：二维动态规划，计划每个未知的最小路径和
-        List<Integer> l1 = new ArrayList<>();
-        l1.add(2);
-        List<Integer> l2 = new ArrayList<>();
-        l2.add(3);
-        l2.add(4);
-        List<Integer> l3 = new ArrayList<>();
-        l3.add(6);
-        l3.add(5);
-        l3.add(7);
-        List<Integer> l4 = new ArrayList<>();
-        l4.add(4);
-        l4.add(1);
-        l4.add(8);
-        l4.add(3);
-        List<List<Integer>> list = new ArrayList<>();
-        list.add(l1);list.add(l2);list.add(l3);list.add(l4);
-        System.out.println(ac.minimumTotal(list));
-        List<List<Integer>> list1 = new ArrayList<>();
-        List<Integer> l11 = new ArrayList<>();
-        l11.add(-11);list1.add(l11);
-        System.out.println(ac.minimumTotal(list1));
+        // List<Integer> l1 = new ArrayList<>();
+        // l1.add(2);
+        // List<Integer> l2 = new ArrayList<>();
+        // l2.add(3);
+        // l2.add(4);
+        // List<Integer> l3 = new ArrayList<>();
+        // l3.add(6);
+        // l3.add(5);
+        // l3.add(7);
+        // List<Integer> l4 = new ArrayList<>();
+        // l4.add(4);
+        // l4.add(1);
+        // l4.add(8);
+        // l4.add(3);
+        // List<List<Integer>> list = new ArrayList<>();
+        // list.add(l1);list.add(l2);list.add(l3);list.add(l4);
+        // System.out.println(ac.minimumTotal(list));
+        // List<List<Integer>> list1 = new ArrayList<>();
+        // List<Integer> l11 = new ArrayList<>();
+        // l11.add(-11);list1.add(l11);
+        // System.out.println(ac.minimumTotal(list1));
+
+        // 3.无重复字符的最长子串
+        // 给定一个字符串 s ，请你找出其中不含有重复字符的 最长 子串 的长度。
+        // 解法：滑动窗口+哈希表
+        System.out.println(ac.lengthOfLongestSubstring("abcabcbb"));
+        System.out.println(ac.lengthOfLongestSubstring("bbbbb"));
+        System.out.println(ac.lengthOfLongestSubstring("pwwkew"));
 
 
 
 
     }
 
+
+    /**
+     * 3.无重复字符的最长子串
+     * @param s abcabcbb
+     * @return
+     */
+    public int lengthOfLongestSubstring(String s) {
+        Map<Character, Integer> map = new HashMap<>();
+        int max = 0;
+        int left = 0;
+
+        for(int right = 0; right < s.length(); right++) {
+            char c = s.charAt(right);
+            if(map.containsKey(c)) {
+                left = Math.max(left, map.get(c) + 1);
+            }
+            map.put(c, right);
+            max = Math.max(max, right - left + 1);
+        }
+        return max;
+    }
 
     /**
      * 120.三角形最小路径和
