@@ -294,7 +294,7 @@ public class AlgorithmAboutCollection150 {
 
         // 3.无重复字符的最长子串
         // 给定一个字符串 s ，请你找出其中不含有重复字符的 最长 子串 的长度。
-        // 解法：滑动窗口+哈希表
+        // 解法：滑动窗口+哈希表,存该字符上次出现的位置
         System.out.println(ac.lengthOfLongestSubstring("abcabcbb"));
         System.out.println(ac.lengthOfLongestSubstring("bbbbb"));
         System.out.println(ac.lengthOfLongestSubstring("pwwkew"));
