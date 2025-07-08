@@ -295,13 +295,48 @@ public class AlgorithmAboutCollection150 {
         // 3.无重复字符的最长子串
         // 给定一个字符串 s ，请你找出其中不含有重复字符的 最长 子串 的长度。
         // 解法：滑动窗口+哈希表,存该字符上次出现的位置
-        System.out.println(ac.lengthOfLongestSubstring("abcabcbb"));
-        System.out.println(ac.lengthOfLongestSubstring("bbbbb"));
-        System.out.println(ac.lengthOfLongestSubstring("pwwkew"));
+        // System.out.println(ac.lengthOfLongestSubstring("abcabcbb"));
+        // System.out.println(ac.lengthOfLongestSubstring("bbbbb"));
+        // System.out.println(ac.lengthOfLongestSubstring("pwwkew"));
+
+        // 105.从前序和中序遍历序列构建二叉树
+        // 给定两个整数数组 preorder 和 inorder ，其中 preorder 是二叉树的先序遍历， inorder 是同一棵树的中序遍历，请构造二叉树并返回其根节点。
+        // 解法：哈希存中序序列+递归组装
+        System.out.println(ac.buildTree(new int[]{3,9,20,15,7},new int []{9,3,15,20,7}).val);
 
 
 
 
+    }
+
+
+    /**
+     * 105.从前序和中序遍历序列构建二叉树
+     * @param preorder
+     * @param inorder
+     * @return
+     */
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        inOrderMap = new HashMap<>();
+        for(int i=0;i<inorder.length;i++){
+            inOrderMap.put(inorder[i],i);
+        }
+        return buildSubTree(preorder,0,preorder.length-1,0,inorder.length-1);
+    }
+    public static Map<Integer,Integer> inOrderMap;
+    public static TreeNode buildSubTree(int[] preorder,int preStart,int preEnd,int inStart,int inEnd){
+        if(preStart > preEnd || inStart > inEnd){
+            return null;
+        }
+        // 根节点是前序遍历的第一个元素
+        int rootValue = preorder[preStart];
+        TreeNode root = new TreeNode(rootValue);
+        // 在中序遍历中找到根节点的位置
+        int rootIndex = inOrderMap.get(rootValue);
+        int subSize = rootIndex - inStart;
+        root.left = buildSubTree(preorder,preStart+1,preStart + subSize,inStart,rootIndex-1);
+        root.right = buildSubTree(preorder,preStart+subSize+1,preEnd,rootIndex+1,inEnd);
+        return root;
     }
 
 
