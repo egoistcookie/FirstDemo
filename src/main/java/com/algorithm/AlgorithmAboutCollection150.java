@@ -302,13 +302,43 @@ public class AlgorithmAboutCollection150 {
         // 105.从前序和中序遍历序列构建二叉树
         // 给定两个整数数组 preorder 和 inorder ，其中 preorder 是二叉树的先序遍历， inorder 是同一棵树的中序遍历，请构造二叉树并返回其根节点。
         // 解法：哈希存中序序列+递归组装
-        System.out.println(ac.buildTree(new int[]{3,9,20,15,7},new int []{9,3,15,20,7}).val);
+        // System.out.println(ac.buildTree(new int[]{3,9,20,15,7},new int []{9,3,15,20,7}).val);
 
-
+        // 106.从中序和后序遍历序列构建二叉树
+        // 给定两个整数数组 inorder 和 postorder ，其中 inorder 是二叉树的中序遍历， postorder 是同一棵树的后序遍历，请你构造并返回这颗 二叉树 。
+        // 解法：哈希存中序序列+递归组装
+        System.out.println(ac.buildTree(new int[]{9,3,15,20,7},new int[]{9,15,7,20,3}).val);
 
 
     }
 
+
+    /**
+     * 106.从中序和后序遍历序列构建二叉树
+     * @param inorder [9,3,15,20,7]
+     * @param postorder [9,15,7,20,3]
+     * @return [3,9,20,null,null,15,7]
+     */
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        inOrderMap = new HashMap<>();
+        for(int i=0;i<inorder.length;i++) {
+            inOrderMap.put(inorder[i],i);
+        }
+        return buildSubTree(postorder,0,postorder.length-1,0,inorder.length-1);
+    }
+    public static Map<Integer,Integer> inOrderMap;
+    public static TreeNode buildSubTree(int[] postorder,int postStart,int postEnd,int inStart,int inEnd) {
+        if(postStart>postEnd || inStart>inEnd){
+            return null;
+        }
+        int rootValue = postorder[postEnd];
+        TreeNode root = new TreeNode(rootValue);
+        int rootIndex = inOrderMap.get(rootValue);
+        int leftLength = rootIndex - inStart;
+        root.left = buildSubTree(postorder,postStart,postStart+leftLength-1,inStart,rootIndex-1);
+        root.right = buildSubTree(postorder,postStart+leftLength,postEnd-1,rootIndex + 1,inEnd);
+        return root;
+    }
 
     /**
      * 105.从前序和中序遍历序列构建二叉树
@@ -316,28 +346,27 @@ public class AlgorithmAboutCollection150 {
      * @param inorder
      * @return
      */
-    public TreeNode buildTree(int[] preorder, int[] inorder) {
-        inOrderMap = new HashMap<>();
-        for(int i=0;i<inorder.length;i++){
-            inOrderMap.put(inorder[i],i);
-        }
-        return buildSubTree(preorder,0,preorder.length-1,0,inorder.length-1);
-    }
-    public static Map<Integer,Integer> inOrderMap;
-    public static TreeNode buildSubTree(int[] preorder,int preStart,int preEnd,int inStart,int inEnd){
-        if(preStart > preEnd || inStart > inEnd){
-            return null;
-        }
-        // 根节点是前序遍历的第一个元素
-        int rootValue = preorder[preStart];
-        TreeNode root = new TreeNode(rootValue);
-        // 在中序遍历中找到根节点的位置
-        int rootIndex = inOrderMap.get(rootValue);
-        int subSize = rootIndex - inStart;
-        root.left = buildSubTree(preorder,preStart+1,preStart + subSize,inStart,rootIndex-1);
-        root.right = buildSubTree(preorder,preStart+subSize+1,preEnd,rootIndex+1,inEnd);
-        return root;
-    }
+    // public TreeNode buildTree(int[] preorder, int[] inorder) {
+    //     inOrderMap = new HashMap<>();
+    //     for(int i=0;i<inorder.length;i++){
+    //         inOrderMap.put(inorder[i],i);
+    //     }
+    //     return buildSubTree(preorder,0,preorder.length-1,0,inorder.length-1);
+    // }
+    // public static TreeNode buildSubTree(int[] int rootValue = preorder[preStart];preorder,int preStart,int preEnd,int inStart,int inEnd){
+    //     if(preStart > preEnd || inStart > inEnd){
+    //         return null;
+    //     }
+    //     // 根节点是前序遍历的第一个元素
+    //
+    //     TreeNode root = new TreeNode(rootValue);
+    //     // 在中序遍历中找到根节点的位置
+    //     int rootIndex = inOrderMap.get(rootValue);
+    //     int subSize = rootIndex - inStart;
+    //     root.left = buildSubTree(preorder,preStart+1,preStart + subSize,inStart,rootIndex-1);
+    //     root.right = buildSubTree(preorder,preStart+subSize+1,preEnd,rootIndex+1,inEnd);
+    //     return root;
+    // }
 
 
     /**
