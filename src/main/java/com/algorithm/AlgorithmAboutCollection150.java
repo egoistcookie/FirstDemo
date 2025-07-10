@@ -307,11 +307,53 @@ public class AlgorithmAboutCollection150 {
         // 106.从中序和后序遍历序列构建二叉树
         // 给定两个整数数组 inorder 和 postorder ，其中 inorder 是二叉树的中序遍历， postorder 是同一棵树的后序遍历，请你构造并返回这颗 二叉树 。
         // 解法：哈希存中序序列+递归组装
-        System.out.println(ac.buildTree(new int[]{9,3,15,20,7},new int[]{9,15,7,20,3}).val);
+        // System.out.println(ac.buildTree(new int[]{9,3,15,20,7},new int[]{9,15,7,20,3}).val);
+
+        // 373.查找和最小的k对数字
+        // 给定两个以 非递减顺序排列 的整数数组 nums1 和 nums2 , 以及一个整数 k 。
+        // 请找到和最小的 k 个数对 (u1,v1),  (u2,v2)  ...  (uk,vk) 。
+        // 解法：优先队列+lambda自定义比较器
+        List<List<Integer>> ret = ac.kSmallestPairs(new int[]{1,7,11},new int[]{2,4,6},4);
+        for(List<Integer> list : ret){
+            System.out.println(list.get(0)+" "+list.get(1));
+        }
+
+
+
 
 
     }
 
+
+    /**
+     * 373.查找和最小的k对数字
+     * @param nums1 1,7,11
+     * @param nums2 2,4,6
+     * @param k 3
+     * @return [1,2],[1,4],[1,6],[7,2],[7,4],[11,2],[7,6],[11,4],[11,6]
+     */
+    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (nums1.length == 0 || nums2.length == 0 || k == 0) {
+            return result;
+        }
+
+        PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[0] + a[1] - b[0] - b[1]);
+
+        for (int i = 0; i < Math.min(nums1.length, k); i++) {
+            heap.offer(new int[]{nums1[i], nums2[0], 0});
+        }
+
+        while (k-- > 0 && !heap.isEmpty()) {
+            int[] current = heap.poll();
+            result.add(Arrays.asList(current[0], current[1]));
+            if (current[2] + 1 < nums2.length) {
+                heap.offer(new int[]{current[0], nums2[current[2] + 1], current[2] + 1});
+            }
+        }
+
+        return result;
+    }
 
     /**
      * 106.从中序和后序遍历序列构建二叉树
