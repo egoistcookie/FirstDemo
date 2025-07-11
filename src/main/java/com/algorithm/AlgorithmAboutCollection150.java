@@ -313,15 +313,38 @@ public class AlgorithmAboutCollection150 {
         // 给定两个以 非递减顺序排列 的整数数组 nums1 和 nums2 , 以及一个整数 k 。
         // 请找到和最小的 k 个数对 (u1,v1),  (u2,v2)  ...  (uk,vk) 。
         // 解法：优先队列+lambda自定义比较器
-        List<List<Integer>> ret = ac.kSmallestPairs(new int[]{1,7,11},new int[]{2,4,6},4);
-        for(List<Integer> list : ret){
-            System.out.println(list.get(0)+" "+list.get(1));
+        // List<List<Integer>> ret = ac.kSmallestPairs(new int[]{1,7,11},new int[]{2,4,6},4);
+        // for(List<Integer> list : ret){
+        //     System.out.println(list.get(0)+" "+list.get(1));
+        // }
+
+        // 215.数组中的第k个最大元素
+        // 给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。
+        // 解法：默认优先队列
+        System.out.println(ac.findKthLargest(new int[]{3,2,1,5,6,4},2));
+
+
+
+
+
+    }
+
+
+    /**
+     * 215.数组中的第k个最大元素
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        for(int n : nums){
+            minHeap.offer(n);
+            if(minHeap.size() > k){
+                minHeap.poll();
+            }
         }
-
-
-
-
-
+        return minHeap.peek();
     }
 
 
