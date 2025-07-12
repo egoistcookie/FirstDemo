@@ -321,14 +321,82 @@ public class AlgorithmAboutCollection150 {
         // 215.数组中的第k个最大元素
         // 给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。
         // 解法：默认优先队列
-        System.out.println(ac.findKthLargest(new int[]{3,2,1,5,6,4},2));
+        // System.out.println(ac.findKthLargest(new int[]{3,2,1,5,6,4},2));
 
-
+        // 909.蛇梯棋
+        // 给你一个大小为 n x n 的整数矩阵 board ，方格按从 1 到 n2 编号，编号遵循 转行交替方式 ，从左下角开始 （即，从 board[n - 1][0] 开始）的每一行改变方向。
+        // 你一开始位于棋盘上的方格  1。每一回合，玩家需要从当前方格 curr 开始出发，
+        // 返回达到编号为 n2 的方格所需的最少掷骰次数，如果不可能，则返回 -1。
+        // 解法：二维矩阵转一维数组+广度搜索
+        System.out.println(ac.snakesAndLadders(new int[][]{{-1,-1,-1,-1,-1,-1},{-1,-1,-1,-1,-1,-1},{-1,-1,-1,-1,-1,-1}
+                ,{-1,35,-1,-1,13,-1},{-1,-1,-1,-1,-1,-1},{-1,15,-1,-1,-1,-1}}));
 
 
 
     }
 
+
+    /**
+     * 909.蛇梯棋
+     * @param board
+     * @return
+     */
+    public int snakesAndLadders(int[][] board) {
+        int n = board.length;
+        int target = n * n;
+        // 将二维坐标转换为一维编号
+        Map<Integer, Integer> jumpMap = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                int num = getBoardNumber(n, i, j);
+                if (board[i][j] != -1) {
+                    jumpMap.put(num, board[i][j]);
+                }
+            }
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        Set<Integer> visited = new HashSet<>();
+        queue.offer(1);
+        visited.add(1);
+        int steps = 0;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int current = queue.poll();
+                if (current == target) {
+                    return steps;
+                }
+                // 尝试所有可能的骰子点数
+                for (int dice = 1; dice <= 6; dice++) {
+                    int next = current + dice;
+                    if (next > target) {
+                        continue;
+                    }
+                    // 检查是否有蛇或梯子
+                    if (jumpMap.containsKey(next)) {
+                        next = jumpMap.get(next);
+                    }
+
+                    if (!visited.contains(next)) {
+                        visited.add(next);
+                        queue.offer(next);
+                    }
+                }
+            }
+            steps++;
+        }
+        return -1; // 无法到达终点
+    }
+    // 根据行列获取棋盘编号
+    private int getBoardNumber(int n, int row, int col) {
+        // 棋盘编号从左下角开始，蛇形排列
+        int base = (n - 1 - row) * n;
+        if ((n - 1 - row) % 2 == 0) { // 从左到右
+            return base + col + 1;
+        } else { // 从右到左
+            return base + (n - col);
+        }
+    }
 
     /**
      * 215.数组中的第k个最大元素
