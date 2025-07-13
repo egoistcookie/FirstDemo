@@ -328,13 +328,65 @@ public class AlgorithmAboutCollection150 {
         // 你一开始位于棋盘上的方格  1。每一回合，玩家需要从当前方格 curr 开始出发，
         // 返回达到编号为 n2 的方格所需的最少掷骰次数，如果不可能，则返回 -1。
         // 解法：二维矩阵转一维数组+广度搜索
-        System.out.println(ac.snakesAndLadders(new int[][]{{-1,-1,-1,-1,-1,-1},{-1,-1,-1,-1,-1,-1},{-1,-1,-1,-1,-1,-1}
-                ,{-1,35,-1,-1,13,-1},{-1,-1,-1,-1,-1,-1},{-1,15,-1,-1,-1,-1}}));
+        // System.out.println(ac.snakesAndLadders(new int[][]{{-1,-1,-1,-1,-1,-1},{-1,-1,-1,-1,-1,-1},{-1,-1,-1,-1,-1,-1}
+        //         ,{-1,35,-1,-1,13,-1},{-1,-1,-1,-1,-1,-1},{-1,15,-1,-1,-1,-1}}));
+
+        // 433.最小基因变化
+        // 基因序列可以表示为一条由 8 个字符组成的字符串，其中每个字符都是 'A'、'C'、'G' 和 'T' 之一。
+        // 假设我们需要调查从基因序列 start 变为 end 所发生的基因变化。一次基因变化就意味着这个基因序列中的一个字符发生了变化。
+        // 给你两个基因序列 start 和 end ，以及一个基因库 bank ，请你找出并返回能够使 start 变化为 end 所需的最少变化次数。如果无法完成此基因变化，返回 -1 。
+        // 解法：广度搜索，探索所有可能的单字符变化路径
+        System.out.println(ac.minMutation("AACCGGTT","AACCGGTA",new String[]{"AACCGGTA"}));
+        System.out.println(ac.minMutation("AACCGGTT","AAACGGTA",new String[]{"AACCGGTA","AACCGCTA","AAACGGTA"}));
+        System.out.println(ac.minMutation("AAAAACCC","AACCCCCC",new String[]{"AAAACCCC","AAACCCCC","AACCCCCC"}));
+
 
 
 
     }
 
+    /**
+     * 433.最小基因变化
+     * @param startGene "AACCGGTT"
+     * @param endGene "AAACGGTA"
+     * @param bank ["AACCGGTA","AACCGCTA","AAACGGTA"]
+     * @return 2
+     */
+    public int minMutation(String startGene, String endGene, String[] bank) {
+        Set<String> bankSet = new HashSet<>(Arrays.asList(bank));
+        if (!bankSet.contains(endGene)) return -1;
+
+        char[] genes = {'A', 'C', 'G', 'T'};
+        Queue<String> queue = new LinkedList<>();
+        Set<String> visited = new HashSet<>();
+        queue.offer(startGene);
+        visited.add(startGene);
+        int mutations = 0;
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                String current = queue.poll();
+                if (current.equals(endGene)) return mutations;
+
+                // 尝试改变每一个字符
+                for (int j = 0; j < current.length(); j++) {
+                    char[] chars = current.toCharArray();
+                    for (char g : genes) {
+                        if (chars[j] == g) continue;
+                        chars[j] = g;
+                        String next = new String(chars);
+                        if (bankSet.contains(next) && !visited.contains(next)) {
+                            queue.offer(next);
+                            visited.add(next);
+                        }
+                    }
+                }
+            }
+            mutations++;
+        }
+        return -1;
+    }
 
     /**
      * 909.蛇梯棋
