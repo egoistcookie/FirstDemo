@@ -336,13 +336,68 @@ public class AlgorithmAboutCollection150 {
         // 假设我们需要调查从基因序列 start 变为 end 所发生的基因变化。一次基因变化就意味着这个基因序列中的一个字符发生了变化。
         // 给你两个基因序列 start 和 end ，以及一个基因库 bank ，请你找出并返回能够使 start 变化为 end 所需的最少变化次数。如果无法完成此基因变化，返回 -1 。
         // 解法：广度搜索，探索所有可能的单字符变化路径
-        System.out.println(ac.minMutation("AACCGGTT","AACCGGTA",new String[]{"AACCGGTA"}));
-        System.out.println(ac.minMutation("AACCGGTT","AAACGGTA",new String[]{"AACCGGTA","AACCGCTA","AAACGGTA"}));
-        System.out.println(ac.minMutation("AAAAACCC","AACCCCCC",new String[]{"AAAACCCC","AAACCCCC","AACCCCCC"}));
+        // System.out.println(ac.minMutation("AACCGGTT","AACCGGTA",new String[]{"AACCGGTA"}));
+        // System.out.println(ac.minMutation("AACCGGTT","AAACGGTA",new String[]{"AACCGGTA","AACCGCTA","AAACGGTA"}));
+        // System.out.println(ac.minMutation("AAAAACCC","AACCCCCC",new String[]{"AAAACCCC","AAACCCCC","AACCCCCC"}));
+
+
+        // 127.单词接龙
+        // 给你两个单词 beginWord 和 endWord 和一个字典 wordList ，返回 从 beginWord 到 endWord 的 最短转换序列 中的 单词数目 。如果不存在这样的转换序列，返回 0 。
+        // 解法：广度搜索，每次每位遍历24字母
+        List<String> wordList = new ArrayList<>();
+        wordList.add("hot");wordList.add("dot");wordList.add("dog");
+        wordList.add("lot");wordList.add("log");wordList.add("cog");
+        System.out.println(ac.ladderLength("hit","cog",wordList));
 
 
 
 
+
+    }
+
+
+    /**
+     * 127.单词接龙
+     * @param beginWord "hit"
+     * @param endWord "cog"
+     * @param wordList ["hot","dot","dog","lot","log","cog"]
+     * @return
+     */
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        if (!wordList.contains(endWord)) return 0;
+
+        Set<String> wordSet = new HashSet<>(wordList);
+        Queue<String> queue = new LinkedList<>();
+        Set<String> visited = new HashSet<>();
+        queue.offer(beginWord);
+        visited.add(beginWord);
+
+        int level = 1;
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                String curr = queue.poll();
+                if (curr.equals(endWord)) return level;
+
+                char[] chars = curr.toCharArray();
+                for (int j = 0; j < chars.length; j++) {
+                    char original = chars[j];
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        if (c == original) continue;
+                        chars[j] = c;
+                        String next = new String(chars);
+                        if (wordSet.contains(next) && !visited.contains(next)) {
+                            queue.offer(next);
+                            visited.add(next);
+                        }
+                    }
+                    chars[j] = original;
+                }
+            }
+            level++;
+        }
+        return 0;
     }
 
     /**
