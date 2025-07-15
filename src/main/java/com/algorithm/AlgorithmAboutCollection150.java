@@ -344,17 +344,86 @@ public class AlgorithmAboutCollection150 {
         // 127.单词接龙
         // 给你两个单词 beginWord 和 endWord 和一个字典 wordList ，返回 从 beginWord 到 endWord 的 最短转换序列 中的 单词数目 。如果不存在这样的转换序列，返回 0 。
         // 解法：广度搜索，每次每位遍历24字母
-        List<String> wordList = new ArrayList<>();
-        wordList.add("hot");wordList.add("dot");wordList.add("dog");
-        wordList.add("lot");wordList.add("log");wordList.add("cog");
-        System.out.println(ac.ladderLength("hit","cog",wordList));
+        // List<String> wordList = new ArrayList<>();
+        // wordList.add("hot");wordList.add("dot");wordList.add("dog");
+        // wordList.add("lot");wordList.add("log");wordList.add("cog");
+        // System.out.println(ac.ladderLength("hit","cog",wordList));
 
 
+        // 130.被环绕的区域
+        // 给你一个 m x n 的矩阵 board ，由若干字符 'X' 和 'O' 组成，捕获 所有 被围绕的区域：
+        // 通过 原地 将输入矩阵中的所有 'O' 替换为 'X' 来 捕获被围绕的区域。你不需要返回任何值。
+        // 解法：DFS深度搜索，先把接触边缘的O全部替换为T
+        char[][] charArray = new char[][]{{'X','X','X','X'},{'X','O','O','X'},{'X','X','O','X'},{'X','O','X','X'}};
+        ac.solve(charArray);
+        for(int i =0;i<charArray.length;i++){
+            for(int j=0;j<charArray[0].length;j++){
+                System.out.print(charArray[i][j]);
+            }
+            System.out.println();
+        }
 
 
 
     }
 
+    /**
+     * 130.被环绕的区域
+     * @param board
+     */
+    public void solve(char[][] board) {
+        if (board == null || board.length == 0 || board[0].length == 0) {
+            return;
+        }
+
+        int m = board.length;
+        int n = board[0].length;
+
+        // 处理第一列和最后一列
+        for (int i = 0; i < m; i++) {
+            if (board[i][0] == 'O') {
+                dfs(board, i, 0);
+            }
+            if (board[i][n - 1] == 'O') {
+                dfs(board, i, n - 1);
+            }
+        }
+
+        // 处理第一行和最后一行
+        for (int j = 0; j < n; j++) {
+            if (board[0][j] == 'O') {
+                dfs(board, 0, j);
+            }
+            if (board[m - 1][j] == 'O') {
+                dfs(board, m - 1, j);
+            }
+        }
+
+        // 遍历整个矩阵，将'O'改为'X'，将'T'改回'O'
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (board[i][j] == 'O') {
+                    board[i][j] = 'X';
+                } else if (board[i][j] == 'T') {
+                    board[i][j] = 'O';
+                }
+            }
+        }
+    }
+
+    private void dfs(char[][] board, int i, int j) {
+        if (i < 0 || i >= board.length || j < 0 || j >= board[0].length || board[i][j] != 'O') {
+            return;
+        }
+
+        board[i][j] = 'T'; // 标记为临时字符
+
+        // 向四个方向递归
+        dfs(board, i - 1, j);
+        dfs(board, i + 1, j);
+        dfs(board, i, j - 1);
+        dfs(board, i, j + 1);
+    }
 
     /**
      * 127.单词接龙
