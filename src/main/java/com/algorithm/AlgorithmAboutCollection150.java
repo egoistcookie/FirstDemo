@@ -354,17 +354,70 @@ public class AlgorithmAboutCollection150 {
         // 给你一个 m x n 的矩阵 board ，由若干字符 'X' 和 'O' 组成，捕获 所有 被围绕的区域：
         // 通过 原地 将输入矩阵中的所有 'O' 替换为 'X' 来 捕获被围绕的区域。你不需要返回任何值。
         // 解法：DFS深度搜索，先把接触边缘的O全部替换为T
-        char[][] charArray = new char[][]{{'X','X','X','X'},{'X','O','O','X'},{'X','X','O','X'},{'X','O','X','X'}};
-        ac.solve(charArray);
-        for(int i =0;i<charArray.length;i++){
-            for(int j=0;j<charArray[0].length;j++){
-                System.out.print(charArray[i][j]);
-            }
-            System.out.println();
+        // char[][] charArray = new char[][]{{'X','X','X','X'},{'X','O','O','X'},{'X','X','O','X'},{'X','O','X','X'}};
+        // ac.solve(charArray);
+        // for(int i =0;i<charArray.length;i++){
+        //     for(int j=0;j<charArray[0].length;j++){
+        //         System.out.print(charArray[i][j]);
+        //     }
+        //     System.out.println();
+        // }
+
+
+        // 133.克隆图
+        // 给你无向 连通 图中一个节点的引用，请你返回该图的 深拷贝（克隆）。
+        // 解法：哈希防重 + 深度搜索 DFS
+        Node node = new Node(2);
+        System.out.println(ac.cloneGraph(node).val);
+
+
+    }
+
+
+    /**
+     * 133.克隆图
+     * @param node
+     * @return
+     */
+    public Node cloneGraph(Node node) {
+        if (node == null) {
+            return null;
         }
 
+        // 如果该节点已经被访问过，则直接从哈希表中取出对应的克隆节点返回
+        if (visited.containsKey(node)) {
+            return visited.get(node);
+        }
 
+        // 克隆节点，注意为了简单，先不克隆邻居节点
+        Node cloneNode = new Node(node.val, new ArrayList<>());
+        // 哈希表存储
+        visited.put(node, cloneNode);
 
+        // 遍历该节点的邻居节点并更新克隆节点的邻居列表
+        for (Node neighbor : node.neighbors) {
+            cloneNode.neighbors.add(cloneGraph(neighbor));
+        }
+
+        return cloneNode;
+    }
+    private Map<Node, Node> visited = new HashMap<>();
+
+    static class Node {
+        public int val;
+        public List<Node> neighbors;
+        public Node() {
+            val = 0;
+            neighbors = new ArrayList<Node>();
+        }
+        public Node(int _val) {
+            val = _val;
+            neighbors = new ArrayList<Node>();
+        }
+        public Node(int _val, ArrayList<Node> _neighbors) {
+            val = _val;
+            neighbors = _neighbors;
+        }
     }
 
     /**
