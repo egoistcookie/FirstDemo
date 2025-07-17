@@ -367,12 +367,43 @@ public class AlgorithmAboutCollection150 {
         // 133.克隆图
         // 给你无向 连通 图中一个节点的引用，请你返回该图的 深拷贝（克隆）。
         // 解法：哈希防重 + 深度搜索 DFS
-        Node node = new Node(2);
-        System.out.println(ac.cloneGraph(node).val);
+        // Node node = new Node(2);
+        // System.out.println(ac.cloneGraph(node).val);
+
+        // 189.轮转数组
+        // 给定一个整数数组 nums，将数组中的元素向右轮转 k 个位置，其中 k 是非负数。
+        // 解法：新建数组 or 三次反转法
+        ac.rotate(new int[]{1,2,3,4,5,6,7},3);
+
 
 
     }
 
+
+    /**
+     * 189.轮转数组
+     * @param nums
+     * @param k
+     */
+    public void rotate(int[] nums, int k) {
+        int n = nums.length;
+        k = k % n;
+        if (k == 0) return;
+
+        reverse(nums, 0, n - 1);
+        reverse(nums, 0, k - 1);
+        reverse(nums, k, n - 1);
+    }
+
+    private void reverse(int[] nums, int start, int end) {
+        while (start < end) {
+            int temp = nums[start];
+            nums[start] = nums[end];
+            nums[end] = temp;
+            start++;
+            end--;
+        }
+    }
 
     /**
      * 133.克隆图
