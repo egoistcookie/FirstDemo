@@ -373,12 +373,42 @@ public class AlgorithmAboutCollection150 {
         // 189.轮转数组
         // 给定一个整数数组 nums，将数组中的元素向右轮转 k 个位置，其中 k 是非负数。
         // 解法：新建数组 or 三次反转法
-        ac.rotate(new int[]{1,2,3,4,5,6,7},3);
+        // ac.rotate(new int[]{1,2,3,4,5,6,7},3);
+
+        // 42.接雨水
+        // 给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
+        // 解法：双指针向中间移动
+        System.out.println(ac.trap(new int[]{0,1,0,2,1,0,1,3,2,1,2,1}));
+
+
 
 
 
     }
 
+
+    /**
+     * 42.接雨水
+     * @param height
+     * @return
+     */
+    public int trap(int[] height) {
+        int left =0,right = height.length-1;
+        int maxLeft = height[left],maxRight = height[right];
+        int result = 0;
+        while(left < right){
+            if(height[left] < height[right]){
+                maxLeft = Math.max(height[left],maxLeft);
+                result += maxLeft - height[left];
+                left ++ ;
+            }else{
+                maxRight = Math.max(height[right],maxRight);
+                result += maxRight - height[right];
+                right -- ;
+            }
+        }
+        return result;
+    }
 
     /**
      * 189.轮转数组
