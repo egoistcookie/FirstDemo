@@ -378,14 +378,77 @@ public class AlgorithmAboutCollection150 {
         // 42.接雨水
         // 给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
         // 解法：双指针向中间移动
-        System.out.println(ac.trap(new int[]{0,1,0,2,1,0,1,3,2,1,2,1}));
+        // System.out.println(ac.trap(new int[]{0,1,0,2,1,0,1,3,2,1,2,1}));
 
-
+        // 30.串联所有单词的子串
+        // 给定一个字符串 s 和一个字符串数组 words。 words 中所有字符串 长度相同。
+        // 返回所有串联子串在 s 中的开始索引。你可以以 任意顺序 返回答案。
+        // 解法：滑动窗口
+        // List<Integer> ret = ac.findSubstring("barfoothefoobarman",new String[]{"foo","bar"});
+        // List<Integer> ret = ac.findSubstring("wordgoodgoodgoodbestword",new String[]{"word","good","best","word"});
+        List<Integer> ret = ac.findSubstring("barfoofoobarthefoobarman",new String[]{"bar","foo","the"});
+        for(int i:ret){
+            System.out.println(i);
+        }
 
 
 
     }
 
+
+    /**
+     * 30.串联所有单词的子串
+     * @param s "barfoothefoobarman"
+     * @param words {"foo","bar"}
+     * @return
+     */
+    public List<Integer> findSubstring(String s, String[] words) {
+        List<Integer> res = new ArrayList<>();
+        if (s == null || s.length() == 0 || words == null || words.length == 0) {
+            return res;
+        }
+        int wordLen = words[0].length();
+        int totalLen = words.length * wordLen;
+        int n = s.length();
+        if (n < totalLen) {
+            return res;
+        }
+        // 统计 words 中每个单词的频率
+        Map<String, Integer> wordCount = new HashMap<>();
+        for (String word : words) {
+            wordCount.put(word, wordCount.getOrDefault(word, 0) + 1);
+        }
+        // 遍历所有可能的起始位置（按单词长度分组）
+        for (int i = 0; i < wordLen; i++) {
+            int left = i, right = i;
+            Map<String, Integer> currentCount = new HashMap<>();
+            while (right + wordLen <= n) {
+                String word = s.substring(right, right + wordLen);
+                right += wordLen;
+                if (wordCount.containsKey(word)) {
+                    currentCount.put(word, currentCount.getOrDefault(word, 0) + 1);
+                    // 如果当前单词出现次数超过目标频率，移动 left 调整窗口
+                    while (currentCount.get(word) > wordCount.get(word)) {
+                        String leftWord = s.substring(left, left + wordLen);
+                        currentCount.put(leftWord, currentCount.get(leftWord) - 1);
+                        left += wordLen;
+                    }
+                    // 如果窗口大小等于总长度，记录结果
+                    if (right - left == totalLen) {
+                        res.add(left);
+                        String leftWord = s.substring(left, left + wordLen);
+                        currentCount.put(leftWord, currentCount.get(leftWord) - 1);
+                        left += wordLen;
+                    }
+                } else {
+                    // 遇到不在 words 中的单词，重置窗口
+                    currentCount.clear();
+                    left = right;
+                }
+            }
+        }
+        return res;
+    }
 
     /**
      * 42.接雨水
