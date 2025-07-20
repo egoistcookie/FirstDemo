@@ -386,15 +386,68 @@ public class AlgorithmAboutCollection150 {
         // 解法：滑动窗口
         // List<Integer> ret = ac.findSubstring("barfoothefoobarman",new String[]{"foo","bar"});
         // List<Integer> ret = ac.findSubstring("wordgoodgoodgoodbestword",new String[]{"word","good","best","word"});
-        List<Integer> ret = ac.findSubstring("barfoofoobarthefoobarman",new String[]{"bar","foo","the"});
-        for(int i:ret){
-            System.out.println(i);
-        }
+        // List<Integer> ret = ac.findSubstring("barfoofoobarthefoobarman",new String[]{"bar","foo","the"});
+        // for(int i:ret){
+        //     System.out.println(i);
+        // }
 
+        // 55.跳跃游戏
+        // 给你一个非负整数数组 nums ，你最初位于数组的 第一个下标 。数组中的每个元素代表你在该位置可以跳跃的最大长度。
+        // 判断你是否能够到达最后一个下标，如果可以，返回 true ；否则，返回 false 。
+        // 解法：贪心算法
+        // System.out.println(ac.canJump(new int[]{2,3,1,1,4}));
+        // System.out.println(ac.canJump(new int[]{3,2,1,0,4}));
+
+        // 45.跳跃游戏2
+        // 给定一个长度为 n 的 0 索引整数数组 nums。初始位置为 nums[0]。
+        // 返回到达 nums[n - 1] 的最小跳跃次数。
+        // 解法：贪心算法
+        System.out.println(ac.jump(new int[]{2,3,1,1,4}));
 
 
     }
 
+
+    /**
+     * 45.跳跃游戏2
+     * @param nums {2,3,1,1,4}
+     * @return 2
+     */
+    public int jump(int[] nums) {
+        int jumps = 0;      // 记录跳跃次数
+        int maxReach = 0;   // 当前能到达的最远位置
+        int end = 0;        // 当前步数能到达的边界
+
+        for (int i = 0; i < nums.length - 1; i++) {
+            maxReach = Math.max(maxReach, i + nums[i]);
+
+            // 到达当前步数的边界，必须跳一步
+            if (i == end) {
+                jumps++;
+                end = maxReach;
+            }
+        }
+        return jumps;
+    }
+
+    /**
+     * 55.跳跃游戏 
+     * @param nums
+     * @return
+     */
+    public boolean canJump(int[] nums) {
+        int length = nums.length;
+        if(length == 0) return false;
+        if (length == 1) return true;  // 已经在终点
+        if (nums[0] == 0) return false;  // 无法移动
+        int max = nums[0];
+        for(int i=0;i<length;i++){
+            if(max < i) return false;
+            max = Math.max(max,i+nums[i]);
+            if(max >= length-1) return true;
+        }
+        return false;
+    }
 
     /**
      * 30.串联所有单词的子串
