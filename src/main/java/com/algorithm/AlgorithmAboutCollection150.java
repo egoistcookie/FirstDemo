@@ -402,11 +402,43 @@ public class AlgorithmAboutCollection150 {
         // 给定一个长度为 n 的 0 索引整数数组 nums。初始位置为 nums[0]。
         // 返回到达 nums[n - 1] 的最小跳跃次数。
         // 解法：贪心算法
-        System.out.println(ac.jump(new int[]{2,3,1,1,4}));
+        // System.out.println(ac.jump(new int[]{2,3,1,1,4}));
+
+        // 238.除自身以外数组的乘积
+        // 给你一个整数数组 nums，返回 数组 answer ，其中 answer[i] 等于 nums 中除 nums[i] 之外其余各元素的乘积 。
+        // 解法:前缀+后缀乘积
+        int[] re = ac.productExceptSelf(new int[]{-1,1,0,-3,3});
+        for(int i : re){
+            System.out.println(i);
+        }
+
+
 
 
     }
 
+
+    /**
+     * 238.除自身以外数组的乘积
+     * @param nums {1,2,3,4}
+     * @return
+     */
+    public int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+        int[] re = new int[n];
+        re[0] = 1;
+        // 计算前缀乘积
+        for(int i=1;i<n;i++){
+            re[i] = re[i-1]*nums[i-1];
+        }
+        // 计算后缀乘积
+        int suff = 1;
+        for(int j=n-1;j>=0;j--){
+            re[j] = re[j]*suff;
+            suff = suff*nums[j];
+        }
+        return re;
+    }
 
     /**
      * 45.跳跃游戏2
